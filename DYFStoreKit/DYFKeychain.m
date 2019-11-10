@@ -25,6 +25,291 @@
 
 #import "DYFKeychain.h"
 
+@interface DYFKeychain ()
+
+/** The lock prevents the code to be run simultaneously from multiple threads which may result in crashing.
+ */
+@property (nonatomic, strong) NSLock *lock;
+
+@end
+
 @implementation DYFKeychain
+
++ (DYFKeychain *)createKeychain {
+    return [[self.class alloc] init];
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.lock = [[NSLock alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithServiceIdentifier:(NSString *)serviceIdentifier {
+    self = [super init];
+    if (self) {
+        self.lock = [[NSLock alloc] init];
+        self.serviceIdentifier = serviceIdentifier;
+    }
+    return self;
+}
+
+/**
+ Returns a keychain that copies the current DYFKeychain instance.
+ 
+ @return A DYFKeychain object.
+ */
+- (id)copy {
+    DYFKeychain *keychain = [self.class createKeychain];
+    keychain.accessGroup       = self.accessGroup;
+    keychain.synchronizable    = self.synchronizable;
+    keychain.serviceIdentifier = self.serviceIdentifier;
+    keychain.queryDictionary   = self.queryDictionary;
+    keychain.osStatus          = self.osStatus;
+    
+    return keychain;
+}
+
+- (DYFKeychainAccessOptions)defaultOptions {
+    return DYFKeychainAccessOptionsAccessibleWhenUnlocked;
+}
+
+- (BOOL)add:(NSString *)value forKey:(NSString *)key {
+    return [self add:value forKey:key options:self.defaultOptions];
+}
+
+- (BOOL)add:(NSString *)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options {
+    
+    return NO;
+}
+
+- (BOOL)addData:(NSData *)value forKey:(NSString *)key {
+    return [self addData:value forKey:key options:self.defaultOptions];
+}
+
+- (BOOL)addData:(NSData *)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options {
+    
+    // The lock prevents the code to be run simultaneously from multiple threads which may result in crashing.
+    [self.lock lock];
+    
+    
+    
+    [self.lock unlock];
+    
+    return NO;
+}
+
+- (BOOL)addBool:(BOOL)value forKey:(NSString *)key {
+    return [self addBool:value forKey:key options:self.defaultOptions];
+}
+
+- (BOOL)addBool:(BOOL)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options {
+    
+    
+}
+
+- (NSString *)get:(NSString *)key {
+    
+    NSData *data = [self getData:key];
+    if (!data) { return nil; }
+    
+    NSString *s = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if (!s) {
+        self.osStatus = errSecInvalidEncoding; // -67853, the encoding was not valid.
+        return nil;
+    }
+    
+    return s;
+}
+
+- (NSData *)getData:(NSString *)key {
+    return [self getData:key asReference:NO];
+}
+
+- (NSData *)getData:(NSString *)key asReference:(BOOL)asReference {
+    
+    [self.lock lock];
+    
+    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    query[DYFKeychainConstants.account] = key;
+    query[DYFKeychainConstants.matchLimit] = (__bridge id)kSecMatchLimitOne;
+    
+    if (asReference) {
+        query[DYFKeychainConstants.returnReference] = (__bridge id)kCFBooleanTrue;
+    } else {
+        query[DYFKeychainConstants.returnData] = (__bridge id)kCFBooleanTrue;
+    }
+    self.queryDictionary = query;
+    
+    CFDataRef result = nil;
+    self.osStatus = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
+    
+    [self.lock unlock];
+    
+    if (self.osStatus == errSecSuccess) {
+        return (__bridge NSData *)result;
+    }
+    
+    return nil;
+}
+
+- (BOOL)getBool:(NSString *)key {
+    
+    NSData *data = [self getData:key];
+    if (!data) { return NO; }
+    
+    NSString *s = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    return [s boolValue];
+}
+
+- (BOOL)delete:(NSString *)key {
+    
+    [self.lock lock];
+    BOOL ret = [self deleteWithoutLock:key];
+    [self.lock unlock];
+    
+    return ret;
+}
+
+/**
+ Same as `delete`, but it is not thread safe.
+ 
+ @param key The key which is used to delete the keychain item.
+ @return True if the item was successfully deleted, false otherwise.
+ */
+- (BOOL)deleteWithoutLock:(NSString *)key {
+    
+    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    query[DYFKeychainConstants.account] = key;
+    self.queryDictionary = query;
+    
+    self.osStatus = SecItemDelete((__bridge CFDictionaryRef)query);
+    
+    return self.osStatus == errSecSuccess;
+}
+
+- (BOOL)clear {
+    
+    [self.lock lock];
+    
+    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    self.queryDictionary = query;
+    
+    self.osStatus = SecItemDelete((__bridge CFDictionaryRef)query);
+    
+    [self.lock unlock];
+    
+    return self.osStatus == errSecSuccess; // 0, no error.
+}
+
+- (NSMutableDictionary *)supplyQueryDictionary:(BOOL)shouldAddItem {
+    NSMutableDictionary *query = [NSMutableDictionary dictionary];
+    query[DYFKeychainConstants.kClass] = (__bridge id)kSecClassGenericPassword;
+    
+    if (self.accessGroup && self.accessGroup.length > 0) {
+        query[DYFKeychainConstants.accessGroup] = self.accessGroup;
+    }
+    
+    if (self.synchronizable) {
+        NSString *key = DYFKeychainConstants.synchronizable;
+        query[key] = shouldAddItem ? (__bridge id)kCFBooleanTrue : (__bridge id)kSecAttrSynchronizableAny;
+    }
+    
+    if (self.serviceIdentifier && self.serviceIdentifier.length > 0) {
+        query[DYFKeychainConstants.service] = self.serviceIdentifier;
+    }
+    
+    return query;
+}
+
+/** Converts a corresponding enumeration value to a string.
+ */
+- (NSString *)stringWithOptions:(DYFKeychainAccessOptions)opts {
+    
+    NSString *options = @"";
+    switch (opts) {
+        case DYFKeychainAccessOptionsAccessibleWhenUnlocked:
+            options = kSecAttrAccessibleWhenUnlocked;
+            break;
+        case DYFKeychainAccessOptionsAccessibleWhenUnlockedThisDeviceOnly:
+            options = @"";
+            break;
+        case DYFKeychainAccessOptionsAccessibleAfterFirstUnlock:
+            options = @"";
+            break;
+        case DYFKeychainAccessOptionsAccessibleAfterFirstUnlockThisDeviceOnly:
+            options = @"";
+            break;
+        case DYFKeychainAccessOptionsAcessibleWhenPasscodeSetThisDeviceOnly:
+            options = @"";
+            break;
+        case DYFKeychainAccessOptionsAccessibleAlways:
+            options = @"";
+            break;
+        case DYFKeychainAccessOptionsAccessibleAlwaysThisDeviceOnly:
+            options = @"";
+            break;
+        default:
+            break;
+    }
+    
+    return options;
+}
+
+@end
+
+@implementation DYFKeychainConstants
+
++ (NSString *)accessGroup {
+    return [self toString:kSecAttrAccessGroup];
+}
+
++ (NSString *)accessible {
+    return [self toString:kSecAttrAccessible];
+}
+
++ (NSString *)synchronizable {
+    return [self toString:kSecAttrSynchronizable];
+}
+
++ (NSString *)account {
+    return [self toString:kSecAttrAccount];
+}
+
++ (NSString *)service {
+    return [self toString:kSecAttrService];
+}
+
++ (NSString *)kClass {
+    return [self toString:kSecClass];
+}
+
++ (NSString *)matchLimit {
+    return [self toString:kSecMatchLimit];
+}
+
++ (NSString *)valueData {
+    return [self toString:kSecValueData];
+}
+
++ (NSString *)returnData {
+    return [self toString:kSecReturnData];
+}
+
++ (NSString *)returnReference {
+    return [self toString:kSecReturnPersistentRef];
+}
+
+/**
+ Converts a CFString object to a string.
+ 
+ @param value A reference to a CFString object.
+ @return A string.
+ */
++ (NSString *)toString:(CFStringRef)value {
+    return (__bridge NSString *)(value);
+}
 
 @end

@@ -24,7 +24,31 @@
 //
 
 #import "DYFStoreTransaction.h"
+#import "DYFRuntimeProvider.h"
 
 @implementation DYFStoreTransaction
+
+/**
+ Returns an object initialized from data in a given unarchiver.
+ 
+ @param aDecoder An unarchiver object.
+ @return An object initialized from data in a given unarchiver.
+ */
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        [DYFRuntimeProvider decode:aDecoder forObject:self];
+    }
+    return self;
+}
+
+/**
+ Encodes the receiver using a given archiver.
+ 
+ @param aCoder An archiver object.
+ */
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [DYFRuntimeProvider encode:aCoder forObject:self];
+}
 
 @end

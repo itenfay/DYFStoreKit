@@ -25,7 +25,48 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DYFStoreTransaction : NSObject
+/**
+ Used to represent the state of a transaction.
+ 
+ - DYFStoreTransactionStateCancelled: Indicates that the transaction has been cancelled.
+ - DYFStoreTransactionStateFailed: Indicates that the transaction failed.
+ - DYFStoreTransactionStatePurchased: Indicates that the transaction has been purchased.
+ */
+typedef NS_ENUM(NSUInteger, DYFStoreTransactionState) {
+    DYFStoreTransactionStateCancelled,
+    DYFStoreTransactionStateFailed,
+    DYFStoreTransactionStatePurchased
+};
 
+@interface DYFStoreTransaction : NSObject <NSCoding>
+
+/**
+ The state of this transaction. 0: cancelled, 1: failed, 2: purchased.
+ */
+@property (nonatomic, assign) NSUInteger state;
+
+/**
+ A string used to identify a product that can be purchased from within your app.
+ */
+@property (nonatomic, copy) NSString *productIdentifier;
+
+/**
+ The unique server-provided identifier. Only valid if state is SKPaymentTransactionStatePurchased or SKPaymentTransactionStateRestored.
+ */
+@property (nonatomic, copy) NSString *transactionIdentifier;
+
+/**
+ The date when the transaction was added to the server queue. Only valid if state is SKPaymentTransactionStatePurchased or SKPaymentTransactionStateRestored.
+ */
+@property (nonatomic, strong) NSDate *transactionDate;
+
+/**
+ A signed receipt that records all information about a successful payment transaction.
+ 
+ The contents of this property are undefined except when transactionState is set to SKPaymentTransactionStatePurchased.
+ 
+ The receipt is a signed chunk of data that can be sent to the App Store to verify that the payment was successfully processed. This is most useful when designing a store that uses a server separate from the iPhone to verify that payment was processed. For more information on verifying receipts, see [Receipt Validation Programming Guide](https://developer.apple.com/library/archive/releasenotes/General/ValidateAppStoreReceipt/Introduction.html#//apple_ref/doc/uid/TP40010573).
+ */
+@property (nonatomic, copy) NSData *transactionReceipt;
 
 @end
