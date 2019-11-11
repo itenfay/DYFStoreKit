@@ -65,19 +65,6 @@ FOUNDATION_EXPORT NSString * __nonnull const DYFIAPPurchaseNotification;
 
 @end
 
-@protocol DYFStoreDelegate <NSObject>
-
-// Tells the delegate that the request has completed.
-- (void)productRequestDidComplete;
-
-@optional
-
-// Tells the delegate that the receipt validation has completed.
-// The error that caused the receipt validation to fail.
-- (void)verifyReceiptDidCompleteWithData:(nullable NSData *)data error:(nullable NSError *)error;
-
-@end
-
 @interface DYFStore : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
 // The delegate that receives the response of the request.

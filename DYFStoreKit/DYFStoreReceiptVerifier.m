@@ -47,20 +47,25 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
 
 @interface DYFStoreReceiptVerifier ()
 
-/** The data for a POST request. */
+/** The data for a POST request.
+ */
 @property (nonatomic, copy) NSData *requestData;
 
-/** A configuration object that defines behavior and policies for a URL session. */
+/** A configuration object that defines behavior and policies for a URL session.
+ */
 @property (nonatomic, strong) NSURLSessionConfiguration *urlSessionConfig;
 
-/** An object that coordinates a group of related network data transfer tasks. */
+/** An object that coordinates a group of related network data transfer tasks.
+ */
 @property (nonatomic, strong) NSURLSession *urlSession;
 
-/** A URL session task that returns downloaded data directly to the app in memory. */
+/** A URL session task that returns downloaded data directly to the app in memory.
+ */
 @property (nonatomic, strong) NSURLSessionDataTask *dataTask;
 
-/** Whether all outstanding tasks were cancelled. */
-@property (nonatomic, assign) BOOL cancelled;
+/** Whether all outstanding tasks have been cancelled and the session has been invalidated.
+ */
+@property (nonatomic, assign) BOOL canInvalidateSession;
 
 @end
 
@@ -69,24 +74,26 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.cancelled = NO;
         [self instantiateUrlSession];
+        self.canInvalidateSession = NO;
     }
     return self;
 }
 
-/** Cancels the task. */
+/** Cancels the task.
+ */
 - (void)cancel {
     if (self.dataTask) {
         [self.dataTask cancel];
     }
 }
 
-/** Cancels all outstanding tasks and then invalidates the session. */
+/** Cancels all outstanding tasks and then invalidates the session.
+ */
 - (void)invalidateAndCancel {
     if (self.urlSession) {
         [self.urlSession invalidateAndCancel];
-        self.cancelled = YES;
+        self.canInvalidateSession = YES;
     }
 }
 
@@ -97,12 +104,14 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
     return _urlSessionConfig;
 }
 
-/** Checks the url session configuration object. */
+/** Checks the url session configuration object.
+ */
 - (void)checkUrlSessionConfig {
     self.urlSessionConfig.allowsCellularAccess = true;
 }
 
-/** Instantiates the url session object. */
+/** Instantiates the url session object.
+ */
 - (void)instantiateUrlSession {
     [self checkUrlSessionConfig];
     self.urlSession = [NSURLSession sessionWithConfiguration:self.urlSessionConfig];
@@ -160,9 +169,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
     request.HTTPMethod = @"POST";
     request.HTTPBody = self.requestData;
     
-    if (self.cancelled) {
+    if (self.canInvalidateSession) {
         [self instantiateUrlSession];
-        self.cancelled = NO;
+        self.canInvalidateSession = NO;
     }
     
     __weak typeof(self) weakSelf = self;

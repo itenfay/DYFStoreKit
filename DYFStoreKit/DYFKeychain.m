@@ -43,6 +43,7 @@
     self = [super init];
     if (self) {
         self.lock = [[NSLock alloc] init];
+        self.osStatus = errSecSuccess;
     }
     return self;
 }
@@ -52,6 +53,7 @@
     if (self) {
         self.lock = [[NSLock alloc] init];
         self.serviceIdentifier = serviceIdentifier;
+        self.osStatus = errSecSuccess;
     }
     return self;
 }
@@ -81,8 +83,8 @@
 }
 
 - (BOOL)add:(NSString *)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options {
-    
-    return NO;
+    NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
+    return [self addData:data forKey:key options:options];
 }
 
 - (BOOL)addData:(NSData *)value forKey:(NSString *)key {
@@ -94,11 +96,37 @@
     // The lock prevents the code to be run simultaneously from multiple threads which may result in crashing.
     [self.lock lock];
     
+    NSString *accessible = [self stringWithOptions:options];
     
+    NSMutableDictionary *query = [self supplyQueryDictionary:YES];
+    query[DYFKeychainConstants.account] = key;
+    query[DYFKeychainConstants.accessible] = accessible;
+    self.queryDictionary = query;
+    
+    NSData *data = [self getData:key];
+    if (!data) {
+        if (value) {
+            query[DYFKeychainConstants.valueData] = value;
+            self.queryDictionary[DYFKeychainConstants.valueData] = value;
+            self.osStatus = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+        } else {
+            self.osStatus = errSecInvalidPointer; // -67675, An invalid pointer was encountered.
+        }
+    }
+    
+    if (!value) {
+        [self deleteWithoutLock:key];
+        self.osStatus = errSecInvalidPointer; // -67675, An invalid pointer was encountered.
+    } else {
+        NSMutableDictionary *updatedDictionary = [NSMutableDictionary dictionary];
+        updatedDictionary[DYFKeychainConstants.valueData] = value;
+        
+        self.osStatus = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)updatedDictionary);
+    }
     
     [self.lock unlock];
     
-    return NO;
+    return self.osStatus == errSecSuccess;
 }
 
 - (BOOL)addBool:(BOOL)value forKey:(NSString *)key {
@@ -106,8 +134,10 @@
 }
 
 - (BOOL)addBool:(BOOL)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options {
+    NSString *v = value ? @"1" : @"0";
+    NSData *data = [v dataUsingEncoding:NSUTF8StringEncoding];
     
-    
+    return [self addData:data forKey:key options:options];
 }
 
 - (NSString *)get:(NSString *)key {
@@ -132,7 +162,7 @@
     
     [self.lock lock];
     
-    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    NSMutableDictionary *query = [self supplyQueryDictionary:NO];
     query[DYFKeychainConstants.account] = key;
     query[DYFKeychainConstants.matchLimit] = (__bridge id)kSecMatchLimitOne;
     
@@ -181,7 +211,7 @@
  */
 - (BOOL)deleteWithoutLock:(NSString *)key {
     
-    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    NSMutableDictionary *query = [self supplyQueryDictionary:NO];
     query[DYFKeychainConstants.account] = key;
     self.queryDictionary = query;
     
@@ -194,7 +224,7 @@
     
     [self.lock lock];
     
-    NSMutableDictionary *query = [self supplyQueryDictionary:false];
+    NSMutableDictionary *query = [self supplyQueryDictionary:NO];
     self.queryDictionary = query;
     
     self.osStatus = SecItemDelete((__bridge CFDictionaryRef)query);
@@ -204,7 +234,14 @@
     return self.osStatus == errSecSuccess; // 0, no error.
 }
 
+/**
+ Supplies a query dictionary to modify the keychain item.
+ 
+ @param shouldAddItem Use `true` when the dictionary will be used with `SecItemAdd` or `SecItemUpadte` method. For getting and deleting items, use `false`
+ @return A query dictionary to modify the keychain item.
+ */
 - (NSMutableDictionary *)supplyQueryDictionary:(BOOL)shouldAddItem {
+    
     NSMutableDictionary *query = [NSMutableDictionary dictionary];
     query[DYFKeychainConstants.kClass] = (__bridge id)kSecClassGenericPassword;
     
@@ -229,29 +266,31 @@
 - (NSString *)stringWithOptions:(DYFKeychainAccessOptions)opts {
     
     NSString *options = @"";
+    
     switch (opts) {
         case DYFKeychainAccessOptionsAccessibleWhenUnlocked:
-            options = kSecAttrAccessibleWhenUnlocked;
+            options = (__bridge NSString *)kSecAttrAccessibleWhenUnlocked;
             break;
         case DYFKeychainAccessOptionsAccessibleWhenUnlockedThisDeviceOnly:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleWhenUnlockedThisDeviceOnly;
             break;
         case DYFKeychainAccessOptionsAccessibleAfterFirstUnlock:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleAfterFirstUnlock;
             break;
         case DYFKeychainAccessOptionsAccessibleAfterFirstUnlockThisDeviceOnly:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly;
             break;
         case DYFKeychainAccessOptionsAcessibleWhenPasscodeSetThisDeviceOnly:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly;
             break;
         case DYFKeychainAccessOptionsAccessibleAlways:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleAlways;
             break;
         case DYFKeychainAccessOptionsAccessibleAlwaysThisDeviceOnly:
-            options = @"";
+            options = (__bridge NSString *)kSecAttrAccessibleAlwaysThisDeviceOnly;
             break;
         default:
+            options = (__bridge NSString *)kSecAttrAccessibleWhenUnlocked;
             break;
     }
     

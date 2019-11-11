@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
 
 /** Records the query parameters of the last operation.
  */
-@property (nonatomic, copy) NSDictionary *queryDictionary;
+@property (nonatomic, strong) NSMutableDictionary *queryDictionary;
 
 /** Records the status of the last operation result.
  */
@@ -121,36 +121,66 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
  */
 - (DYFKeychainAccessOptions)defaultOptions;
 
+/**
+ Stores or updates the text value in the keychain item by the given key.
+ 
+ @param value The text value to be written to the keychain.
+ @param key The key which the text is stored in the keychain.
+ @return True if the text was successfully written to the keychain, false otherwise.
+ */
 - (BOOL)add:(NSString *)value forKey:(NSString *)key;
 
+/**
+ Stores or updates the text value in the keychain item by the given key.
+ 
+ @param value The text value to be written to the keychain.
+ @param key The key which the text is stored in the keychain.
+ @param options The options indicates when you app needs access to the text in the keychain. By the default DYFKeychainAccessOptionsAccessibleWhenUnlocked option is used that permits the data to be accessed only while the device is unlocked by the user.
+ @return True if the text was successfully written to the keychain, false otherwise.
+ */
 - (BOOL)add:(NSString *)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options;
 
+/**
+ Stores or updates the data in the keychain item by the given key.
+ 
+ @param value The data to be written to the keychain.
+ @param key The key which the data is stored in the keychain.
+ @return True if the data was successfully written to the keychain, false otherwise.
+ */
 - (BOOL)addData:(NSData *)value forKey:(NSString *)key;
 
+/**
+ Stores or updates the data in the keychain item by the given key.
+ 
+ @param value The data to be written to the keychain.
+ @param key The key which the data is stored in the keychain.
+ @param options The options indicates when you app needs access to the text in the keychain. By the default DYFKeychainAccessOptionsAccessibleWhenUnlocked option is used that permits the data to be accessed only while the device is unlocked by the user.
+ @return True if the data was successfully written to the keychain, false otherwise.
+ */
 - (BOOL)addData:(NSData *)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options;
 
 /**
- <#Description#>
-
- @param value <#value description#>
- @param key <#key description#>
- @return <#return value description#>
+ Stores or updates the boolean value in the keychain item by the given key.
+ 
+ @param value The boolean value to be written to the keychain.
+ @param key The key which the boolean value is stored in the keychain.
+ @return True if the boolean value was successfully written to the keychain, false otherwise.
  */
 - (BOOL)addBool:(BOOL)value forKey:(NSString *)key;
 
 /**
- <#Description#>
-
- @param value <#value description#>
- @param key <#key description#>
- @param options <#options description#>
- @return <#return value description#>
+ Stores or updates the boolean value in the keychain item by the given key.
+ 
+ @param value The boolean value to be written to the keychain.
+ @param key The key which the boolean value is stored in the keychain.
+ @param options The options indicates when you app needs access to the text in the keychain. By the default DYFKeychainAccessOptionsAccessibleWhenUnlocked option is used that permits the data to be accessed only while the device is unlocked by the user.
+ @return True if the boolean value was successfully written to the keychain, false otherwise.
  */
 - (BOOL)addBool:(BOOL)value forKey:(NSString *)key options:(DYFKeychainAccessOptions)options;
 
 /**
  Retrieves the text value from the keychain by the given key.
-
+ 
  @param key The key that is used to read the keychain item.
  @return The text value from the keychain. Nil if unable to read the item.
  */
@@ -158,7 +188,7 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
 
 /**
  Retrieves the data from the keychain by the given key.
-
+ 
  @param key The key that is used to read the keychain item.
  @return The data from the keychain. Nil if unable to read the item.
  */
@@ -166,7 +196,7 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
 
 /**
  Retrieves the data from the keychain by the given key.
-
+ 
  @param key The key that is used to read the keychain item.
  @param asReference If true, returns the data as reference (needed for things like NEVPNProtocol).
  @return The data from the keychain. Nil if unable to read the item.
@@ -183,7 +213,7 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
 
 /**
  Deletes the single keychain item by the specified key.
-
+ 
  @param key The key which is used to delete the keychain item.
  @return True if the item was successfully deleted, false otherwise.
  */
@@ -191,7 +221,7 @@ typedef NS_ENUM(NSUInteger, DYFKeychainAccessOptions) {
 
 /**
  Deletes all keychain items used by the app. Note that this method deletes all items regardless of those used keys.
-
+ 
  @return True if all keychain items was successfully deleted, false otherwise.
  */
 - (BOOL)clear;
