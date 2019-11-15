@@ -27,7 +27,7 @@
 
 // Returns a Boolean value that indicates whether the receiver implements or inherits
 // a method that can respond to a specified message.
-#define RESPONDS_TO_SEL(target, selector) (target && [target respondsToSelector:selector])
+#define SR_RESPONDS_TO_SEL(target, selector) (target && [target respondsToSelector:selector])
 
 // The url for sandbox in the test environment.
 static NSString *const kSandboxUrl = @"https://sandbox.itunes.apple.com/verifyReceipt";
@@ -130,8 +130,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
                                              code:-12
                                          userInfo:@{NSLocalizedDescriptionKey: message}];
         
-        SEL selector = @selector(verifyReceipt:didFailWithError:);
-        if (RESPONDS_TO_SEL(self.delegate, selector)) {
+        if (SR_RESPONDS_TO_SEL(self.delegate,
+                               @selector(verifyReceipt:didFailWithError:))
+            ) {
             [self.delegate verifyReceipt:self didFailWithError:error];
         }
         return;
@@ -154,8 +155,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         return;
     }
     
-    SEL selector = @selector(verifyReceipt:didFailWithError:);
-    if (RESPONDS_TO_SEL(self.delegate, selector)) {
+    if (SR_RESPONDS_TO_SEL(self.delegate,
+                           @selector(verifyReceipt:didFailWithError:))
+        ) {
         [self.delegate verifyReceipt:self didFailWithError:error];
     }
 }
@@ -191,8 +193,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
     NSLog(@"DYFStoreReceiptVerifier.didReceiveData error: (%zi, %@)", error.code, error.localizedDescription);
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        SEL selector = @selector(verifyReceipt:didFailWithError:);
-        if (RESPONDS_TO_SEL(self.delegate, selector)) {
+        if (SR_RESPONDS_TO_SEL(self.delegate,
+                               @selector(verifyReceipt:didFailWithError:))
+            ) {
             [self.delegate verifyReceipt:self didFailWithError:error];
         }
     });
@@ -210,8 +213,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         if (status == 0) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                SEL selector = @selector(verifyReceiptDidFinish:didReceiveData:);
-                if (RESPONDS_TO_SEL(self.delegate, selector)) {
+                if (SR_RESPONDS_TO_SEL(self.delegate,
+                                       @selector(verifyReceiptDidFinish:didReceiveData:))
+                    ) {
                     [self.delegate verifyReceiptDidFinish:self didReceiveData:dict];
                 }
             });
@@ -226,8 +230,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
                                              userInfo:@{NSLocalizedDescriptionKey: message}];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                SEL selector = @selector(verifyReceipt:didFailWithError:);
-                if (RESPONDS_TO_SEL(self.delegate, selector)) {
+                if (SR_RESPONDS_TO_SEL(self.delegate,
+                                       @selector(verifyReceipt:didFailWithError:))
+                    ) {
                     [self.delegate verifyReceipt:self didFailWithError:error];
                 }
             });
@@ -238,8 +243,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         NSLog(@"DYFStoreReceiptVerifier.processResult error: (%zi, %@)", error.code, error.localizedDescription);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            SEL selector = @selector(verifyReceipt:didFailWithError:);
-            if (RESPONDS_TO_SEL(self.delegate, selector)) {
+            if (SR_RESPONDS_TO_SEL(self.delegate,
+                                   @selector(verifyReceipt:didFailWithError:))
+                ) {
                 [self.delegate verifyReceipt:self didFailWithError:error];
             }
         });

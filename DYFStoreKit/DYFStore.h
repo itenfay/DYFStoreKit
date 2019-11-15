@@ -26,110 +26,299 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-typedef NS_ENUM(NSInteger, DYFIAPProductRequestStatus) {
-    DYFIAPProductFound, // Indicates that there are a valid product.
-    DYFIAPProductsFound, // Indicates that there are some valid products.
-    DYFIAPIdentifiersNotFound, // indicates that are some invalid product identifiers.
-    DYFIAPProductRequestResponse, // Returns valid products and invalid product identifiers.
-    DYFIAPRequestFailed // Indicates that the product request failed.
-};
+/** Accepts the response from the App Store that contains the requested product information.
+ */
+typedef void (^DYFStoreProductsRequestDidFinish)(NSArray *products, NSArray *invalidIdentifiers);
 
-typedef NS_ENUM(NSInteger, DYFIAPPurchaseNotificationStatus) {
-    DYFIAPStatusPurchasing, // Indicates that the status is purchasing.
-    DYFIAPPurchaseFailed, // Indicates that the purchase was unsuccessful.
-    DYFIAPPurchaseSucceeded, // Indicates that the purchase was successful.
-    DYFIAPRestoredFailed, // Indicates that restoring products was unsuccessful.
-    DYFIAPRestoredSucceeded, // Indicates that restoring products was successful.
-    DYFIAPDownloadStarted, // Indicates that downloading a hosted content has started.
-    DYFIAPDownloadInProgress, // Indicates that a hosted content is currently being downloaded.
-    DYFIAPDownloadFailed, // Indicates that downloading a hosted content failed.
-    DYFIAPDownloadSucceeded // Indicates that a hosted content was successfully downloaded.
-};
+/** Tells the user that the request failed to execute.
+ */
+typedef void (^DYFStoreProductsRequestDidFail)(NSError *error);
 
-// Provides notification about the purchase.
-FOUNDATION_EXPORT NSString * __nonnull const DYFIAPPurchaseNotification;
+/** The block to be called if the refresh receipt request is sucessful.
+ */
+typedef void (^DYFStoreRefreshReceiptSuccessBlock)(void);
 
-@interface DYFIAPPurchaseNotificationObject : NSObject
+/** The block to be called if the refresh receipt request fails.
+ */
+typedef void (^DYFStoreRefreshReceiptFailureBlock)(NSError *error);
 
-// Keeps track of the purchase's status.
-@property (nonatomic, assign) DYFIAPPurchaseNotificationStatus status;
+/** Provides notification about the purchase.
+ */
+FOUNDATION_EXPORT NSString *const DYFStorePurchasedNotification;
 
-// The message indicates an error that occurred.
-@property (nonatomic, copy, nullable) NSString *message;
+/** Provides notification about the download.
+ */
+FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 
-// A value that indicates how much of the file has been downloaded.
-@property (nonatomic, assign) float downloadProgress;
-
-// Keeps track of the purchase's transactionIdentifier.
-@property (nonatomic, copy, nullable) NSString *transactionId;
-
-@end
+/** Declares the protocol processes the purchase which was initiated by user from the App Store.
+ */
+@protocol DYFStoreAppStorePaymentDelegate;
 
 @interface DYFStore : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
 
-// The delegate that receives the response of the request.
-@property (nonatomic, weak, nullable) id<DYFStoreDelegate> delegate;
+/** The valid products that were available for sale in the App Store.
+ */
+@property (nonatomic, strong) NSMutableArray *availableProducts;
 
-// Provides the status of the product request.
-@property (nonatomic, assign) DYFIAPProductRequestStatus productRequestStatus;
+/** The product identifiers were invalid.
+ */
+@property (nonatomic, strong) NSMutableArray *invalidIdentifiers;
 
-// Provides an `NSError` object of the product request. The error that caused the request to fail.
-@property (nonatomic, strong, nullable) NSError *productRequestError;
+/** Records those transcations that have been purchased.
+ */
+@property (nonatomic, strong) NSMutableArray *purchasedTranscations;
 
-// Keeps track of all valid products. These products are available for sale in the App Store.
-@property (nonatomic, strong, nullable) NSMutableArray *availableProducts;
+/** Records those transcations that have been restored.
+ */
+@property (nonatomic, strong) NSMutableArray *restoredTranscations;
 
-// Keeps track of all invalid product identifiers.
-@property (nonatomic, strong, nullable) NSMutableArray *invalidProductIds;
+/** The delegate processes the purchase which was initiated by user from the App Store.
+ */
+@property (nonatomic, weak) id<DYFStoreAppStorePaymentDelegate> delegate;
 
-// Keeps track of all purchases.
-@property (nonatomic, strong, nullable) NSMutableArray *purchasedProducts;
+/** Constructs a store singleton with class method.
+ 
+ @return A store singleton.
+ */
++ (instancetype)defaultStore;
 
-// Keeps track of all restored purchases.
-@property (nonatomic, strong, nullable) NSMutableArray *restoredProducts;
+/** Disable this method to make sure the class has only one instance.
+ */
++ (instancetype)new NS_UNAVAILABLE;
 
-// Returns an `DYFStore` instance.
-+ (nullable instancetype)helper;
+/** Disable this method to make sure the class has only one instance.
+ */
+- (id)copy NS_UNAVAILABLE;
 
-// Queries the App Store about the given product identifier.
-- (void)requestProductForId:(nullable NSString *)productId;
+/** Disable this method to make sure the class has only one instance.
+ */
+- (id)mutableCopy NS_UNAVAILABLE;
 
-// Queries the App Store about the given product identifiers.
-- (void)requestProductForIds:(nullable NSArray *)productIds;
+/** Adds an observer to the payment queue. This must be invoked after the app has finished launching.
+ */
+- (void)addPaymentTransactionObserver;
 
-// Returns the product by matching a given product identifier.
-- (nullable id)getProduct:(nullable NSString *)productId;
+/** Whether the user is allowed to make payments.
+ 
+ @return NO if this device is not able or allowed to make payments.
+ */
++ (BOOL)canMakePayments;
 
-// Returns the localized price of product by matching a given product identifier.
-- (nullable NSString *)getLocalePrice:(nullable NSString *)productId;
+/** Requests localized information about a product identifier from the Apple App Store. `success` will be called if the products request is successful, `failure` if it isn't.
+ 
+ @param identifier The product identifier for the product you wish to retrieve information of.
+ @param success The block to be called if the products request is sucessful. Can be `nil`. It takes two parameters: `products`, an array of SKProducts, one product for each valid product identifier provided in the original request, and `invalidProductIdentifiers`, an array of product identifiers that were not recognized by the App Store.
+ @param failure The block to be called if the products request fails. Can be `nil`.
+ */
+- (void)requestProductWithIdentifier:(NSString *)identifier
+                             success:(DYFStoreProductsRequestDidFinish)success
+                             failure:(DYFStoreProductsRequestDidFail)failure;
 
-// NO if this device is not able or allowed to make payments.
-- (BOOL)canMakePayments;
+/** Requests localized information about a set of products from the Apple App Store. `success` will be called if the products request is successful, `failure` if it isn't.
+ 
+ @param identifiers The array of product identifiers for the products you wish to retrieve information of.
+ @param success The block to be called if the products request is sucessful. Can be `nil`. It takes two parameters: `products`, an array of SKProducts, one product for each valid product identifier provided in the original request, and `invalidProductIdentifiers`, an array of product identifiers that were not recognized by the App Store.
+ @param failure The block to be called if the products request fails. Can be `nil`.
+ */
+- (void)requestProductWithIdentifiers:(NSArray *)identifiers
+                              success:(DYFStoreProductsRequestDidFinish)success
+                              failure:(DYFStoreProductsRequestDidFail)failure;
 
-// Returns whether there are purchased products.
-- (BOOL)hasPurchasedProducts;
+/** Requests payment of the product with the given product identifier
+ 
+ @param productIdentifier The identifier of the product whose payment will be requested.
+ */
+- (void)purchaseProduct:(NSString *)productIdentifier;
 
-// Returns whether there are restored products.
-- (BOOL)hasRestoredProducts;
+/** Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
+ 
+ @param productIdentifier The identifier of the product whose payment will be requested.
+ @param userIdentifier An opaque identifier for the user’s account on your system. The recommended implementation is to use a one-way hash of the user’s account name to calculate the value for this property.
+ */
+- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier;
 
-// Implements the purchase of a product.
-- (void)buyProduct:(nullable SKProduct *)product;
+/** Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system and the number of items the user wants to purchase.
+ 
+ @param productIdentifier The identifier of the product whose payment will be requested.
+ @param userIdentifier An opaque identifier for the user’s account on your system. The recommended implementation is to use a one-way hash of the user’s account name to calculate the value for this property.
+ @param quantity The number of items the user wants to purchase. The default value is 1.
+ */
+- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier quantity:(NSInteger)quantity;
 
-// Implements the purchase of more products.
-- (void)buyProduct:(nullable SKProduct *)product quantity:(NSInteger)quantity;
+/** Fetches the product by matching a given product identifier.
+ 
+ @param productIdentifier A given product identifier.
+ @return An `SKProduct` object.
+ */
+- (SKProduct *)productForIdentifier:(NSString *)productIdentifier;
 
-// Implements the restoration of previously completed purchases.
-- (void)restoreProducts;
+/** Fetches the localized price of a given product.
+ 
+ @param product A given product.
+ @return The localized price of a given product.
+ */
+- (NSString *)localizedPriceOfProduct:(SKProduct *)product;
 
-// Removes the transaction from the queue for purchased and restored statuses.
-- (void)finishTransaction:(nullable SKPaymentTransaction *)transaction;
+/** Whether there are purchases.
+ 
+ @return YES if it contains some items and NO, otherwise.
+ */
+- (BOOL)hasPurchasedTransactions;
 
-// Verifies receipt but recommend to use in server side instead of using this function.
-- (void)verifyReceipt:(nonnull NSData *)receiptData;
+/**
+ Whether there are restored purchases.
+ 
+ @return YES if it contains some items and NO, otherwise.
+ */
+- (BOOL)hasRestoredTransactions;
 
-// Verifies receipt but recommend to use in server side instead of using this function.
-// Only used for receipts that contain auto-renewable subscriptions.
-// Your app’s shared secret (a hexadecimal string).
-- (void)verifyReceipt:(nonnull NSData *)receiptData sharedSecret:(nullable NSString *)secretKey;
+/** Extracts the transaction with a given transaction identifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ @return A SKPaymentTransaction object.
+ */
+- (SKPaymentTransaction *)extractTransaction:(NSString *)transactionIdentifier;
+
+/** Requests to restore previously completed purchases.
+ */
+- (void)restoreTransactions;
+
+/** Requests to restore previously completed purchases.
+ 
+ @param userIdentifier An opaque identifier for the user’s account on your system.
+ */
+- (void)restoreTransactions:(NSString *)userIdentifier;
+
+/** Completes a pending transaction.
+ 
+ Your application should call this method from a transaction observer that received a notification from the payment queue. Calling finishTransaction(_:) on a transaction removes it from the queue. Your application should call finishTransaction(_:) only after it has successfully processed the transaction and unlocked the functionality purchased by the user.
+ Calling finishTransaction(_:) on a transaction that is in the SKPaymentTransactionState.purchasing state throws an exception.
+ 
+ @param transaction The transaction to finish.
+ */
+- (void)finishTransaction:(SKPaymentTransaction *)transaction;
+
+/** Fetches the url of the bundle’s App Store receipt, or nil if the receipt is missing.
+ If this method returns `nil` you should refresh the receipt by calling `refreshReceipt`.
+ 
+ @return The url of the bundle’s App Store receipt.
+ */
++ (NSURL *)receiptURL;
+
+/** Requests to refresh the App Store receipt in case the receipt is invalid or missing. `successBlock` will be called if the refresh receipt request is successful, `failureBlock` if it isn't.
+ 
+ @param successBlock The block to be called if the refresh receipt request is sucessful. Can be `nil`.
+ @param failureBlock The block to be called if the refresh receipt request fails. Can be `nil`.
+ */
+- (void)refreshReceiptOnSuccess:(DYFStoreRefreshReceiptSuccessBlock)successBlock
+                        failure:(DYFStoreRefreshReceiptFailureBlock)failureBlock;
+
+@end
+
+@interface NSDate (DYFStore)
+
+/** Returns a string representation of a given date formatted using the receiver’s current settings.
+ 
+ @return A string representation of a given date formatted using the receiver’s current settings.
+ */
+- (NSString *)toString;
+
+
+/** Returns a string representation of a given date formatted using the receiver’s current settings.
+ 
+ @return A string representation of a given date formatted using the receiver’s current settings.
+ */
+- (NSString *)toGTMString;
+
+@end
+
+/** Uses enumeration to inicate the state of purchase.
+ */
+typedef NS_ENUM(NSUInteger, DYFStorePurchaseState) {
+    /** Indicates that the state is purchasing. */
+    DYFStorePurchaseStatePurchasing,
+    /** Indicates the user cancels the purchase. */
+    DYFStorePurchaseStateCancelled,
+    /** Indicates that the purchase failed. */
+    DYFStorePurchaseStateFailed,
+    /** Indicates that the purchase was successful. */
+    DYFStorePurchaseStateSucceeded,
+    /** Indicates that the restoring transaction was successful. */
+    DYFStorePurchaseStateRestored,
+    /** Indicates that the restoring transaction failed. */
+    DYFStorePurchaseStateRestoreFailed,
+    /** Indicates that the transaction was deferred. */
+    DYFStorePurchaseStateDeferred
+};
+
+/** Uses enumeration to inicate the state of download.
+ */
+typedef NS_ENUM(NSUInteger, DYFStoreDownloadState) {
+    /** Indicates that downloading a hosted content has started. */
+    DYFStoreDownloadStateStarted,
+    /** Indicates that a hosted content is currently being downloaded. */
+    DYFStoreDownloadStateInProgress,
+    /** Indicates that your app cancelled the download. */
+    DYFStoreDownloadStateCancelled,
+    /** Indicates that downloading a hosted content failed. */
+    DYFStoreDownloadStateFailed,
+    /** Indicates that a hosted content was successfully downloaded. */
+    DYFStoreDownloadStateSucceeded
+};
+
+/** Uses enumeration to inicate the error code of store.
+ */
+typedef NS_ENUM(NSUInteger, DYFStoreErrorCode) {
+    /** Unknown product identifier. */
+    DYFStoreErrorCodeUnknownProductIdentifier = 100,
+    /** Invalid parameter indicates that the received value is nil or empty. */
+    DYFStoreErrorCodeInvalidParameter = 136,
+    /** Indicates that your app cancelled the download. */
+    DYFStoreErrorCodeDownloadCancelled = 300
+};
+
+// The error domain for store.
+FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
+
+@interface DYFStoreNotificationInfo : NSObject
+
+/** The state of purchase.
+ */
+@property (nonatomic, assign) DYFStorePurchaseState state;
+
+/** The state of the download. Only valid if downloading a hosted content.
+ */
+@property (nonatomic, assign) DYFStoreDownloadState downloadState;
+
+/** A value that indicates how much of the file has been downloaded. Only valid if state is DYFStoreDownloadStateInProgress.
+ */
+@property (nonatomic, assign) float downloadProgress;
+
+/** This indicates an error occurred.
+ */
+@property (nonatomic, strong) NSError *error;
+
+/** The date when the transaction was added to the server queue. Only valid if state is SKPaymentTransactionState.purchased or SKPaymentTransactionState.restored.
+ */
+@property (nonatomic, strong) NSDate *transactionDate;
+
+/** The transaction identifier of purchase.
+ */
+@property (nonatomic, copy) NSString *transactionIdentifiers;
+
+@end
+
+/** Processes the purchase which was initiated by user from the App Store.
+ */
+@protocol DYFStoreAppStorePaymentDelegate <NSObject>
+
+/**
+ A user initiated an in-app purchase from the App Store.
+
+ @param queue The payment queue on which the payment request was made.
+ @param payment The payment request.
+ @param product The in-app purchase product.
+ */
+- (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product;
 
 @end

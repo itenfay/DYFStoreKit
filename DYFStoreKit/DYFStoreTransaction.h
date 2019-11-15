@@ -70,3 +70,6 @@ typedef NS_ENUM(NSUInteger, DYFStoreTransactionState) {
 @property (nonatomic, copy) NSData *transactionReceipt;
 
 @end
+
+// The key UserDefaults and Keychain used.
+FOUNDATION_EXPORT NSString *const DYFStoreTransactionsKey;

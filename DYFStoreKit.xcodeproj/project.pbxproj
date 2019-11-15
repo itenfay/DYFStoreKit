@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		142556C02371D4D500D35669 /* DYFStoreUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556B22371D4D300D35669 /* DYFStoreUserDefaultsPersistence.m */; };
-		142556C12371D4D500D35669 /* DYFStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556B32371D4D300D35669 /* DYFStore.m */; };
-		142556C22371D4D500D35669 /* DYFStoreConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556B62371D4D300D35669 /* DYFStoreConverter.m */; };
-		142556C32371D4D500D35669 /* DYFKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556B72371D4D400D35669 /* DYFKeychain.m */; };
-		142556C42371D4D500D35669 /* DYFStoreTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556B92371D4D400D35669 /* DYFStoreTransaction.m */; };
-		142556C52371D4D500D35669 /* DYFStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556BC2371D4D400D35669 /* DYFStoreKeychainPersistence.m */; };
-		142556C62371D4D500D35669 /* DYFStoreReceiptVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556BE2371D4D400D35669 /* DYFStoreReceiptVerifier.m */; };
-		142556C72371D4D500D35669 /* DYFRuntimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 142556BF2371D4D400D35669 /* DYFRuntimeProvider.m */; };
 		142556C92371DE5200D35669 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556C82371DE5200D35669 /* Foundation.framework */; };
 		142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CA2371DE5A00D35669 /* UIKit.framework */; };
 		142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CC2371DE6200D35669 /* CoreGraphics.framework */; };
 		142556CF2371DE6800D35669 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CE2371DE6800D35669 /* Security.framework */; };
+		14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */; };
+		14ABF8DC237A980D00015826 /* DYFStoreTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */; };
+		14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D1237A980B00015826 /* DYFStoreConverter.m */; };
+		14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */; };
+		14ABF8DF237A980D00015826 /* DYFStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D4237A980B00015826 /* DYFStore.m */; };
+		14ABF8E0237A980D00015826 /* DYFKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D8237A980C00015826 /* DYFKeychain.m */; };
+		14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */; };
+		14ABF8E2237A980D00015826 /* DYFStoreUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */; };
 		14BAC1A32294543F006974B5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BAC1A22294543F006974B5 /* AppDelegate.m */; };
 		14BAC1A62294543F006974B5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BAC1A52294543F006974B5 /* ViewController.m */; };
 		14BAC1A922945440006974B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1A722945440006974B5 /* Main.storyboard */; };
@@ -29,26 +29,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		142556B02371D4D300D35669 /* DYFRuntimeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFRuntimeProvider.h; sourceTree = "<group>"; };
-		142556B12371D4D300D35669 /* DYFKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFKeychain.h; sourceTree = "<group>"; };
-		142556B22371D4D300D35669 /* DYFStoreUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreUserDefaultsPersistence.m; sourceTree = "<group>"; };
-		142556B32371D4D300D35669 /* DYFStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStore.m; sourceTree = "<group>"; };
-		142556B42371D4D300D35669 /* DYFStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTransaction.h; sourceTree = "<group>"; };
-		142556B52371D4D300D35669 /* DYFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStore.h; sourceTree = "<group>"; };
-		142556B62371D4D300D35669 /* DYFStoreConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreConverter.m; sourceTree = "<group>"; };
-		142556B72371D4D400D35669 /* DYFKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFKeychain.m; sourceTree = "<group>"; };
-		142556B82371D4D400D35669 /* DYFStoreUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreUserDefaultsPersistence.h; sourceTree = "<group>"; };
-		142556B92371D4D400D35669 /* DYFStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTransaction.m; sourceTree = "<group>"; };
-		142556BA2371D4D400D35669 /* DYFStoreConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreConverter.h; sourceTree = "<group>"; };
-		142556BB2371D4D400D35669 /* DYFStoreKeychainPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreKeychainPersistence.h; sourceTree = "<group>"; };
-		142556BC2371D4D400D35669 /* DYFStoreKeychainPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreKeychainPersistence.m; sourceTree = "<group>"; };
-		142556BD2371D4D400D35669 /* DYFStoreReceiptVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreReceiptVerifier.h; sourceTree = "<group>"; };
-		142556BE2371D4D400D35669 /* DYFStoreReceiptVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreReceiptVerifier.m; sourceTree = "<group>"; };
-		142556BF2371D4D400D35669 /* DYFRuntimeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFRuntimeProvider.m; sourceTree = "<group>"; };
 		142556C82371DE5200D35669 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		142556CA2371DE5A00D35669 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		142556CC2371DE6200D35669 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		142556CE2371DE6800D35669 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFRuntimeProvider.m; sourceTree = "<group>"; };
+		14ABF8CC237A980A00015826 /* DYFStoreReceiptVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreReceiptVerifier.h; sourceTree = "<group>"; };
+		14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreUserDefaultsPersistence.h; sourceTree = "<group>"; };
+		14ABF8CE237A980B00015826 /* DYFRuntimeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFRuntimeProvider.h; sourceTree = "<group>"; };
+		14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTransaction.m; sourceTree = "<group>"; };
+		14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTransaction.h; sourceTree = "<group>"; };
+		14ABF8D1237A980B00015826 /* DYFStoreConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreConverter.m; sourceTree = "<group>"; };
+		14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreKeychainPersistence.m; sourceTree = "<group>"; };
+		14ABF8D3237A980B00015826 /* DYFKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFKeychain.h; sourceTree = "<group>"; };
+		14ABF8D4237A980B00015826 /* DYFStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStore.m; sourceTree = "<group>"; };
+		14ABF8D5237A980C00015826 /* DYFStoreConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreConverter.h; sourceTree = "<group>"; };
+		14ABF8D6237A980C00015826 /* DYFStoreKeychainPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreKeychainPersistence.h; sourceTree = "<group>"; };
+		14ABF8D7237A980C00015826 /* DYFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStore.h; sourceTree = "<group>"; };
+		14ABF8D8237A980C00015826 /* DYFKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFKeychain.m; sourceTree = "<group>"; };
+		14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreReceiptVerifier.m; sourceTree = "<group>"; };
+		14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreUserDefaultsPersistence.m; sourceTree = "<group>"; };
 		14BAC19E2294543F006974B5 /* DYFStoreKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DYFStoreKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BAC1A12294543F006974B5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		14BAC1A22294543F006974B5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -127,22 +127,22 @@
 		14BAC1BA22945848006974B5 /* DYFStoreKit */ = {
 			isa = PBXGroup;
 			children = (
-				142556B12371D4D300D35669 /* DYFKeychain.h */,
-				142556B72371D4D400D35669 /* DYFKeychain.m */,
-				142556B02371D4D300D35669 /* DYFRuntimeProvider.h */,
-				142556BF2371D4D400D35669 /* DYFRuntimeProvider.m */,
-				142556B52371D4D300D35669 /* DYFStore.h */,
-				142556B32371D4D300D35669 /* DYFStore.m */,
-				142556BA2371D4D400D35669 /* DYFStoreConverter.h */,
-				142556B62371D4D300D35669 /* DYFStoreConverter.m */,
-				142556BB2371D4D400D35669 /* DYFStoreKeychainPersistence.h */,
-				142556BC2371D4D400D35669 /* DYFStoreKeychainPersistence.m */,
-				142556BD2371D4D400D35669 /* DYFStoreReceiptVerifier.h */,
-				142556BE2371D4D400D35669 /* DYFStoreReceiptVerifier.m */,
-				142556B42371D4D300D35669 /* DYFStoreTransaction.h */,
-				142556B92371D4D400D35669 /* DYFStoreTransaction.m */,
-				142556B82371D4D400D35669 /* DYFStoreUserDefaultsPersistence.h */,
-				142556B22371D4D300D35669 /* DYFStoreUserDefaultsPersistence.m */,
+				14ABF8D3237A980B00015826 /* DYFKeychain.h */,
+				14ABF8D8237A980C00015826 /* DYFKeychain.m */,
+				14ABF8CE237A980B00015826 /* DYFRuntimeProvider.h */,
+				14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */,
+				14ABF8D7237A980C00015826 /* DYFStore.h */,
+				14ABF8D4237A980B00015826 /* DYFStore.m */,
+				14ABF8D5237A980C00015826 /* DYFStoreConverter.h */,
+				14ABF8D1237A980B00015826 /* DYFStoreConverter.m */,
+				14ABF8D6237A980C00015826 /* DYFStoreKeychainPersistence.h */,
+				14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */,
+				14ABF8CC237A980A00015826 /* DYFStoreReceiptVerifier.h */,
+				14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */,
+				14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */,
+				14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */,
+				14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */,
+				14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */,
 			);
 			path = DYFStoreKit;
 			sourceTree = "<group>";
@@ -217,17 +217,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				142556C12371D4D500D35669 /* DYFStore.m in Sources */,
-				142556C02371D4D500D35669 /* DYFStoreUserDefaultsPersistence.m in Sources */,
-				142556C22371D4D500D35669 /* DYFStoreConverter.m in Sources */,
-				142556C32371D4D500D35669 /* DYFKeychain.m in Sources */,
-				142556C52371D4D500D35669 /* DYFStoreKeychainPersistence.m in Sources */,
 				14BAC1A62294543F006974B5 /* ViewController.m in Sources */,
+				14ABF8DC237A980D00015826 /* DYFStoreTransaction.m in Sources */,
+				14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */,
+				14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */,
 				14BAC1B12294544C006974B5 /* main.m in Sources */,
-				142556C72371D4D500D35669 /* DYFRuntimeProvider.m in Sources */,
-				142556C42371D4D500D35669 /* DYFStoreTransaction.m in Sources */,
-				142556C62371D4D500D35669 /* DYFStoreReceiptVerifier.m in Sources */,
+				14ABF8DF237A980D00015826 /* DYFStore.m in Sources */,
+				14ABF8E2237A980D00015826 /* DYFStoreUserDefaultsPersistence.m in Sources */,
+				14ABF8E0237A980D00015826 /* DYFKeychain.m in Sources */,
 				14BAC1A32294543F006974B5 /* AppDelegate.m in Sources */,
+				14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */,
+				14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

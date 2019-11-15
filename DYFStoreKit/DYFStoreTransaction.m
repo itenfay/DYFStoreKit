@@ -26,6 +26,8 @@
 #import "DYFStoreTransaction.h"
 #import "DYFRuntimeProvider.h"
 
+NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
+
 @implementation DYFStoreTransaction
 
 /**

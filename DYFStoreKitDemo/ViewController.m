@@ -6,6 +6,7 @@
 //
 
 #import "ViewController.h"
+#import "DYFStore.h"
 
 @interface ViewController ()
 
@@ -15,6 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    DYFStore *s = [[DYFStore alloc] init];
 }
 
 

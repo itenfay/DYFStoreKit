@@ -192,8 +192,7 @@ static Class _rtpClass = nil;
 
 + (BOOL)archiveWithObject:(id)object forClass:(Class)cls toFile:(NSString *)path {
     
-    DYFRuntimeProvider *provider = [[self alloc] init];
-    [provider archiveOrUnarchiveWithObject:object forClass:cls];
+    [[self alloc] archiveOrUnarchiveWithObject:object forClass:cls];
     
     if (!object) { return NO; }
     
@@ -212,8 +211,7 @@ static Class _rtpClass = nil;
 
 + (id)unarchiveWithFile:(NSString *)path forClass:(Class)cls {
     
-    DYFRuntimeProvider *provider = [[self alloc] init];
-    [provider archiveOrUnarchiveWithObject:nil forClass:cls];
+    [[self alloc] archiveOrUnarchiveWithObject:nil forClass:cls];
     
     NSData *data = [NSData dataWithContentsOfFile:path];
     if (!data) { return nil; }
