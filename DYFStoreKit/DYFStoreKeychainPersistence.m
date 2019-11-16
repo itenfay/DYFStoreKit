@@ -24,7 +24,112 @@
 //
 
 #import "DYFStoreKeychainPersistence.h"
+#import "DYFKeychain.h"
+#import "DYFStoreConverter.h"
 
 @implementation DYFStoreKeychainPersistence
+
+/** Loads an array whose elements are the `Data` objects from the keychain.
+ 
+ @return An array whose elements are the `Data` objects.
+ */
+- (NSArray<NSData *> *)loadTransactions {
+    
+    DYFKeychain *keychain = [DYFKeychain createKeychain];
+    NSData *data = [keychain getData:DYFStoreTransactionsKey];
+    
+    NSArray *array = [DYFStoreConverter jsonObjectWithData:data];
+    return array;
+}
+
+- (void)storeTransaction:(DYFStoreTransaction *)transaction {
+    
+    NSData *data = [DYFStoreConverter encodeObject:transaction];
+    if (!data) { return; }
+    
+    NSMutableArray *transactions;
+    
+    NSArray *array = [self loadTransactions];
+    if (!array) {
+        transactions = [NSMutableArray arrayWithCapacity:0];
+    } else {
+        transactions = [NSMutableArray arrayWithArray:array];
+    }
+    
+    [transactions addObject:data];
+    
+    NSData *tData = [DYFStoreConverter jsonWithObject:transactions];
+    DYFKeychain *keychain = [DYFKeychain createKeychain];
+    [keychain addData:tData forKey:DYFStoreTransactionsKey];
+}
+
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions {
+    
+    NSArray *array = [self loadTransactions];
+    if (!array) { return nil; }
+    
+    NSMutableArray *transactions = [NSMutableArray array];
+    for (NSData *data in array) {
+        
+        id obj = [DYFStoreConverter decodeObject:data];
+        DYFStoreTransaction *transaction = (DYFStoreTransaction *)obj;
+        if (transaction) {
+            [transactions addObject:transaction];
+        }
+    }
+    
+    return transactions;
+}
+
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier {
+    
+    NSArray *array = [self retrieveTransactions];
+    if (!array) { return nil; }
+    
+    for (DYFStoreTransaction *transaction in array) {
+        
+        NSString *identifier = transaction.transactionIdentifier;
+        if ([identifier isEqualToString:transactionIdentifier]) {
+            return transaction;
+        }
+    }
+    
+    return nil;
+}
+
+- (void)removeTransaction:(NSString *)transactionIdentifier {
+    
+    NSArray *array = [self loadTransactions];
+    if (!array) { return; }
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
+    int index = -1;
+    for (int idx = 0; idx < arr.count; idx++) {
+        
+        NSData *data = arr[idx];
+        
+        id obj = [DYFStoreConverter decodeObject:data];
+        DYFStoreTransaction *transaction = (DYFStoreTransaction *)obj;
+        NSString *identifier = transaction.transactionIdentifier;
+        
+        if ([identifier isEqualToString:transactionIdentifier]) {
+            index = idx;
+            break;
+        }
+    }
+    
+    if (index >= 0) {
+        [arr removeObjectAtIndex:index];
+        
+        NSData *tData = [DYFStoreConverter jsonWithObject:arr];
+        DYFKeychain *keychain = [DYFKeychain createKeychain];
+        [keychain addData:tData forKey:DYFStoreTransactionsKey];
+    }
+}
+
+- (void)removeTransactions {
+    DYFKeychain *keychain = [DYFKeychain createKeychain];
+    [keychain delete:DYFStoreTransactionsKey];
+}
 
 @end

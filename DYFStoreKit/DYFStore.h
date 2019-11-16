@@ -298,6 +298,10 @@ FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
  */
 @property (nonatomic, strong) NSError *error;
 
+/** A string used to identify a product that can be purchased from within your app.
+ */
+@property (nonatomic, copy) NSString *productIdentifier;
+
 /** The date when the transaction was added to the server queue. Only valid if state is SKPaymentTransactionState.purchased or SKPaymentTransactionState.restored.
  */
 @property (nonatomic, strong) NSDate *transactionDate;
@@ -314,7 +318,7 @@ FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
 
 /**
  A user initiated an in-app purchase from the App Store.
-
+ 
  @param queue The payment queue on which the payment request was made.
  @param payment The payment request.
  @param product The in-app purchase product.

@@ -27,6 +27,11 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+/** Returns a string containing the bytes in a given C array, interpreted according to a given encoding.
+ 
+ @param cString A C array of bytes. The array must end with a NULL byte.
+ @return A string containing the characters described in cString.
+ */
 static NSString *RTPString(const char *cString) {
     if (cString) {
         return [NSString stringWithCString:cString encoding:NSUTF8StringEncoding];
@@ -34,7 +39,12 @@ static NSString *RTPString(const char *cString) {
     return nil;
 }
 
-static id _rtpObject   = nil;
+/** An object you want to archive or unarchive.
+ */
+static id _rtpObject = nil;
+
+/** The class you want to inspect.
+ */
 static Class _rtpClass = nil;
 
 @implementation DYFRuntimeProvider

@@ -27,20 +27,24 @@
 
 // Controls the printing of the purchase logs.
 #ifndef DYFStoreLogFlag
-    #if DEBUG
-        #define DYFStoreLogFlag          1
-    #else
-        #define DYFStoreLogFlag          0
-    #endif
+
+#if DEBUG
+    #define DYFStoreLogFlag          1
+#else
+    #define DYFStoreLogFlag          0
+#endif
+
 #endif
 
 // Prints the purchase logs.
 #ifndef DYFStoreLog
-    #if DYFStoreLogFlag
-        #define DYFStoreLog(format, ...) NSLog((@"[DYFStore] " format), ##__VA_ARGS__)
-    #else
-        #define DYFStoreLog(format, ...) {}
-    #endif
+
+#if DYFStoreLogFlag
+    #define DYFStoreLog(format, ...) NSLog((@"[DYFStore] " format), ##__VA_ARGS__)
+#else
+    #define DYFStoreLog(format, ...) {}
+#endif
+
 #endif
 
 // Returns a Boolean value that indicates whether the receiver implements or inherits
@@ -684,7 +688,7 @@ static DYFStore *_instance = nil;
     }
     
     info.error = error;
-    info.transactionIdentifiers = transaction.transactionIdentifier;
+    info.productIdentifier = transaction.payment.productIdentifier;
     
     [self postNotification:info];
     [self finishTransaction:transaction];
@@ -738,6 +742,7 @@ static DYFStore *_instance = nil;
     
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.state = state;
+    info.productIdentifier = transaction.payment.productIdentifier;
     info.transactionDate = transaction.transactionDate;
     info.transactionIdentifiers = transaction.transactionIdentifier;
     

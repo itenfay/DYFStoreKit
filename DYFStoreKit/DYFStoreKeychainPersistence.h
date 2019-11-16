@@ -24,8 +24,37 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DYFStoreTransaction.h"
 
 @interface DYFStoreKeychainPersistence : NSObject
 
+/** Stores an `DYFStoreTransaction` object in the keychain item.
+ 
+ @param transaction An `DYFStoreTransaction` object.
+ */
+- (void)storeTransaction:(DYFStoreTransaction *)transaction;
+
+/** Retrieves an array whose elements are the `DYFStoreTransaction` objects from the keychain.
+ 
+ @return An array whose elements are the `DYFStoreTransaction` objects.
+ */
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions;
+
+/** Retrieves an `DYFStoreTransaction` object from the keychain with a given transaction ientifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ @return An `DYFStoreTransaction` object from the keychain.
+ */
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier;
+
+/** Removes an `DYFStoreTransaction` object from the keychain with a given transaction ientifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ */
+- (void)removeTransaction:(NSString *)transactionIdentifier;
+
+/** Removes all transactions from the keychain.
+ */
+- (void)removeTransactions;
 
 @end
