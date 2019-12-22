@@ -103,8 +103,10 @@
     query[DYFKeychainConstants.accessible] = accessible;
     self.queryDictionary = query;
     
-    NSData *data = [self getData:key];
-    if (!data) {
+    CFTypeRef ignore = nil;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &ignore);
+    if (status != errSecSuccess) {
+        
         if (value) {
             query[DYFKeychainConstants.valueData] = value;
             self.queryDictionary[DYFKeychainConstants.valueData] = value;
@@ -112,6 +114,8 @@
         } else {
             self.osStatus = errSecInvalidPointer; // -67675, An invalid pointer was encountered.
         }
+        
+        return self.osStatus == errSecSuccess;
     }
     
     if (!value) {

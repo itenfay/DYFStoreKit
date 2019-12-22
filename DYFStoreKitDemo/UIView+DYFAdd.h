@@ -1,5 +1,5 @@
 //
-//  DYFStoreTransaction.m
+//  UIView+DYFAdd.h
 //
 //  Created by dyf on 2014/11/4.
 //  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
@@ -23,40 +23,36 @@
 // THE SOFTWARE.
 //
 
-#import "DYFStoreTransaction.h"
-#import "DYFRuntimeProvider.h"
+#import <UIKit/UIKit.h>
 
-NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
-
-@implementation DYFStoreTransaction
-
-/** The Secure Coding Guide should be consulted when writing methods that decode data.
+/** The block is called when the corners are set.
  
- @return Must return YES on all classes that allow secure coding.
+ @param rectCorner The corners of a rectangle.
+ @param radius The radius of each corner.
  */
-//+ (BOOL)supportsSecureCoding {
-//    return YES;
-//}
+typedef void (^DYFSetCornerBlock)(UIRectCorner rectCorner, CGFloat radius);
 
-/** Returns an object initialized from data in a given unarchiver.
+/** The block is called when the border is set.
  
- @param aDecoder An unarchiver object.
- @return An object initialized from data in a given unarchiver.
+ @param rectCorner The corners of a rectangle.
+ @param radius The radius of each corner.
+ @param lineWidth Specifies the line width of the shape’s path.
+ @param color The color used to stroke the shape’s path.
  */
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super init];
-    if (self) {
-        [DYFRuntimeProvider decode:aDecoder forObject:self];
-    }
-    return self;
-}
+typedef void (^DYFSetBorderBlock)(UIRectCorner rectCorner, CGFloat radius, CGFloat lineWidth, UIColor *color);
 
-/** Encodes the receiver using a given archiver.
+@interface UIView (DYFAdd)
+
+/** This method is used to set the corner.
  
- @param aCoder An archiver object.
+ @return A block with a `UIRectCorner` value and radius.
  */
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [DYFRuntimeProvider encode:aCoder forObject:self];
-}
+- (DYFSetCornerBlock)setCorner;
+
+/** This method is used to set the border.
+ 
+ @return A block with a `UIRectCorner` value, radius, line width and a color.
+ */
+- (DYFSetBorderBlock)setBorder;
 
 @end

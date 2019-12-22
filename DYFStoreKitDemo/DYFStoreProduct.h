@@ -1,5 +1,5 @@
 //
-//  DYFStoreTransaction.m
+//  DYFStoreProduct.h
 //
 //  Created by dyf on 2014/11/4.
 //  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
@@ -23,40 +23,28 @@
 // THE SOFTWARE.
 //
 
-#import "DYFStoreTransaction.h"
-#import "DYFRuntimeProvider.h"
+#import <Foundation/Foundation.h>
 
-NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
+@interface DYFStoreProduct : NSObject
 
-@implementation DYFStoreTransaction
-
-/** The Secure Coding Guide should be consulted when writing methods that decode data.
- 
- @return Must return YES on all classes that allow secure coding.
+/** The string that identifies the product.
  */
-//+ (BOOL)supportsSecureCoding {
-//    return YES;
-//}
+@property (nonatomic, copy) NSString *identifier;
 
-/** Returns an object initialized from data in a given unarchiver.
- 
- @param aDecoder An unarchiver object.
- @return An object initialized from data in a given unarchiver.
+/** The name of the product.
  */
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super init];
-    if (self) {
-        [DYFRuntimeProvider decode:aDecoder forObject:self];
-    }
-    return self;
-}
+@property (nonatomic, copy) NSString *name;
 
-/** Encodes the receiver using a given archiver.
- 
- @param aCoder An archiver object.
+/** The cost of the product in the local currency.
  */
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [DYFRuntimeProvider encode:aCoder forObject:self];
-}
+@property (nonatomic, copy) NSString *price;
+
+/** The locale price of the product.
+ */
+@property (nonatomic, copy) NSString *localePrice;
+
+/** A description of the product.
+ */
+@property (nonatomic, copy) NSString *localizedDescription;
 
 @end

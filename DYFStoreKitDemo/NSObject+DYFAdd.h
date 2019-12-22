@@ -1,5 +1,5 @@
 //
-//  DYFStoreTransaction.m
+//  NSObject+DYFAdd.h
 //
 //  Created by dyf on 2014/11/4.
 //  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
@@ -23,40 +23,33 @@
 // THE SOFTWARE.
 //
 
-#import "DYFStoreTransaction.h"
-#import "DYFRuntimeProvider.h"
+#import <UIKit/UIKit.h>
 
-NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
+@interface NSObject (DYFAdd)
 
-@implementation DYFStoreTransaction
-
-/** The Secure Coding Guide should be consulted when writing methods that decode data.
- 
- @return Must return YES on all classes that allow secure coding.
+/** The view controller associated with the currently visible view.
  */
-//+ (BOOL)supportsSecureCoding {
-//    return YES;
-//}
+- (UIViewController *)currentViewController;
 
-/** Returns an object initialized from data in a given unarchiver.
- 
- @param aDecoder An unarchiver object.
- @return An object initialized from data in a given unarchiver.
+/** Shows the tips for user.
  */
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super init];
-    if (self) {
-        [DYFRuntimeProvider decode:aDecoder forObject:self];
-    }
-    return self;
-}
+- (void)showTipsMessage:(NSString *)message;
 
-/** Encodes the receiver using a given archiver.
- 
- @param aCoder An archiver object.
+/** Shows an alert view controller.
  */
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [DYFRuntimeProvider encode:aCoder forObject:self];
-}
+- (void)showAlertWithTitle:(NSString *)title
+                   message:(NSString *)message
+         cancelButtonTitle:(NSString *)cancelButtonTitle
+                    cancel:(void (^)(UIAlertAction *action))cancelHandler
+        confirmButtonTitle:(NSString *)confirmButtonTitle
+                   execute:(void (^)(UIAlertAction *action))executableHandler;
+
+/** Shows a loading panel.
+ */
+- (void)showLoading:(NSString *)text;
+
+/** Hides a loading panel.
+ */
+- (void)hideLoading;
 
 @end

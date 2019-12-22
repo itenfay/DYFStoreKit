@@ -1,5 +1,5 @@
 //
-//  DYFStoreTransaction.m
+//  DYFStoreTableViewCell.m
 //
 //  Created by dyf on 2014/11/4.
 //  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
@@ -23,40 +23,18 @@
 // THE SOFTWARE.
 //
 
-#import "DYFStoreTransaction.h"
-#import "DYFRuntimeProvider.h"
+#import "DYFStoreTableViewCell.h"
 
-NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
+@implementation DYFStoreTableViewCell
 
-@implementation DYFStoreTransaction
-
-/** The Secure Coding Guide should be consulted when writing methods that decode data.
- 
- @return Must return YES on all classes that allow secure coding.
- */
-//+ (BOOL)supportsSecureCoding {
-//    return YES;
-//}
-
-/** Returns an object initialized from data in a given unarchiver.
- 
- @param aDecoder An unarchiver object.
- @return An object initialized from data in a given unarchiver.
- */
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super init];
-    if (self) {
-        [DYFRuntimeProvider decode:aDecoder forObject:self];
-    }
-    return self;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
 }
 
-/** Encodes the receiver using a given archiver.
- 
- @param aCoder An archiver object.
- */
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [DYFRuntimeProvider encode:aCoder forObject:self];
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    // Configure the view for the selected state
 }
 
 @end

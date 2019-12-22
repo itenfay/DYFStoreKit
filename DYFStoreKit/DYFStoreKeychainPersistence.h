@@ -26,7 +26,16 @@
 #import <Foundation/Foundation.h>
 #import "DYFStoreTransaction.h"
 
+/** The transaction persistence using the keychain.
+ */
 @interface DYFStoreKeychainPersistence : NSObject
+
+/** Returns a Boolean value that indicates whether a transaction is present in the keychain with a given transaction ientifier.
+
+ @param transactionIdentifier The unique server-provided identifier.
+ @return True if a transaction is present in the keychain, otherwise false.
+ */
+- (BOOL)containsTransaction:(NSString *)transactionIdentifier;
 
 /** Stores an `DYFStoreTransaction` object in the keychain item.
  

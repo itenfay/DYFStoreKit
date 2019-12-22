@@ -25,30 +25,17 @@
 
 #import "DYFStore.h"
 
-// Controls the printing of the purchase logs.
-#ifndef DYFStoreLogFlag
-
-#if DEBUG
-    #define DYFStoreLogFlag          1
-#else
-    #define DYFStoreLogFlag          0
-#endif
-
-#endif
-
-// Prints the purchase logs.
+// Prints the log in the process of purchasing the `SKProduct` products.
 #ifndef DYFStoreLog
-
-#if DYFStoreLogFlag
-    #define DYFStoreLog(format, ...) NSLog((@"[DYFStore] " format), ##__VA_ARGS__)
+#if DEBUG
+#define DYFStoreLog(format, ...) NSLog((@"[DYFStore] %s [Line: %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
-    #define DYFStoreLog(format, ...) {}
+#define DYFStoreLog(format, ...) while(0){}
+#endif
 #endif
 
-#endif
-
-// Returns a Boolean value that indicates whether the receiver implements or inherits
-// a method that can respond to a specified message.
+// Returns a Boolean value that indicates whether the receiver implements
+// or inherits a method that can respond to a specified message.
 #define OBJC_RESPONDS_TO_SEL(target, selector) (target && [target respondsToSelector:selector])
 
 // Provides notification about the purchase.
@@ -96,10 +83,6 @@ NSString *const DYFStoreErrorDomain = @"SKErrorDomain.dyfstore";
 
 // Provides a global static variable.
 static DYFStore *_instance = nil;
-
-+ (instancetype)default {
-    return [self.class defaultStore];
-}
 
 + (instancetype)defaultStore {
     return [[self.class alloc] init];
@@ -289,7 +272,10 @@ static DYFStore *_instance = nil;
         }
     }
     
-    !self.productsRequestDidFinish ?: self.productsRequestDidFinish(products, invalidProductIdentifiers);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        !self.productsRequestDidFinish ?:
+        self.productsRequestDidFinish(products, invalidProductIdentifiers);
+    });
 }
 
 #pragma mark - SKRequestDelegate
@@ -306,8 +292,12 @@ static DYFStore *_instance = nil;
     if (self.refreshReceiptRequest && self.refreshReceiptRequest == request) {
         DYFStoreLog(@"refresh receipt finished");
         
-        !self.refreshReceiptSuccessBlock ?: self.refreshReceiptSuccessBlock();
         self.refreshReceiptRequest = nil;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            !self.refreshReceiptSuccessBlock ?:
+            self.refreshReceiptSuccessBlock();
+        });
     }
 }
 
@@ -318,15 +308,23 @@ static DYFStore *_instance = nil;
         // Prints the cause of the product request failure.
         DYFStoreLog(@"products request failed with error: %@", error);
         
-        !self.productsRequestDidFail ?: self.productsRequestDidFail(error);
         self.productsRequest = nil;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            !self.productsRequestDidFail ?:
+            self.productsRequestDidFail(error);
+        });
     }
     
     if (self.refreshReceiptRequest && self.refreshReceiptRequest == request) {
         DYFStoreLog(@"refresh receipt failed with error: %@", error);
         
-        !self.refreshReceiptFailureBlock ?: self.refreshReceiptFailureBlock(error);
         self.refreshReceiptRequest = nil;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            !self.refreshReceiptFailureBlock ?:
+            self.refreshReceiptFailureBlock(error);
+        });
     }
 }
 
@@ -351,23 +349,15 @@ static DYFStore *_instance = nil;
 
 #pragma mark - Purchases Product
 
-/** Whether there are purchases.
- 
- @return YES if it contains some items and NO, otherwise.
- */
 - (BOOL)hasPurchasedTransactions {
     return self.purchasedTranscations.count > 0;
 }
 
-/** Whether there are restored purchases.
- 
- @return YES if it contains some items and NO, otherwise.
- */
 - (BOOL)hasRestoredTransactions {
     return self.restoredTranscations.count > 0;
 }
 
-- (SKPaymentTransaction *)extractTransaction:(NSString *)transactionIdentifier {
+- (SKPaymentTransaction *)extractPurchasedTransaction:(NSString *)transactionIdentifier {
     
     __block SKPaymentTransaction *transaction = nil;
     
@@ -379,22 +369,32 @@ static DYFStore *_instance = nil;
         
         SKPaymentTransaction *tempTransaction = obj;
         NSString *id = tempTransaction.transactionIdentifier;
-        DYFStoreLog(@"|self.purchasedTranscations enumerateObjectsUsingBlock:| index: %zi, transactionId: %@", idx, id);
+        DYFStoreLog(@"extractPurchasedTransaction: index: %zi, transactionId: %@", idx, id);
         
         if ([id isEqualToString:transactionIdentifier]) {
             transaction = tempTransaction;
         }
     }];
     
+    return transaction;
+}
+
+- (SKPaymentTransaction *)extractRestoredTransaction:(NSString *)transactionIdentifier {
+    
+    __block SKPaymentTransaction *transaction = nil;
+    
+    if (!transactionIdentifier || transactionIdentifier.length == 0) {
+        return transaction;
+    }
+    
     [self.restoredTranscations enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         SKPaymentTransaction *tempTransaction = obj;
-        NSString *originalId = tempTransaction.originalTransaction.transactionIdentifier;
         NSString *id = tempTransaction.transactionIdentifier;
-        DYFStoreLog(@"|self.purchasedTranscations enumerateObjectsUsingBlock:| index: %zi, original.transactionId: %@, transactionId: %@", idx, originalId, id);
+        NSString *originalId = tempTransaction.originalTransaction.transactionIdentifier;
+        DYFStoreLog(@"extractRestoredTransaction: index: %zi, transactionId: %@, originalTransactionId: %@", idx, id, originalId);
         
-        if ([originalId isEqualToString:transactionIdentifier] ||
-            [id isEqualToString:transactionIdentifier]) {
+        if ([id isEqualToString:transactionIdentifier]) {
             transaction = tempTransaction;
         }
     }];
@@ -485,6 +485,7 @@ static DYFStore *_instance = nil;
 
 - (void)finishTransaction:(SKPaymentTransaction *)transaction {
     DYFStoreLog(@"finishTransaction: %@", transaction.transactionIdentifier ?: @"");
+    if (!transaction) { return; }
     [SKPaymentQueue.defaultQueue finishTransaction:transaction];
 }
 
@@ -621,7 +622,9 @@ static DYFStore *_instance = nil;
         if (OBJC_RESPONDS_TO_SEL(self.delegate,
                                  @selector(didReceiveAppStorePurchaseRequest:payment:forProduct:))
             ) {
+            
             [self.delegate didReceiveAppStorePurchaseRequest:queue payment:payment forProduct:product];
+            
         } else { /* Fallback on earlier versions. Never execute. */ }
     }
     
@@ -744,7 +747,13 @@ static DYFStore *_instance = nil;
     info.state = state;
     info.productIdentifier = transaction.payment.productIdentifier;
     info.transactionDate = transaction.transactionDate;
-    info.transactionIdentifiers = transaction.transactionIdentifier;
+    info.transactionIdentifier = transaction.transactionIdentifier;
+    
+    if (state == DYFStorePurchaseStateRestored) {
+        SKPaymentTransaction *original = transaction.originalTransaction;
+        info.originalTransactionDate = original.transactionDate;
+        info.originalTransactionIdentifier = original.transactionIdentifier;
+    }
     
     [self postNotification:info];
 }
@@ -811,7 +820,7 @@ static DYFStore *_instance = nil;
     
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.downloadState = DYFStoreDownloadStateFailed;
-    info.error= error;
+    info.error = error;
     [self postNotificationWithName:DYFStoreDownloadedNotification info:info];
     
     BOOL hasPendingDownloads = [self.class hasPendingDownloadsInTransaction:transaction];
@@ -839,7 +848,6 @@ static DYFStore *_instance = nil;
     }
     
     if (allAssetsDownloaded) {
-        
         DYFStorePurchaseState state;
         
         if (transaction.transactionState == SKPaymentTransactionStateRestored) {
@@ -910,6 +918,7 @@ static DYFStore *_instance = nil;
 @implementation NSDate (DYFStore)
 
 - (NSString *)toString {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
@@ -919,12 +928,71 @@ static DYFStore *_instance = nil;
 }
 
 - (NSString *)toGTMString {
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss Z";
     NSString *dateString = [dateFormatter stringFromDate:self];
     
     return dateString;
+}
+
+- (NSString *)timestamp {
+    
+    NSTimeInterval timeInterval = [self timeIntervalSince1970];
+    NSNumber *number = [NSDecimalNumber numberWithDouble:timeInterval];
+    
+    return [NSString stringWithFormat:@"%@", number];
+}
+
+@end
+
+@implementation NSData (DYFStore)
+
+- (NSData *)base64Encode {
+    return [self base64EncodedDataWithOptions:kNilOptions];
+}
+
+- (NSString *)base64EncodedString {
+    return [self base64EncodedStringWithOptions:kNilOptions];
+}
+
+- (NSData *)base64Decode {
+    return [[NSData alloc] initWithBase64EncodedData:self options:kNilOptions];
+}
+
+- (NSString *)base64DecodedString {
+    NSData *data = [self base64Decode];
+    if (!data) { return nil; }
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
+@end
+
+@implementation NSString (DYFStore)
+
+- (NSDate *)timestampToDate {
+    return [NSDate dateWithTimeIntervalSince1970:self.doubleValue];
+}
+
+- (NSString *)base64Encode {
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    return [data base64EncodedStringWithOptions:kNilOptions];
+}
+
+- (NSData *)base64EncodedData {
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    return [data base64EncodedDataWithOptions:kNilOptions];
+}
+
+- (NSString *)base64Decode {
+    NSData *data = [self base64DecodedData];
+    if (!data) { return nil; }
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
+- (NSData *)base64DecodedData {
+    return [[NSData alloc] initWithBase64EncodedString:self options:kNilOptions];
 }
 
 @end

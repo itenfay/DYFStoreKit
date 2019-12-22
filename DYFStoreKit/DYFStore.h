@@ -25,6 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
+#import "DYFStoreKeychainPersistence.h"
 
 /** Accepts the response from the App Store that contains the requested product information.
  */
@@ -76,6 +77,10 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  */
 @property (nonatomic, weak) id<DYFStoreAppStorePaymentDelegate> delegate;
 
+/** The keychain persister that supervises the `DYFStoreTransaction` transactions.
+ */
+@property (nonatomic, strong) DYFStoreKeychainPersistence *keychainPersister;
+
 /** Constructs a store singleton with class method.
  
  @return A store singleton.
@@ -124,7 +129,7 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
                               success:(DYFStoreProductsRequestDidFinish)success
                               failure:(DYFStoreProductsRequestDidFail)failure;
 
-/** Requests payment of the product with the given product identifier
+/** Requests payment of the product with the given product identifier.
  
  @param productIdentifier The identifier of the product whose payment will be requested.
  */
@@ -172,18 +177,33 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  */
 - (BOOL)hasRestoredTransactions;
 
-/** Extracts the transaction with a given transaction identifier.
+/** Extracts a purchased transaction with a given transaction identifier.
  
  @param transactionIdentifier The unique server-provided identifier.
- @return A SKPaymentTransaction object.
+ @return A purchased `SKPaymentTransaction` object.
  */
-- (SKPaymentTransaction *)extractTransaction:(NSString *)transactionIdentifier;
+- (SKPaymentTransaction *)extractPurchasedTransaction:(NSString *)transactionIdentifier;
+
+/** Extracts a restored transaction with a given transaction identifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ @return A restored `SKPaymentTransaction` object.
+ */
+- (SKPaymentTransaction *)extractRestoredTransaction:(NSString *)transactionIdentifier;
 
 /** Requests to restore previously completed purchases.
+ 
+ The usage scenes are as follows:
+ The apple users log in to other devices and install app.
+ The app corresponding to in-app purchase has been uninstalled and reinstalled.
  */
 - (void)restoreTransactions;
 
 /** Requests to restore previously completed purchases.
+ 
+ The usage scenes are as follows:
+ The apple users log in to other devices and install app.
+ The app corresponding to in-app purchase has been uninstalled and reinstalled.
  
  @param userIdentifier An opaque identifier for the user’s account on your system.
  */
@@ -191,8 +211,7 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 
 /** Completes a pending transaction.
  
- Your application should call this method from a transaction observer that received a notification from the payment queue. Calling finishTransaction(_:) on a transaction removes it from the queue. Your application should call finishTransaction(_:) only after it has successfully processed the transaction and unlocked the functionality purchased by the user.
- Calling finishTransaction(_:) on a transaction that is in the SKPaymentTransactionState.purchasing state throws an exception.
+ A transaction can be finished only after the receipt verification passed under the client and the server can adopt the communication of security and data encryption. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification we want StoreKit to keep reminding us of the transaction.
  
  @param transaction The transaction to finish.
  */
@@ -223,12 +242,80 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  */
 - (NSString *)toString;
 
-
 /** Returns a string representation of a given date formatted using the receiver’s current settings.
  
  @return A string representation of a given date formatted using the receiver’s current settings.
  */
 - (NSString *)toGTMString;
+
+/** Returns a time interval between the date object and 00:00:00 UTC on 1 January 1970.
+ 
+ @return A time interval between the date object and 00:00:00 UTC on 1 January 1970.
+ */
+- (NSString *)timestamp;
+
+@end
+
+@interface NSData (DYFStore)
+
+/** Creates a Base64, UTF-8 encoded data object from the data object.
+ 
+ @return A Base64, UTF-8 encoded data object.
+ */
+- (NSData *)base64Encode;
+
+/** Creates a Base64 encoded string from the data object.
+ 
+ @return A Base64 encoded string.
+ */
+- (NSString *)base64EncodedString;
+
+/** Creates a data object with the given Base64 encoded data.
+ 
+ @return A data object containing the Base64 decoded data. Returns nil if the data object could not be decoded.
+ */
+- (NSData *)base64Decode;
+
+/**
+ Creates a string object with the given Base64 encoded data.
+ 
+ @return A string object containing the Base64 decoded data. Returns nil if the data object could not be decoded.
+ */
+- (NSString *)base64DecodedString;
+
+@end
+
+@interface NSString (DYFStore)
+
+/** Creates and returns a date object set to the given number of seconds from 00:00:00 UTC on 1 January 1970.
+ 
+ @return An NSDate object set to seconds seconds from the reference date.
+ */
+- (NSDate *)timestampToDate;
+
+/** Creates a Base64 encoded string from the string.
+ 
+ @return A Base64 encoded string.
+ */
+- (NSString *)base64Encode;
+
+/** Creates a Base64, UTF-8 encoded data object from the string.
+ 
+ @return A Base64, UTF-8 encoded data object.
+ */
+- (NSData *)base64EncodedData;
+
+/** Creates a string object with the given Base64 encoded string.
+ 
+ @return A string object built by Base64 decoding the provided string. Returns nil if the string object could not be decoded.
+ */
+- (NSString *)base64Decode;
+
+/** Creates a data object with the given Base64 encoded string.
+ 
+ @return A data object built by Base64 decoding the provided string. Returns nil if the string object could not be decoded.
+ */
+- (NSData *)base64DecodedData;
 
 @end
 
@@ -302,13 +389,21 @@ FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
  */
 @property (nonatomic, copy) NSString *productIdentifier;
 
+/** When a transaction is restored, the current transaction holds a new transaction date. Your app will read this property to retrieve the restored transaction date.
+ */
+@property (nonatomic, copy) NSDate *originalTransactionDate;
+
+/** When a transaction is restored, the current transaction holds a new transaction identifier. Your app will read this property to retrieve the restored transaction identifier.
+ */
+@property (nonatomic, copy) NSString *originalTransactionIdentifier;
+
 /** The date when the transaction was added to the server queue. Only valid if state is SKPaymentTransactionState.purchased or SKPaymentTransactionState.restored.
  */
-@property (nonatomic, strong) NSDate *transactionDate;
+@property (nonatomic, copy) NSDate *transactionDate;
 
-/** The transaction identifier of purchase.
+/** The unique server-provided identifier. Only valid if state is SKPaymentTransactionStatePurchased or SKPaymentTransactionStateRestored.
  */
-@property (nonatomic, copy) NSString *transactionIdentifiers;
+@property (nonatomic, copy) NSString *transactionIdentifier;
 
 @end
 

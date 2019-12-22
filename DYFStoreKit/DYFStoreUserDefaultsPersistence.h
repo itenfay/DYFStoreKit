@@ -24,8 +24,46 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DYFStoreTransaction.h"
 
+/** The transaction persistence using the UserDefaults.
+ */
 @interface DYFStoreUserDefaultsPersistence : NSObject
 
+/** Returns a Boolean value that indicates whether a transaction is present in shared preferences search list with a given transaction ientifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ @return True if a transaction is present in shared preferences search list, otherwise false.
+ */
+- (BOOL)containsTransaction:(NSString *)transactionIdentifier;
+
+/** Stores an `DYFStoreTransaction` object in the shared preferences search list.
+ 
+ @param transaction An `DYFStoreTransaction` object.
+ */
+- (void)storeTransaction:(DYFStoreTransaction *)transaction;
+
+/** Retrieves an array whose elements are the `DYFStoreTransaction` objects from the shared preferences search list.
+ 
+ @return An array whose elements are the `DYFStoreTransaction` objects.
+ */
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions;
+
+/** Retrieves an `DYFStoreTransaction` object from the shared preferences search list with a given transaction ientifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ @return An `DYFStoreTransaction` object from the shared preferences search list.
+ */
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier;
+
+/** Removes an `DYFStoreTransaction` object from the shared preferences search list with a given transaction ientifier.
+ 
+ @param transactionIdentifier The unique server-provided identifier.
+ */
+- (void)removeTransaction:(NSString *)transactionIdentifier;
+
+/** Removes all transactions from the shared preferences search list.
+ */
+- (void)removeTransactions;
 
 @end

@@ -32,7 +32,7 @@
     if (!object) { return nil; }
     
     if (@available(iOS 11.0, *)) {
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
         [archiver encodeObject:object];
         
         return archiver.encodedData;
@@ -49,6 +49,7 @@
         
         NSError *error = nil;
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+        unarchiver.requiresSecureCoding = NO;
         if (!error) {
             id object = [unarchiver decodeObject];
             [unarchiver finishDecoding];
@@ -56,7 +57,9 @@
             return object;
         }
         
-        NSLog(@"[DYFStoreConverter decodeObject:] error: %@", error.localizedDescription);
+#if DEBUG
+        NSLog(@"%s error: %@", __FUNCTION__, error);
+#endif
         
         return nil;
     }
@@ -73,12 +76,20 @@
     if (!obj) { return nil; }
     
     NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:options error:&error];
-    if (!error) {
-        return data;
-    }
-    
-    NSLog(@"[NSJSONSerialization dataWithJSONObject:options:error:] error: %@", error.localizedDescription);
+    @try {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:options error:&error];
+        if (!error) {
+            return data;
+        }
+#if DEBUG
+        NSLog(@"%s error: %@", __FUNCTION__, error);
+#endif
+    } @catch (NSException *exception) {
+        
+#if DEBUG
+        NSLog(@"%s exception: %@, %@", __FUNCTION__, exception.name, exception.reason);
+#endif
+    } @finally {}
     
     return nil;
 }
@@ -111,7 +122,9 @@
         return obj;
     }
     
-    NSLog(@"[NSJSONSerialization JSONObjectWithData:options:error:] error: %@", error.localizedDescription);
+#if DEBUG
+    NSLog(@"%s error: %@", __FUNCTION__, error);
+#endif
     
     return nil;
 }

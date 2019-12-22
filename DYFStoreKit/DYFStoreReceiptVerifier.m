@@ -25,8 +25,8 @@
 
 #import "DYFStoreReceiptVerifier.h"
 
-// Returns a Boolean value that indicates whether the receiver implements or inherits
-// a method that can respond to a specified message.
+// Returns a Boolean value that indicates whether the receiver implements
+// or inherits a method that can respond to a specified message.
 #define SR_RESPONDS_TO_SEL(target, selector) (target && [target respondsToSelector:selector])
 
 // The url for sandbox in the test environment.
@@ -107,6 +107,8 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
 /** Checks the url session configuration object.
  */
 - (void)checkUrlSessionConfig {
+    self.urlSessionConfig.requestCachePolicy = NSURLRequestReloadIgnoringCacheData;
+    self.urlSessionConfig.timeoutIntervalForRequest = 15.0;
     self.urlSessionConfig.allowsCellularAccess = true;
 }
 
@@ -130,9 +132,7 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
                                              code:-12
                                          userInfo:@{NSLocalizedDescriptionKey: message}];
         
-        if (SR_RESPONDS_TO_SEL(self.delegate,
-                               @selector(verifyReceipt:didFailWithError:))
-            ) {
+        if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceipt:didFailWithError:))) {
             [self.delegate verifyReceipt:self didFailWithError:error];
         }
         return;
@@ -155,9 +155,7 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         return;
     }
     
-    if (SR_RESPONDS_TO_SEL(self.delegate,
-                           @selector(verifyReceipt:didFailWithError:))
-        ) {
+    if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceipt:didFailWithError:))) {
         [self.delegate verifyReceipt:self didFailWithError:error];
     }
 }
@@ -167,7 +165,7 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
     NSURL *aURL = [NSURL URLWithString:url];
     
     // Creates a POST request with the receipt data.
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:15.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aURL];
     request.HTTPMethod = @"POST";
     request.HTTPBody = self.requestData;
     
@@ -190,12 +188,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         return;
     }
     
-    NSLog(@"DYFStoreReceiptVerifier.didReceiveData error: (%zi, %@)", error.code, error.localizedDescription);
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (SR_RESPONDS_TO_SEL(self.delegate,
-                               @selector(verifyReceipt:didFailWithError:))
-            ) {
+        
+        if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceipt:didFailWithError:))) {
             [self.delegate verifyReceipt:self didFailWithError:error];
         }
     });
@@ -213,9 +208,8 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         if (status == 0) {
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (SR_RESPONDS_TO_SEL(self.delegate,
-                                       @selector(verifyReceiptDidFinish:didReceiveData:))
-                    ) {
+                
+                if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceiptDidFinish:didReceiveData:))) {
                     [self.delegate verifyReceiptDidFinish:self didReceiveData:dict];
                 }
             });
@@ -230,9 +224,8 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
                                              userInfo:@{NSLocalizedDescriptionKey: message}];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (SR_RESPONDS_TO_SEL(self.delegate,
-                                       @selector(verifyReceipt:didFailWithError:))
-                    ) {
+                
+                if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceipt:didFailWithError:))) {
                     [self.delegate verifyReceipt:self didFailWithError:error];
                 }
             });
@@ -240,12 +233,9 @@ static NSString *const kProductUrl = @"https://buy.itunes.apple.com/verifyReceip
         
     } else {
         
-        NSLog(@"DYFStoreReceiptVerifier.processResult error: (%zi, %@)", error.code, error.localizedDescription);
-        
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (SR_RESPONDS_TO_SEL(self.delegate,
-                                   @selector(verifyReceipt:didFailWithError:))
-                ) {
+            
+            if (SR_RESPONDS_TO_SEL(self.delegate, @selector(verifyReceipt:didFailWithError:))) {
                 [self.delegate verifyReceipt:self didFailWithError:error];
             }
         });

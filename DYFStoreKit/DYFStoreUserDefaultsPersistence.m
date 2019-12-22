@@ -24,7 +24,136 @@
 //
 
 #import "DYFStoreUserDefaultsPersistence.h"
+#import "DYFStoreConverter.h"
+
+/** Returns the shared defaults `UserDefaults` object.
+ */
+#define UserDefaults NSUserDefaults.standardUserDefaults
 
 @implementation DYFStoreUserDefaultsPersistence
+
+/** Loads an array whose elements are the `Data` objects from the keychain.
+ 
+ @return An array whose elements are the `Data` objects.
+ */
+- (NSArray<NSData *> *)loadDataFromUserDefaults {
+    
+    NSArray *array = [UserDefaults objectForKey:DYFStoreTransactionsKey];
+    return array;
+}
+
+- (BOOL)containsTransaction:(NSString *)transactionIdentifier {
+    
+    NSArray *array = [self loadDataFromUserDefaults];
+    if (!array) { return NO; }
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
+    for (int idx = 0; idx < arr.count; idx++) {
+        
+        NSData *data = arr[idx];
+        NSLog(@"%s data: %@", __FUNCTION__, data);
+        
+        DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
+        NSLog(@"%s transaction: %@", __FUNCTION__, transaction);
+        NSString *identifier = transaction.transactionIdentifier;
+        NSLog(@"%s identifier: %@", __FUNCTION__, identifier);
+        
+        if ([identifier isEqualToString:transactionIdentifier]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)storeTransaction:(DYFStoreTransaction *)transaction {
+    
+    NSData *data = [DYFStoreConverter encodeObject:transaction];
+    if (!data) { return; }
+    
+    NSMutableArray *transactions;
+    
+    NSArray *array = [self loadDataFromUserDefaults];
+    if (!array) {
+        transactions = [NSMutableArray arrayWithCapacity:0];
+    } else {
+        transactions = [NSMutableArray arrayWithArray:array];
+    }
+    
+    [transactions addObject:data];
+    NSLog(@"%s transactions: %@", __FUNCTION__, transactions);
+    
+    [UserDefaults setObject:transactions forKey:DYFStoreTransactionsKey];
+    [UserDefaults synchronize];
+}
+
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions {
+    
+    NSArray *array = [self loadDataFromUserDefaults];
+    if (!array) { return nil; }
+    
+    NSMutableArray *transactions = [NSMutableArray array];
+    for (NSData *data in array) {
+        
+        DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
+        if (transaction) {
+            [transactions addObject:transaction];
+        }
+    }
+    
+    return transactions;
+}
+
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier {
+    
+    NSArray *array = [self retrieveTransactions];
+    if (!array) { return nil; }
+    
+    for (DYFStoreTransaction *transaction in array) {
+        
+        NSString *identifier = transaction.transactionIdentifier;
+        if ([identifier isEqualToString:transactionIdentifier]) {
+            return transaction;
+        }
+    }
+    
+    return nil;
+}
+
+- (void)removeTransaction:(NSString *)transactionIdentifier {
+    
+    NSArray *array = [self loadDataFromUserDefaults];
+    if (!array) { return; }
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
+    int index = -1;
+    for (int idx = 0; idx < arr.count; idx++) {
+        
+        NSData *data = arr[idx];
+        NSLog(@"%s data: %@", __FUNCTION__, data);
+        
+        DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
+        NSLog(@"%s transaction: %@", __FUNCTION__, transaction);
+        NSString *identifier = transaction.transactionIdentifier;
+        NSLog(@"%s identifier: %@", __FUNCTION__, identifier);
+        
+        if ([identifier isEqualToString:transactionIdentifier]) {
+            index = idx;
+            break;
+        }
+    }
+    
+    if (index >= 0) {
+        [arr removeObjectAtIndex:index];
+        
+        [UserDefaults setObject:arr forKey:DYFStoreTransactionsKey];
+        [UserDefaults synchronize];
+    }
+}
+
+- (void)removeTransactions {
+    [UserDefaults removeObjectForKey:DYFStoreTransactionsKey];
+    [UserDefaults synchronize];
+}
 
 @end
