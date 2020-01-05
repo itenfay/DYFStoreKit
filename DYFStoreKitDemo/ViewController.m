@@ -6,12 +6,7 @@
 //
 
 #import "ViewController.h"
-#import "DYFStore.h"
-#import "DYFStoreProduct.h"
-#import "DYFStoreViewController.h"
-#import "UIView+DYFAdd.h"
-#import "NSObject+DYFAdd.h"
-#import "DYFStoreUserDefaultsPersistence.h"
+#import "DYFStoreManager.h"
 
 @interface ViewController ()
 
@@ -31,9 +26,6 @@
     self.availableProducts = [NSMutableArray array];
     self.fetchProductsButton.setCorner(UIRectCornerAllCorners, 20.f);
     self.presentStoreUIButton.setCorner(UIRectCornerAllCorners, 20.f);
-    
-    DYFStoreUserDefaultsPersistence *uPersister = [[DYFStoreUserDefaultsPersistence alloc] init];
-    [uPersister removeTransactions];
 }
 
 - (NSArray *)fetchProductIdentifiersFromServer {
@@ -97,51 +89,10 @@
 
 - (void)presentStoreUIWithProducts:(NSMutableArray *)products {
     
-    //    if (products.count == 0) {
-    //                [self showTipsMessage:@"There are no products for sale!"];
-    //        return;
-    //    }
-    //
-    
-    DYFStoreProduct *p = [[DYFStoreProduct alloc] init];
-    p.identifier = @"com.hncs.szj.coin48";
-    p.name = @"42 gold coins";
-    p.price = @"6.00";
-    p.localePrice = @"￥6.00";
-    p.localizedDescription = @"42 gold coins for ￥6";
-    [self.availableProducts addObject:p];
-    
-    DYFStoreProduct *p1 = [[DYFStoreProduct alloc] init];
-    p1.identifier = @"com.hncs.szj.coin210";
-    p1.name = @"210 gold coins";
-    p1.price = @"30.00";
-    p1.localePrice = @"￥30.00";
-    p1.localizedDescription = @"210 gold coins for ￥30";
-    [self.availableProducts addObject:p1];
-    
-    DYFStoreProduct *p2 = [[DYFStoreProduct alloc] init];
-    p2.identifier = @"com.hncs.szj.coin686";
-    p2.name = @"686 gold coins";
-    p2.price = @"98.00";
-    p2.localePrice = @"￥98.00";
-    p2.localizedDescription = @"686 gold coins for ￥98";
-    [self.availableProducts addObject:p2];
-    
-    DYFStoreProduct *p3 = [[DYFStoreProduct alloc] init];
-    p3.identifier = @"com.hncs.szj.coin4886";
-    p3.name = @"4886 gold coins";
-    p3.price = @"698.00";
-    p3.localePrice = @"￥698.00";
-    p3.localizedDescription = @"4886 gold coins for ￥698";
-    [self.availableProducts addObject:p3];
-    
-    DYFStoreProduct *p5 = [[DYFStoreProduct alloc] init];
-    p5.identifier = @"com.hncs.szj.vip2";
-    p5.name = @"VIP2";
-    p5.price = @"298.00";
-    p5.localePrice = @"￥298.00";
-    p5.localizedDescription = @"Auto-renewable vip subscription for three months";
-    [self.availableProducts addObject:p5];
+    if (products.count == 0) {
+        [self showTipsMessage:@"There are no products for sale!"];
+        return;
+    }
     
     DYFStoreViewController *svc = [[DYFStoreViewController alloc] init];
     svc.dataArray = products;
@@ -155,7 +106,7 @@
                       cancel:NULL
           confirmButtonTitle:NSLocalizedStringFromTable(@"I see!", nil, @"")
                      execute:^(UIAlertAction *action) {
-                         NSLog(@"action.title: %@", action.title);
+                         NSLog(@"Alert action title: %@", action.title);
                      }];
 }
 

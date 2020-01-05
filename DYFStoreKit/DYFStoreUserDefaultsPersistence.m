@@ -51,12 +51,9 @@
     for (int idx = 0; idx < arr.count; idx++) {
         
         NSData *data = arr[idx];
-        NSLog(@"%s data: %@", __FUNCTION__, data);
         
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
-        NSLog(@"%s transaction: %@", __FUNCTION__, transaction);
         NSString *identifier = transaction.transactionIdentifier;
-        NSLog(@"%s identifier: %@", __FUNCTION__, identifier);
         
         if ([identifier isEqualToString:transactionIdentifier]) {
             return YES;
@@ -81,7 +78,6 @@
     }
     
     [transactions addObject:data];
-    NSLog(@"%s transactions: %@", __FUNCTION__, transactions);
     
     [UserDefaults setObject:transactions forKey:DYFStoreTransactionsKey];
     [UserDefaults synchronize];
@@ -130,12 +126,9 @@
     for (int idx = 0; idx < arr.count; idx++) {
         
         NSData *data = arr[idx];
-        NSLog(@"%s data: %@", __FUNCTION__, data);
         
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
-        NSLog(@"%s transaction: %@", __FUNCTION__, transaction);
         NSString *identifier = transaction.transactionIdentifier;
-        NSLog(@"%s identifier: %@", __FUNCTION__, identifier);
         
         if ([identifier isEqualToString:transactionIdentifier]) {
             index = idx;
@@ -145,7 +138,6 @@
     
     if (index >= 0) {
         [arr removeObjectAtIndex:index];
-        
         [UserDefaults setObject:arr forKey:DYFStoreTransactionsKey];
         [UserDefaults synchronize];
     }

@@ -24,12 +24,6 @@
 //
 
 #import "DYFStoreManager.h"
-#import "NSObject+DYFAdd.h"
-
-#import "DYFStore.h"
-#import "DYFStoreTransaction.h"
-#import "DYFStoreReceiptVerifier.h"
-#import "DYFStoreUserDefaultsPersistence.h"
 
 // Prints the log in the process of purchasing the `SKProduct` products.
 #ifndef DGLog
@@ -93,6 +87,7 @@ static DYFStoreManager *_instance = nil;
 
 - (void)restorePurchases:(NSString *)userIdentifier {
     DGLog(@"userIdentifier: %@", userIdentifier);
+    [self showLoading:@"Restoring..."];
     [DYFStore.defaultStore restoreTransactions:userIdentifier];
 }
 
@@ -113,41 +108,31 @@ static DYFStoreManager *_instance = nil;
 - (void)processPurchaseNotification:(NSNotification *)notification {
     
     [self hideLoading];
-    
     self.purchaseInfo = notification.object;
-    self.purchaseInfo.state = DYFStorePurchaseStateSucceeded;
-    self.purchaseInfo.productIdentifier = @"com.hncs.szj.coin4886";
-    self.purchaseInfo.transactionIdentifier = @"10000084542532";
-    self.purchaseInfo.transactionDate = NSDate.date;
-    //    switch (self.purchaseInfo.state) {
-    //        case DYFStorePurchaseStatePurchasing:
-    //            [self showLoading:@"Purchasing..."];
-    //            break;
-    //        case DYFStorePurchaseStateCancelled:
-    //            [self sendNotice:@"You cancel the purchase"];
-    //            break;
-    //        case DYFStorePurchaseStateFailed:
-    //            [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
-    //            break;
-    //        case DYFStorePurchaseStateSucceeded:
-    //        case DYFStorePurchaseStateRestored:
-    //            [self completePurchase];
-    //            break;
-    //        case DYFStorePurchaseStateRestoreFailed:
-    //            [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
-    //            break;
-    //        case DYFStorePurchaseStateDeferred:
-    //            DGLog(@"Deferred");
-    //            break;
-    //        default:
-    //            break;
-    //    }
     
-    //    DYFStore *store = DYFStore.defaultStore;
-    //    DYFStoreKeychainPersistence *persister = store.keychainPersister;
-    //    [persister removeTransactions];
-    
-    [self completePayment];
+    switch (self.purchaseInfo.state) {
+        case DYFStorePurchaseStatePurchasing:
+            [self showLoading:@"Purchasing..."];
+            break;
+        case DYFStorePurchaseStateCancelled:
+            [self sendNotice:@"You cancel the purchase"];
+            break;
+        case DYFStorePurchaseStateFailed:
+            [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
+            break;
+        case DYFStorePurchaseStateSucceeded:
+        case DYFStorePurchaseStateRestored:
+            [self completePayment];
+            break;
+        case DYFStorePurchaseStateRestoreFailed:
+            [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
+            break;
+        case DYFStorePurchaseStateDeferred:
+            DGLog(@"Deferred");
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)processDownloadNotification:(NSNotification *)notification {
@@ -159,7 +144,7 @@ static DYFStoreManager *_instance = nil;
             DGLog(@"The download started");
             break;
         case DYFStoreDownloadStateInProgress:
-            DGLog(@"Download progress: %.2f%%", self.downloadInfo.downloadProgress);
+            DGLog(@"The download progress: %.2f%%", self.downloadInfo.downloadProgress);
             break;
         case DYFStoreDownloadStateCancelled:
             DGLog(@"The download cancelled");
@@ -186,39 +171,38 @@ static DYFStoreManager *_instance = nil;
         return;
     }
     
-    DGLog(@"containsTransaction: true");
-    
-    DYFStoreTransaction *transaction = [persister retrieveTransaction:identifier];
-    NSData *receiptData = transaction.transactionReceipt.base64DecodedData;
-    DGLog(@"transaction.state: %zi", transaction.state);
-    DGLog(@"transaction.productIdentifier: %@", transaction.productIdentifier);
-    DGLog(@"transaction.transactionIdentifier: %@", transaction.transactionIdentifier);
-    DGLog(@"transaction.transactionTimestamp: %@", transaction.transactionTimestamp);
-    DGLog(@"transaction.transactionReceipt: %@", transaction.transactionReceipt);
+    DYFStoreTransaction *tx = [persister retrieveTransaction:identifier];
+    NSData *receiptData = tx.transactionReceipt.base64DecodedData;
+    DGLog(@"transaction.state: %zi", tx.state);
+    DGLog(@"transaction.productIdentifier: %@", tx.productIdentifier);
+    DGLog(@"transaction.transactionIdentifier: %@", tx.transactionIdentifier);
+    DGLog(@"transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+    DGLog(@"transaction.transactionReceipt: %@", receiptData);
     
     [self verifyReceipt:receiptData];
     
     // Reads the backup data.
     DYFStoreUserDefaultsPersistence *uPersister = [[DYFStoreUserDefaultsPersistence alloc] init];
     if ([uPersister containsTransaction:identifier]) {
-        DYFStoreTransaction *transaction = [uPersister retrieveTransaction:identifier];
-        DGLog(@"> transaction.state: %zi", transaction.state);
-        DGLog(@"> transaction.productIdentifier: %@", transaction.productIdentifier);
-        DGLog(@"> transaction.transactionIdentifier: %@", transaction.transactionIdentifier);
-        DGLog(@"> transaction.transactionTimestamp: %@", transaction.transactionTimestamp);
-        DGLog(@"> transaction.transactionReceipt: %@", transaction.transactionReceipt);
+        DYFStoreTransaction *tx = [uPersister retrieveTransaction:identifier];
+        NSData *receiptData = tx.transactionReceipt.base64DecodedData;
+        DGLog(@"[BAK] transaction.state: %zi", tx.state);
+        DGLog(@"[BAK] transaction.productIdentifier: %@", tx.productIdentifier);
+        DGLog(@"[BAK] transaction.transactionIdentifier: %@", tx.transactionIdentifier);
+        DGLog(@"[BAK] transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+        DGLog(@"[BAK] transaction.transactionReceipt: %@", receiptData);
     }
 }
 
 - (void)storeReceipt {
     DGLog();
     
-    //    NSURL *receiptURL = DYFStore.receiptURL;
-    NSData *data = [@"dfjer35ugfo04545432u4985245" dataUsingEncoding:NSUTF8StringEncoding];//[NSData dataWithContentsOfURL:DYFStore.receiptURL];
-    //    if (!data || data.length == 0) {
-    //        [self refreshReceipt];
-    //        return;
-    //    }
+    NSURL *receiptURL = DYFStore.receiptURL;
+    NSData *data = [NSData dataWithContentsOfURL:receiptURL];
+    if (!data || data.length == 0) {
+        [self refreshReceipt];
+        return;
+    }
     
     DYFStoreNotificationInfo *info = self.purchaseInfo;
     DYFStore *store = DYFStore.defaultStore;
@@ -285,12 +269,12 @@ static DYFStoreManager *_instance = nil;
         _receiptVerifier.delegate = self;
     }
     
-    NSData *data = receiptData;
+    NSData *data = receiptData ?: [NSData dataWithContentsOfURL:DYFStore.receiptURL];
     DGLog(@"data: %@", data);
     
     [_receiptVerifier verifyReceipt:data];
     // Only used for receipts that contain auto-renewable subscriptions.
-    //[_receiptVerifier verifyReceipt:data sharedSecret:@""];
+    //[_receiptVerifier verifyReceipt:data sharedSecret:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
 }
 
 - (void)retryToVerifyReceipt {
@@ -306,6 +290,7 @@ static DYFStoreManager *_instance = nil;
 
 - (void)verifyReceiptDidFinish:(nonnull DYFStoreReceiptVerifier *)verifier didReceiveData:(nullable NSDictionary *)data {
     DGLog(@"data: %@", data);
+    
     [self hideLoading];
     [self showTipsMessage:@"Purchase Successfully"];
     
@@ -373,8 +358,6 @@ static DYFStoreManager *_instance = nil;
         }
         
         [persister removeTransaction:info.transactionIdentifier];
-        DYFStoreUserDefaultsPersistence *udp = [[DYFStoreUserDefaultsPersistence alloc] init];
-        [udp removeTransaction:info.transactionIdentifier];
     });
 }
 
@@ -385,12 +368,11 @@ static DYFStoreManager *_instance = nil;
                       cancel:NULL
           confirmButtonTitle:NSLocalizedStringFromTable(@"I see!", nil, @"")
                      execute:^(UIAlertAction *action) {
-                         DGLog(@"Alert action title: %@", action.title);
+                         DGLog(@"alert action title: %@", action.title);
                      }];
 }
 
 - (void)dealloc {
-    DGLog(@"dealloc");
     [self removeStoreObserver];
 }
 

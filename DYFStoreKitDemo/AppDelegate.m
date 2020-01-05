@@ -6,8 +6,6 @@
 //
 
 #import "AppDelegate.h"
-#import "NSObject+DYFAdd.h"
-#import "DYFStore.h"
 #import "DYFStoreManager.h"
 
 @interface AppDelegate () <DYFStoreAppStorePaymentDelegate>

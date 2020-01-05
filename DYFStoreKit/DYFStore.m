@@ -484,7 +484,7 @@ static DYFStore *_instance = nil;
 }
 
 - (void)finishTransaction:(SKPaymentTransaction *)transaction {
-    DYFStoreLog(@"finishTransaction: %@", transaction.transactionIdentifier ?: @"");
+    DYFStoreLog(@"transactionIdentifier: %@", transaction.transactionIdentifier ?: @"");
     if (!transaction) { return; }
     [SKPaymentQueue.defaultQueue finishTransaction:transaction];
 }
@@ -909,7 +909,6 @@ static DYFStore *_instance = nil;
 }
 
 - (void)dealloc {
-    DYFStoreLog(@"%s", __FUNCTION__);
     [self removePaymentTransactionObserver];
 }
 

@@ -24,7 +24,6 @@
 //
 
 #import "DYFStoreViewController.h"
-#import "DYFStoreProduct.h"
 #import "DYFStoreTableViewCell.h"
 #import "DYFStoreManager.h"
 

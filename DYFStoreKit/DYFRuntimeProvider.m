@@ -183,11 +183,9 @@ static Class _rtpClass = nil;
 + (void)encode:(NSCoder *)encoder forObject:(NSObject *)obj {
     
     NSArray *ivarNames = [self ivarListWithClass:obj.classForCoder];
-    NSLog(@"%s, ivarNames: %@", __FUNCTION__, ivarNames);
 
     for (NSString *key in ivarNames) {
         id value = [obj valueForKey:key];
-        NSLog(@"%s, value: %@", __FUNCTION__, value);
         [encoder encodeObject:value forKey:key];
     }
 }
@@ -195,10 +193,9 @@ static Class _rtpClass = nil;
 + (void)decode:(NSCoder *)decoder forObject:(NSObject *)obj {
     
     NSArray *ivarNames = [self ivarListWithClass:obj.classForCoder];
-    NSLog(@"%s, ivarNames: %@", __FUNCTION__, ivarNames);
+
     for (NSString *key in ivarNames) {
         id value = [decoder decodeObjectForKey:key];
-        NSLog(@"%s, value: %@", __FUNCTION__, value);
         [obj setValue:value forKey:key];
     }
 }

@@ -26,6 +26,16 @@
 #import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonCrypto.h>
 
+#import "NSObject+DYFAdd.h"
+#import "UIView+DYFAdd.h"
+
+#import "DYFStore.h"
+#import "DYFStoreReceiptVerifier.h"
+#import "DYFStoreUserDefaultsPersistence.h"
+
+#import "DYFStoreProduct.h"
+#import "DYFStoreViewController.h"
+
 /** Custom method to calculate the SHA-256 hash using Common Crypto.
  */
 CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
@@ -91,6 +101,6 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 /** Requests to restore previously completed purchases with an opaque identifier for the user’s account on your system.
  */
-- (void)restorePurchases:(NSString *)userIdentifier;;
+- (void)restorePurchases:(NSString *)userIdentifier;
 
 @end
