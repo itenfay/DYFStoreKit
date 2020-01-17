@@ -60,7 +60,7 @@
  @param receiptData A signed receipt that records all information about a successful payment transaction.
  @param secretKey Your app’s shared secret (a hexadecimal string). Only used for receipts that contain auto-renewable subscriptions.
  */
-- (void)verifyReceipt:(nullable NSData *)receiptData sharedSecret:(nullable NSString *)secretKey;;
+- (void)verifyReceipt:(nullable NSData *)receiptData sharedSecret:(nullable NSString *)secretKey;
 
 /**
  Matches the message with the status code.
