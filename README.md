@@ -221,12 +221,8 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 }
 
 - (void)removeStoreObserver {
-    [NSNotificationCenter.defaultCenter removeObserver:self
-    name:DYFStorePurchasedNotification
-    object:nil];
-    [NSNotificationCenter.defaultCenter removeObserver:self
-    name:DYFStoreDownloadedNotification
-    object:nil];
+    [NSNotificationCenter.defaultCenter removeObserver:self name:DYFStorePurchasedNotification object:nil];
+    [NSNotificationCenter.defaultCenter removeObserver:self name:DYFStoreDownloadedNotification object:nil];
 }
 ```
 
@@ -424,4 +420,3 @@ dispatch_after(time, dispatch_get_main_queue(), ^{
 ## Requirements
 
 &emsp; `DYFStoreKit` requires `iOS 7.0` or above and `ARC`.
-
