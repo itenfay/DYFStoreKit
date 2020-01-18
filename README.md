@@ -5,7 +5,7 @@
 
 &emsp; A lightweight and easy-to-use iOS library for In-App Purchases.
 
-&emsp; `DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap StoreKit, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
+&emsp; `DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/DYFStoreKit.svg?style=flat)](http://cocoapods.org/pods/DYFStoreKit)&nbsp;
