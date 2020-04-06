@@ -1,11 +1,11 @@
-[If you think it can help you, please give it a star. Thanks!](https://github.com/dgynfi/DYFStoreKit)
+[If this project can help you, please give it a star. Thanks!](https://github.com/dgynfi/DYFStoreKit)
 
 
 ## DYFStoreKit
 
-&emsp; A lightweight and easy-to-use iOS library for In-App Purchases.
+A lightweight and easy-to-use iOS library for In-App Purchases.
 
-&emsp; `DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
+`DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/DYFStoreKit.svg?style=flat)](http://cocoapods.org/pods/DYFStoreKit)&nbsp;
@@ -20,39 +20,39 @@
 - Built-in hosted content downloads and notifications.
 
 
-## Group (ID:15535338)
+## Group (ID:614799921)
 
 <div align=left>
-&emsp; <img src="https://github.com/dgynfi/DYFStoreKit/raw/master/images/qq155353383.jpg" width="30%" />
+&emsp; <img src="https://github.com/dgynfi/DYFStoreKit/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
 ## Installation
 
-&emsp; Using [CocoaPods](https://cocoapods.org):
+Using [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.0.0'
+pod 'DYFStoreKit', '~> 1.0.1'
 ```
 
-&emsp; Or
+Or
 
 ```
 pod 'DYFStoreKit'
 ```
 
-&emsp; Or add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) directory if you're doing it manually.
+Or add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) directory if you're doing it manually.
 
-&emsp; Check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) for more options.
+Check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) for more options.
 
 
-## Sample Code
+## Code Sample
 
-&emsp; The Sample Code shows how to use `DYFStoreKit`.
+The Code Sample shows how to use `DYFStoreKit`.
 
 ### Initialization
 
-&emsp; Initialization is as simple as the below.
+Initialization is as simple as the below.
 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -71,7 +71,7 @@ pod 'DYFStoreKit'
 }
 ```
 
-&emsp; You can process the purchase which was initiated by user from the App Store and provide your own implementation using the `DYFStoreAppStorePaymentDelegate` protocol:
+You can process the purchase which was initiated by user from the App Store and provide your own implementation using the `DYFStoreAppStorePaymentDelegate` protocol:
 
 ```
 - (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product {
@@ -127,7 +127,7 @@ NSArray *productIds = @[@"com.hncs.szj.coin48", @"com.hncs.szj.coin210"];
 
 ### Add payment
 
-&emsp; Whether the user is allowed to make payments.
+Whether the user is allowed to make payments.
 
 ```
 if (![DYFStore canMakePayments]) {
@@ -136,7 +136,7 @@ if (![DYFStore canMakePayments]) {
 }
 ```
 
-&emsp; If you need an opaque identifier for the user’s account on your system to add payment, you can use a one-way hash of the user’s account name to calculate the value for this property.
+If you need an opaque identifier for the user’s account on your system to add payment, you can use a one-way hash of the user’s account name to calculate the value for this property.
 
 ```
 CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
@@ -171,13 +171,13 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 }
 ```
 
-&emsp; Requests payment of the product with the given product identifier.
+Requests payment of the product with the given product identifier.
 
 ```
 [DYFStore.defaultStore purchaseProduct:@"com.hncs.szj.coin210"];
 ```
 
-&emsp; Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
+Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
 
 ```
 [DYFStore.defaultStore purchaseProduct:@"com.hncs.szj.coin210" userIdentifier:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
@@ -190,7 +190,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 [DYFStore.defaultStore restoreTransactions];
 ```
 
-&emsp; Or
+Or
 
 ```
 [DYFStore.defaultStore restoreTransactions:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
@@ -210,7 +210,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 ### Notifications
 
-&emsp; `DYFStoreKit` sends notifications of `StoreKit` related events and extends `NSNotification` to provide relevant information. To receive them, add the observer to `DYFStoreKit`.
+`DYFStoreKit` sends notifications of `StoreKit` related events and extends `NSNotification` to provide relevant information. To receive them, add the observer to `DYFStoreKit`.
 
 #### Add and remove the observer
 
@@ -228,7 +228,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 #### Payment transaction notifications
 
-&emsp; Payment transaction notifications are sent after a payment has been requested or for each restored transaction.
+Payment transaction notifications are sent after a payment has been requested or for each restored transaction.
 
 ```
 - (void)processPurchaseNotification:(NSNotification *)notification {
@@ -294,13 +294,13 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 ### Receipt verification
 
-&emsp; `DYFStoreKit` doesn't perform receipt verification by default, but provides reference implementations. You can implement your own custom verification or use the reference verifier provided by the library.
+`DYFStoreKit` doesn't perform receipt verification by default, but provides reference implementations. You can implement your own custom verification or use the reference verifier provided by the library.
 
-&emsp; The reference verifier is outlined below. For more info, check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Receipt-verification).
+The reference verifier is outlined below. For more info, check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Receipt-verification).
 
 #### Reference verifier
 
-&emsp; You create and return a receipt verifier(`DYFStoreReceiptVerifier`) by using lazy loading.
+You create and return a receipt verifier(`DYFStoreReceiptVerifier`) by using lazy loading.
 
 ```
 - (DYFStoreReceiptVerifier *)receiptVerifier {
@@ -312,7 +312,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 }
 ```
 
-&emsp; The receipt verifier delegates receipt verification, enabling you to provide your own implementation using the `DYFStoreReceiptVerifierDelegate` protocol:
+The receipt verifier delegates receipt verification, enabling you to provide your own implementation using the `DYFStoreReceiptVerifierDelegate` protocol:
 
 ```
 - (void)verifyReceiptDidFinish:(nonnull DYFStoreReceiptVerifier *)verifier didReceiveData:(nullable NSDictionary *)data;
@@ -320,7 +320,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 - (void)verifyReceipt:(nonnull DYFStoreReceiptVerifier *)verifier didFailWithError:(nonnull NSError *)error;
 ```
 
-&emsp; You can start verifying the in-app purchase receipt. 
+You can start verifying the in-app purchase receipt. 
 
 ```
 // Fetches the data of the bundle’s App Store receipt. 
@@ -333,14 +333,14 @@ DGLog(@"data: %@", data);
 //[_receiptVerifier verifyReceipt:data sharedSecret:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
 ```
 
-&emsp; If security is a concern you might want to avoid using an open source verification logic, and provide your own custom verifier instead.
+If security is a concern you might want to avoid using an open source verification logic, and provide your own custom verifier instead.
 
-&emsp; It is better to use your own server with the parameters that was uploaded from the client to verify the receipt from the apple itunes store server (C -> Uploaded Parameters -> S -> Apple iTunes Store S -> S -> Receive Data -> C, C: client, S: server).
+It is better to use your own server with the parameters that was uploaded from the client to verify the receipt from the apple itunes store server (C -> Uploaded Parameters -> S -> Apple iTunes Store S -> S -> Receive Data -> C, C: client, S: server).
 
 
 ### Finish transactions
 
-&emsp; The transaction can be finished only after the receipt verification passed under the client and the server can adopt the communication of security and data encryption. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification we want StoreKit to keep reminding us of the transaction.
+The transaction can be finished only after the receipt verification passed under the client and the server can adopt the communication of security and data encryption. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification we want StoreKit to keep reminding us of the transaction.
 
 ```
 [DYFStore.defaultStore finishTransaction:transaction];
@@ -349,9 +349,9 @@ DGLog(@"data: %@", data);
 
 ## Transaction persistence
 
-&emsp; `DYFStoreKit` provides two optional reference implementations for storing transactions in the Keychain(`DYFStoreKeychainPersistence`) or in `NSUserDefaults`(`DYFStoreUserDefaultsPersistence`). 
+`DYFStoreKit` provides two optional reference implementations for storing transactions in the Keychain(`DYFStoreKeychainPersistence`) or in `NSUserDefaults`(`DYFStoreUserDefaultsPersistence`). 
 
-&emsp; For example:
+For example:
 
 ### Store transaction
 
@@ -419,4 +419,4 @@ dispatch_after(time, dispatch_get_main_queue(), ^{
 
 ## Requirements
 
-&emsp; `DYFStoreKit` requires `iOS 7.0` or above and `ARC`.
+`DYFStoreKit` requires `iOS 7.0` or above and `ARC`.
