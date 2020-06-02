@@ -89,11 +89,11 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 /** Requests payment of the product with the given product identifier.
  */
-- (void)buyProduct:(NSString *)productIdentifier;
+- (void)addPayment:(NSString *)productIdentifier;
 
 /** Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
  */
-- (void)buyProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier;
+- (void)addPayment:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier;
 
 /** Requests to restore previously completed purchases.
  */

@@ -65,25 +65,29 @@ typedef void (^LoadingViewConfigurationBlock)(NSString *text);
 
 @interface DYFLoadingView : UIView
 
-/** The text to prompt the user.
+/** The color to set the background color of the content view.
  */
-@property (nonatomic, copy) NSString *text;
+@property (nonatomic, strong) UIColor *color;
+
+/** The color to set the line color of the indicator.
+ */
+@property (nonatomic, strong) UIColor *indicatorColor;
+
+/** The color to set the text color of the text label.
+ */
+@property (nonatomic, strong) UIColor *textColor;
 
 /** Disable this method to instantiate an object.
  */
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
-/** Disable this method to set the view’s location and size.
- */
-//- (void)setFrame:(CGRect)frame NS_UNAVAILABLE;
-
-/** Shows a loading view.
+/** It will be displayed on the screen with the text.
  
  @return A block with the text.
  */
 - (LoadingViewConfigurationBlock)show;
 
-/** Hides a loading view.
+/** Hides from its own superview.
  */
 - (void)hide;
 

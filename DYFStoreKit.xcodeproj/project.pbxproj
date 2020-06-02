@@ -20,6 +20,8 @@
 		142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CA2371DE5A00D35669 /* UIKit.framework */; };
 		142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CC2371DE6200D35669 /* CoreGraphics.framework */; };
 		142556CF2371DE6800D35669 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CE2371DE6800D35669 /* Security.framework */; };
+		143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */; };
+		143A19B32486ADDB005A22D5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143A19B22486ADDA005A22D5 /* StoreKit.framework */; };
 		147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */; };
 		147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */; };
 		14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */; };
@@ -34,7 +36,6 @@
 		14BAC1AB2294544C006974B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AA2294544C006974B5 /* Assets.xcassets */; };
 		14BAC1AE2294544C006974B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AC2294544C006974B5 /* LaunchScreen.storyboard */; };
 		14BAC1B12294544C006974B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BAC1B02294544C006974B5 /* main.m */; };
-		14BAC1B922945491006974B5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14BAC1B822945491006974B5 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,9 @@
 		142556CA2371DE5A00D35669 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		142556CC2371DE6200D35669 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		142556CE2371DE6800D35669 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
+		143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
+		143A19B22486ADDA005A22D5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		147FC0F7239AA54400A879C1 /* NSObject+DYFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DYFAdd.h"; sourceTree = "<group>"; };
 		147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DYFAdd.m"; sourceTree = "<group>"; };
 		147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreManager.m; sourceTree = "<group>"; };
@@ -84,7 +88,6 @@
 		14BAC1AD2294544C006974B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14BAC1AF2294544C006974B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14BAC1B02294544C006974B5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		14BAC1B822945491006974B5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +95,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				143A19B32486ADDB005A22D5 /* StoreKit.framework in Frameworks */,
 				142556CF2371DE6800D35669 /* Security.framework in Frameworks */,
-				14BAC1B922945491006974B5 /* StoreKit.framework in Frameworks */,
 				142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */,
 				142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */,
 				142556C92371DE5200D35669 /* Foundation.framework in Frameworks */,
@@ -126,6 +129,8 @@
 			children = (
 				1424B8D3238510E50032D915 /* AppDelegate.h */,
 				1424B8D5238510E50032D915 /* AppDelegate.m */,
+				143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */,
+				143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */,
 				1424B8D8238510E60032D915 /* DYFLoadingView.h */,
 				1424B8D9238510E60032D915 /* DYFLoadingView.m */,
 				147FC0FB239B4F6700A879C1 /* DYFStoreManager.h */,
@@ -156,8 +161,8 @@
 		14BAC1B722945490006974B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				143A19B22486ADDA005A22D5 /* StoreKit.framework */,
 				142556CE2371DE6800D35669 /* Security.framework */,
-				14BAC1B822945491006974B5 /* StoreKit.framework */,
 				142556CC2371DE6200D35669 /* CoreGraphics.framework */,
 				142556CA2371DE5A00D35669 /* UIKit.framework */,
 				142556C82371DE5200D35669 /* Foundation.framework */,
@@ -267,6 +272,7 @@
 				14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */,
 				147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */,
 				14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */,
+				143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */,
 				147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */,
 				14BAC1B12294544C006974B5 /* main.m in Sources */,
 				14ABF8DF237A980D00015826 /* DYFStore.m in Sources */,
@@ -421,6 +427,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -428,7 +435,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fyd.objc-storekit";
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -441,6 +449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -448,7 +457,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fyd.objc-storekit";
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

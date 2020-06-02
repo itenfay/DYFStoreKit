@@ -92,24 +92,36 @@ static DYFStore *_instance = nil;
  */
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:zone];
-    });
+    if (_instance == nil) {
+        static dispatch_once_t onceToken;
+        
+        dispatch_once(&onceToken, ^{
+            _instance = [super allocWithZone:zone];
+        });
+    }
     
     return _instance;
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.availableProducts     = [NSMutableArray arrayWithCapacity:0];
-        self.invalidIdentifiers    = [NSMutableArray arrayWithCapacity:0];
-        self.purchasedTranscations = [NSMutableArray arrayWithCapacity:0];
-        self.restoredTranscations  = [NSMutableArray arrayWithCapacity:0];
-        self.quantity              = 1;
-    }
-    return self;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        _instance = [super init];
+        [_instance setup];
+    });
+    
+    return _instance;
+}
+
+/** Sets initial value for some member variables.
+ */
+- (void)setup {
+    self.availableProducts     = [NSMutableArray arrayWithCapacity:0];
+    self.invalidIdentifiers    = [NSMutableArray arrayWithCapacity:0];
+    self.purchasedTranscations = [NSMutableArray arrayWithCapacity:0];
+    self.restoredTranscations  = [NSMutableArray arrayWithCapacity:0];
+    self.quantity              = 1;
 }
 
 #pragma mark - StoreKit Wrapper

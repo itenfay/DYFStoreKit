@@ -99,7 +99,9 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
 - (void)showLoading:(NSString *)text {
     DYFLoadingView *loadingView = [[DYFLoadingView alloc] init];
     loadingView.show(text);
-    
+    loadingView.color = COLOR_RGBA(10, 10, 10, 0.75);
+    loadingView.indicatorColor = COLOR_RGB(54, 205, 64);
+    loadingView.textColor = COLOR_RGB(248, 248, 248);
     objc_setAssociatedObject(self, &LoadingViewKey, loadingView,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

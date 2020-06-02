@@ -49,35 +49,45 @@
 static DYFStoreManager *_instance = nil;
 
 + (instancetype)shared {
-    return [[self.class alloc] init];
+    return [[self alloc] init];
 }
 
 /** Returns a new instance of the receiving class.
  */
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _instance = [super allocWithZone:zone];
-    });
+    if (_instance == nil) {
+        static dispatch_once_t onceToken;
+        
+        dispatch_once(&onceToken, ^{
+            _instance = [super allocWithZone:zone];
+        });
+    }
     
     return _instance;
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self addStoreObserver];
-    }
-    return self;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        _instance = [super init];
+        [_instance setup];
+    });
+    
+    return _instance;
 }
 
-- (void)buyProduct:(NSString *)productIdentifier {
-    [self buyProduct:productIdentifier userIdentifier:nil];
+- (void)setup {
+    [self addStoreObserver];
 }
 
-- (void)buyProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier {
-    [self showLoading:@"Initiate purchase request..."];
+- (void)addPayment:(NSString *)productIdentifier {
+    [self addPayment:productIdentifier userIdentifier:nil];
+}
+
+- (void)addPayment:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier {
+    [self showLoading:@"Waiting..."]; // Initiate purchase request.
     [DYFStore.defaultStore purchaseProduct:productIdentifier userIdentifier:userIdentifier];
 }
 
@@ -254,8 +264,8 @@ static DYFStoreManager *_instance = nil;
                       cancel:^(UIAlertAction *action) {}
           confirmButtonTitle:NSLocalizedStringFromTable(@"Retry", nil, @"")
                      execute:^(UIAlertAction *action) {
-                         [self refreshReceipt];
-                     }];
+        [self refreshReceipt];
+    }];
 }
 
 // It is better to use your own server with the parameters that was uploaded from the client to verify the receipt from the apple itunes store server (C -> Uploaded Parameters -> S -> Apple iTunes Store S -> S -> Receive Data -> C).
@@ -333,8 +343,8 @@ static DYFStoreManager *_instance = nil;
                           cancel:NULL
               confirmButtonTitle:NSLocalizedStringFromTable(@"Retry", nil, @"")
                          execute:^(UIAlertAction *action) {
-                             [self verifyReceipt:nil];
-                         }];
+            [self verifyReceipt:nil];
+        }];
         return;
     }
     
@@ -368,8 +378,8 @@ static DYFStoreManager *_instance = nil;
                       cancel:NULL
           confirmButtonTitle:NSLocalizedStringFromTable(@"I see!", nil, @"")
                      execute:^(UIAlertAction *action) {
-                         DGLog(@"alert action title: %@", action.title);
-                     }];
+        DGLog(@"alert action title: %@", action.title);
+    }];
 }
 
 - (void)dealloc {

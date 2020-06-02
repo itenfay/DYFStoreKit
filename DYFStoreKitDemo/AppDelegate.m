@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //
 //  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf. All rights reserved.
+//  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
 //
 
 #import "AppDelegate.h"
@@ -15,6 +15,8 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self displayStartupPage];
     
     // Adds an observer that responds to updated transactions to the payment queue.
     // If an application quits when transactions are still being processed, those transactions are not lost. The next time the application launches, the payment queue will resume processing the transactions. Your application should always expect to be notified of completed transactions.
@@ -29,6 +31,10 @@
     return YES;
 }
 
+- (void)displayStartupPage {
+    [NSThread sleepForTimeInterval:3.0];
+}
+
 // Processes the purchase which was initiated by user from the App Store.
 - (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product {
     
@@ -37,12 +43,16 @@
         return;
     }
     
+    // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     
+    // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+#if DEBUG
     NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
+#endif
     
-    [DYFStoreManager.shared buyProduct:product.productIdentifier userIdentifier:userIdentifier];
+    [DYFStoreManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

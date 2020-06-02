@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ds6-Fd-y3b">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ds6-Fd-y3b">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,53 +19,135 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWg-JJ-Up5">
-                                <rect key="frame" x="57" y="378" width="300" height="60"/>
-                                <color key="backgroundColor" red="0.28601914639999998" green="0.56322944159999999" blue="0.98144155740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBY-6K-eIs">
+                                <rect key="frame" x="47" y="298" width="320" height="300"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nox-BD-96j">
+                                        <rect key="frame" x="10" y="20" width="300" height="100"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode 1: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rlg-fF-IQ4">
+                                                <rect key="frame" x="20" y="10" width="260" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="260" id="W5w-4T-2oQ"/>
+                                                    <constraint firstAttribute="height" constant="20" id="axn-T0-gbE"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8Q-C7-Ovg">
+                                                <rect key="frame" x="20" y="35" width="260" height="50"/>
+                                                <color key="backgroundColor" red="0.92006528379999997" green="0.57349437479999998" blue="0.032923910770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Gmh-Jb-LJk"/>
+                                                    <constraint firstAttribute="width" constant="260" id="Z7k-tH-BB1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Buy A Single Product And Pay">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="buyASingleProductAndPay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="20t-OP-Oyu"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="c8Q-C7-Ovg" firstAttribute="top" secondItem="rlg-fF-IQ4" secondAttribute="bottom" constant="5" id="4x9-fr-1gg"/>
+                                            <constraint firstAttribute="height" constant="100" id="KnM-7z-ROl"/>
+                                            <constraint firstItem="rlg-fF-IQ4" firstAttribute="top" secondItem="Nox-BD-96j" secondAttribute="top" constant="10" id="SG5-gY-MTs"/>
+                                            <constraint firstItem="rlg-fF-IQ4" firstAttribute="centerX" secondItem="Nox-BD-96j" secondAttribute="centerX" id="ThT-ky-pzc"/>
+                                            <constraint firstItem="c8Q-C7-Ovg" firstAttribute="centerX" secondItem="Nox-BD-96j" secondAttribute="centerX" id="gK5-hp-QZJ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B1M-5H-Uid">
+                                        <rect key="frame" x="10" y="130" width="300" height="160"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode 2: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P8q-ic-ZFM">
+                                                <rect key="frame" x="20" y="10" width="260" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="YeM-vx-0Fr"/>
+                                                    <constraint firstAttribute="width" constant="260" id="aTT-ae-WZp"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWg-JJ-Up5">
+                                                <rect key="frame" x="20" y="35" width="260" height="50"/>
+                                                <color key="backgroundColor" red="0.92006528379999997" green="0.57349437479999998" blue="0.032923910770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="CiT-iN-9Q6"/>
+                                                    <constraint firstAttribute="width" constant="260" id="Kvv-at-b4Y"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                <state key="normal" title="Fetch Products From App Store">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <integer key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="fetchProductsFromAppStore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CWC-p3-zJt"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bce-PT-Biy">
+                                                <rect key="frame" x="20" y="95" width="260" height="50"/>
+                                                <color key="backgroundColor" red="0.92006528379999997" green="0.57349437479999998" blue="0.032923910770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="260" id="izd-Ta-Kk8"/>
+                                                    <constraint firstAttribute="height" constant="50" id="pSe-jw-k9P"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                <state key="normal" title="Go to the store, buy and pay">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="presentStoreUI:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nv9-cV-PMl"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="P8q-ic-ZFM" firstAttribute="centerX" secondItem="B1M-5H-Uid" secondAttribute="centerX" id="S35-dJ-eBJ"/>
+                                            <constraint firstItem="dWg-JJ-Up5" firstAttribute="centerX" secondItem="B1M-5H-Uid" secondAttribute="centerX" id="WnK-8f-sbd"/>
+                                            <constraint firstItem="dWg-JJ-Up5" firstAttribute="top" secondItem="P8q-ic-ZFM" secondAttribute="bottom" constant="5" id="Z6u-V8-LsB"/>
+                                            <constraint firstAttribute="height" constant="160" id="cz7-ml-C94"/>
+                                            <constraint firstItem="P8q-ic-ZFM" firstAttribute="top" secondItem="B1M-5H-Uid" secondAttribute="top" constant="10" id="nfI-YR-Ghu"/>
+                                            <constraint firstItem="Bce-PT-Biy" firstAttribute="top" secondItem="dWg-JJ-Up5" secondAttribute="bottom" constant="10" id="vlE-eI-Mmi"/>
+                                            <constraint firstItem="Bce-PT-Biy" firstAttribute="centerX" secondItem="B1M-5H-Uid" secondAttribute="centerX" id="wTz-ea-LFZ"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="RRm-6d-fXS"/>
-                                    <constraint firstAttribute="height" constant="60" id="tP8-fZ-b48"/>
+                                    <constraint firstItem="B1M-5H-Uid" firstAttribute="leading" secondItem="IBY-6K-eIs" secondAttribute="leading" constant="10" id="SEJ-fR-TM6"/>
+                                    <constraint firstItem="B1M-5H-Uid" firstAttribute="top" secondItem="Nox-BD-96j" secondAttribute="bottom" constant="10" id="T8p-Nx-Ma8"/>
+                                    <constraint firstItem="Nox-BD-96j" firstAttribute="top" secondItem="IBY-6K-eIs" secondAttribute="top" constant="20" id="Wlc-zk-Qjy" userLabel="View.top = top + 20"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nox-BD-96j" secondAttribute="trailing" constant="10" id="Yi6-RX-Nhb"/>
+                                    <constraint firstAttribute="height" constant="300" id="ZPL-gB-yON"/>
+                                    <constraint firstItem="B1M-5H-Uid" firstAttribute="centerX" secondItem="IBY-6K-eIs" secondAttribute="centerX" id="ab9-AW-iqE"/>
+                                    <constraint firstAttribute="width" constant="320" id="gxh-QM-PVE"/>
+                                    <constraint firstAttribute="trailing" secondItem="B1M-5H-Uid" secondAttribute="trailing" constant="10" id="iFu-av-Bu6"/>
+                                    <constraint firstItem="Nox-BD-96j" firstAttribute="leading" secondItem="IBY-6K-eIs" secondAttribute="leading" constant="10" id="ojq-gw-hez"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="Fetch Products From App Store">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="fetchProductsFromAppStore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CWC-p3-zJt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bce-PT-Biy">
-                                <rect key="frame" x="57" y="458" width="300" height="60"/>
-                                <color key="backgroundColor" red="0.28601914639999998" green="0.56322944159999999" blue="0.98144155740000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="Iaa-f9-IVY"/>
-                                    <constraint firstAttribute="height" constant="60" id="PbJ-1q-09s"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <state key="normal" title="Go to the store, buy and pay">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="presentStoreUI:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nv9-cV-PMl"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="dWg-JJ-Up5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Dbk-EB-lI3"/>
-                            <constraint firstItem="Bce-PT-Biy" firstAttribute="top" secondItem="dWg-JJ-Up5" secondAttribute="bottom" constant="20" id="UIG-u8-L1g"/>
-                            <constraint firstItem="dWg-JJ-Up5" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-40" id="mne-Ke-tvP"/>
-                            <constraint firstItem="Bce-PT-Biy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yq1-zE-R4k"/>
+                            <constraint firstItem="IBY-6K-eIs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eVs-2t-dV9"/>
+                            <constraint firstItem="IBY-6K-eIs" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="jvX-jw-9PH"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="t5O-07-Ems"/>
                     <connections>
+                        <outlet property="buyAProductButton" destination="c8Q-C7-Ovg" id="Cha-h1-dHa"/>
                         <outlet property="fetchProductsButton" destination="dWg-JJ-Up5" id="G11-he-Pvo"/>
                         <outlet property="presentStoreUIButton" destination="Bce-PT-Biy" id="0JR-Cm-ONI"/>
                     </connections>

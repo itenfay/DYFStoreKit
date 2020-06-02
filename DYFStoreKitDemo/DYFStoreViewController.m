@@ -35,9 +35,7 @@
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-    }
+    if (self) {}
     return self;
 }
 
@@ -53,10 +51,14 @@
 }
 
 - (void)restore {
+    // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     
+    // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+#if DEBUG
     NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
+#endif
     
     [DYFStoreManager.shared restorePurchases:userIdentifier];
 }
@@ -66,7 +68,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 70.f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,14 +95,20 @@
     
     DYFStoreProduct *product = self.dataArray[indexPath.row];
     NSString *productIdentifier = product.identifier;
+#if DEBUG
     NSLog(@"%s productIdentifier: %@", __FUNCTION__, productIdentifier);
+#endif
     
+    // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     
+    // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+#if DEBUG
     NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
+#endif
     
-    [DYFStoreManager.shared buyProduct:productIdentifier userIdentifier:userIdentifier];
+    [DYFStoreManager.shared addPayment:productIdentifier userIdentifier:userIdentifier];
 }
 
 - (void)dealloc {
