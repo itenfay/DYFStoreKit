@@ -1,8 +1,8 @@
 //
 //  ViewController.m
 //
-//  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Copyright © 2014 dyf. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -73,7 +73,7 @@
     } failure:^(NSError *error) {
         
         [self hideLoading];
-        [self sendNotice:[NSString stringWithFormat:@"%zi, %@", error.code, error.localizedDescription]];
+        [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, error.localizedDescription]];
     }];
 }
 
@@ -104,7 +104,9 @@
         [self hideLoading];
         
         if (products.count > 0) {
+            
             [self getData:products];
+            
         } else if (products.count == 0 && invalidIdentifiers.count > 0) {
 #if DEBUG
             NSLog(@"%s Please check the product information you set up.", __FUNCTION__);
@@ -117,14 +119,16 @@
     } failure:^(NSError *error) {
         
         [self hideLoading];
-        [self sendNotice:[NSString stringWithFormat:@"%zi, %@", error.code, error.localizedDescription]];
+        [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, error.localizedDescription]];
     }];
 }
 
 - (void)getData:(NSArray *)products {
+    
     for (SKProduct *product in products) {
         
         if (![self hasProduct:product.productIdentifier]) {
+            
             DYFStoreProduct *p = [[DYFStoreProduct alloc] init];
             p.identifier = product.productIdentifier;
             p.name = product.localizedTitle;

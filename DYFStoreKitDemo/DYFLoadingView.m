@@ -1,8 +1,8 @@
 //
 //  DYFLoadingView.m
 //
-//  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Copyright © 2014 dyf. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -161,18 +161,12 @@
 
 /// Removes all views at the end of the hidden animation.
 - (void)removeAllViews {
-    UIViewController *vc = self.appCurrentViewController;
-    UIView *view = vc ? vc.view : self.appWindow;
     
     for (UIView *view in self.subviews) {
         [view removeFromSuperview];
     }
     
-    for (UIView *v in view.subviews) {
-        if ([v isKindOfClass:self.class]) {
-            [v removeFromSuperview];
-        }
-    }
+    [self removeFromSuperview];
 }
 
 /// When the view is hidden, the child widget object should be released safely.

@@ -1,8 +1,8 @@
 //
 //  AppDelegate.m
 //
-//  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Copyright © 2014 dyf. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -32,14 +32,14 @@
 }
 
 - (void)displayStartupPage {
-    [NSThread sleepForTimeInterval:3.0];
+    [NSThread sleepForTimeInterval:2.0];
 }
 
 // Processes the purchase which was initiated by user from the App Store.
 - (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product {
     
     if (![DYFStore canMakePayments]) {
-        [DYFStoreManager.shared showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
         return;
     }
     

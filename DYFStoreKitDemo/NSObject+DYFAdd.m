@@ -1,8 +1,8 @@
 //
 //  NSObject+DYFAdd.m
 //
-//  Created by dyf on 2014/11/4.
-//  Copyright © 2014 dyf. ( https://github.com/dgynfi/DYFStoreKit )
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Copyright © 2014 dyf. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
 
 - (UIViewController *)currentViewController {
     UIApplication *sharedApp = UIApplication.sharedApplication;
+    
     UIWindow *window = sharedApp.keyWindow ?: sharedApp.windows[0];
     UIViewController *viewController = window.rootViewController;
     
@@ -69,7 +70,8 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
     
     [self.currentViewController presentViewController:alertController animated:YES completion:NULL];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
         [alertController dismissViewControllerAnimated:YES completion:NULL];
     });
 }
@@ -97,22 +99,32 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
 }
 
 - (void)showLoading:(NSString *)text {
+    
+    id value = objc_getAssociatedObject(self, &LoadingViewKey);
+    if (value) {
+        return;
+    }
+    
     DYFLoadingView *loadingView = [[DYFLoadingView alloc] init];
     loadingView.show(text);
     loadingView.color = COLOR_RGBA(10, 10, 10, 0.75);
     loadingView.indicatorColor = COLOR_RGB(54, 205, 64);
     loadingView.textColor = COLOR_RGB(248, 248, 248);
-    objc_setAssociatedObject(self, &LoadingViewKey, loadingView,
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    objc_setAssociatedObject(self, &LoadingViewKey, loadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)hideLoading {
-    DYFLoadingView *loadingView = objc_getAssociatedObject(self, &LoadingViewKey);
-    if (loadingView) {
-        [loadingView hide];
-        objc_setAssociatedObject(self, &LoadingViewKey, nil,
-                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    id value = objc_getAssociatedObject(self, &LoadingViewKey);
+    if (!value) {
+        return;
     }
+    
+    DYFLoadingView *loadingView = (DYFLoadingView *)value;
+    [loadingView hide];
+    
+    objc_setAssociatedObject(self, &LoadingViewKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
