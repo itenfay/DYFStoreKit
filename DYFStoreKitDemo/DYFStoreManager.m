@@ -25,15 +25,6 @@
 
 #import "DYFStoreManager.h"
 
-// Prints the log in the process of purchasing the `SKProduct` products.
-#ifndef DGLog
-#if DEBUG
-#define DGLog(format, ...) NSLog((@"[DYFStoreMgr] %s [line: %d]" format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DGLog(format, ...) while(0){}
-#endif
-#endif
-
 @interface DYFStoreManager () <DYFStoreReceiptVerifierDelegate>
 
 @property (nonatomic, strong) DYFStoreNotificationInfo *purchaseInfo;
@@ -96,7 +87,7 @@ static DYFStoreManager *_instance = nil;
 }
 
 - (void)restorePurchases:(NSString *)userIdentifier {
-    DGLog(@"userIdentifier: %@", userIdentifier);
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     [self showLoading:@"Restoring..."];
     [DYFStore.defaultStore restoreTransactions:userIdentifier];
 }
@@ -138,7 +129,7 @@ static DYFStoreManager *_instance = nil;
             [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
             break;
         case DYFStorePurchaseStateDeferred:
-            DGLog(@"Deferred");
+            DYFStoreLog(@"Deferred");
             break;
         default:
             break;
@@ -151,19 +142,19 @@ static DYFStoreManager *_instance = nil;
     
     switch (self.downloadInfo.downloadState) {
         case DYFStoreDownloadStateStarted:
-            DGLog(@"The download started");
+            DYFStoreLog(@"The download started");
             break;
         case DYFStoreDownloadStateInProgress:
-            DGLog(@"The download progress: %.2f%%", self.downloadInfo.downloadProgress);
+            DYFStoreLog(@"The download progress: %.2f%%", self.downloadInfo.downloadProgress);
             break;
         case DYFStoreDownloadStateCancelled:
-            DGLog(@"The download cancelled");
+            DYFStoreLog(@"The download cancelled");
             break;
         case DYFStoreDownloadStateFailed:
-            DGLog(@"The download failed");
+            DYFStoreLog(@"The download failed");
             break;
         case DYFStoreDownloadStateSucceeded:
-            DGLog(@"The download succeeded: 100%%");
+            DYFStoreLog(@"The download succeeded: 100%%");
             break;
         default:
             break;
@@ -183,11 +174,11 @@ static DYFStoreManager *_instance = nil;
     
     DYFStoreTransaction *tx = [persister retrieveTransaction:identifier];
     NSData *receiptData = tx.transactionReceipt.base64DecodedData;
-    DGLog(@"transaction.state: %zi", tx.state);
-    DGLog(@"transaction.productIdentifier: %@", tx.productIdentifier);
-    DGLog(@"transaction.transactionIdentifier: %@", tx.transactionIdentifier);
-    DGLog(@"transaction.transactionTimestamp: %@", tx.transactionTimestamp);
-    DGLog(@"transaction.transactionReceipt: %@", receiptData);
+    DYFStoreLog(@"transaction.state: %zi", tx.state);
+    DYFStoreLog(@"transaction.productIdentifier: %@", tx.productIdentifier);
+    DYFStoreLog(@"transaction.transactionIdentifier: %@", tx.transactionIdentifier);
+    DYFStoreLog(@"transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+    DYFStoreLog(@"transaction.transactionReceipt: %@", receiptData);
     
     [self verifyReceipt:receiptData];
     
@@ -196,16 +187,16 @@ static DYFStoreManager *_instance = nil;
     if ([uPersister containsTransaction:identifier]) {
         DYFStoreTransaction *tx = [uPersister retrieveTransaction:identifier];
         NSData *receiptData = tx.transactionReceipt.base64DecodedData;
-        DGLog(@"[BAK] transaction.state: %zi", tx.state);
-        DGLog(@"[BAK] transaction.productIdentifier: %@", tx.productIdentifier);
-        DGLog(@"[BAK] transaction.transactionIdentifier: %@", tx.transactionIdentifier);
-        DGLog(@"[BAK] transaction.transactionTimestamp: %@", tx.transactionTimestamp);
-        DGLog(@"[BAK] transaction.transactionReceipt: %@", receiptData);
+        DYFStoreLog(@"[BAK] transaction.state: %zi", tx.state);
+        DYFStoreLog(@"[BAK] transaction.productIdentifier: %@", tx.productIdentifier);
+        DYFStoreLog(@"[BAK] transaction.transactionIdentifier: %@", tx.transactionIdentifier);
+        DYFStoreLog(@"[BAK] transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+        DYFStoreLog(@"[BAK] transaction.transactionReceipt: %@", receiptData);
     }
 }
 
 - (void)storeReceipt {
-    DGLog();
+    DYFStoreLog();
     
     NSURL *receiptURL = DYFStore.receiptURL;
     NSData *data = [NSData dataWithContentsOfURL:receiptURL];
@@ -244,7 +235,7 @@ static DYFStoreManager *_instance = nil;
 }
 
 - (void)refreshReceipt {
-    DGLog();
+    DYFStoreLog();
     [self showLoading:@"Refresh receipt..."];
     
     [DYFStore.defaultStore refreshReceiptOnSuccess:^{
@@ -255,7 +246,7 @@ static DYFStoreManager *_instance = nil;
 }
 
 - (void)failToRefreshReceipt {
-    DGLog();
+    DYFStoreLog();
     [self hideLoading];
     
     [self showAlertWithTitle:NSLocalizedStringFromTable(@"Notification", nil, @"")
@@ -270,7 +261,7 @@ static DYFStoreManager *_instance = nil;
 
 // It is better to use your own server with the parameters that was uploaded from the client to verify the receipt from the apple itunes store server (C -> Uploaded Parameters -> S -> Apple iTunes Store S -> S -> Receive Data -> C).
 - (void)verifyReceipt:(NSData *)receiptData {
-    DGLog();
+    DYFStoreLog();
     [self hideLoading];
     [self showLoading:@"Verify receipt..."];
     
@@ -280,7 +271,7 @@ static DYFStoreManager *_instance = nil;
     }
     
     NSData *data = receiptData ?: [NSData dataWithContentsOfURL:DYFStore.receiptURL];
-    DGLog(@"data: %@", data);
+    DYFStoreLog(@"data: %@", data);
     
     [_receiptVerifier verifyReceipt:data];
     // Only used for receipts that contain auto-renewable subscriptions.
@@ -299,7 +290,7 @@ static DYFStoreManager *_instance = nil;
 }
 
 - (void)verifyReceiptDidFinish:(nonnull DYFStoreReceiptVerifier *)verifier didReceiveData:(nullable NSDictionary *)data {
-    DGLog(@"data: %@", data);
+    DYFStoreLog(@"data: %@", data);
     
     [self hideLoading];
     [self showTipsMessage:@"Purchase Successfully"];
@@ -329,7 +320,7 @@ static DYFStoreManager *_instance = nil;
 - (void)verifyReceipt:(nonnull DYFStoreReceiptVerifier *)verifier didFailWithError:(nonnull NSError *)error {
     
     // Prints the reason of the error.
-    DGLog(@"error: %zi, %@", error.code, error.localizedDescription);
+    DYFStoreLog(@"error: %zi, %@", error.code, error.localizedDescription);
     
     [self hideLoading];
     
@@ -345,6 +336,7 @@ static DYFStoreManager *_instance = nil;
                          execute:^(UIAlertAction *action) {
             [self verifyReceipt:nil];
         }];
+        
         return;
     }
     
@@ -378,7 +370,7 @@ static DYFStoreManager *_instance = nil;
                       cancel:NULL
           confirmButtonTitle:NSLocalizedStringFromTable(@"I see!", nil, @"")
                      execute:^(UIAlertAction *action) {
-        DGLog(@"alert action title: %@", action.title);
+        DYFStoreLog(@"alert action title: %@", action.title);
     }];
 }
 

@@ -27,6 +27,16 @@
 #import <StoreKit/StoreKit.h>
 #import "DYFStoreKeychainPersistence.h"
 
+/** Outputs log to the console in the process of purchasing the `SKProduct` product.
+ */
+#ifndef DYFStoreLog
+#if DEBUG
+#define DYFStoreLog(format, ...) NSLog((@"%s [Line: %d] [DYFStore] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+#else
+#define DYFStoreLog(format, ...) while(0){}
+#endif
+#endif
+
 /** Accepts the response from the App Store that contains the requested product information.
  */
 typedef void (^DYFStoreProductsRequestDidFinish)(NSArray *products, NSArray *invalidIdentifiers);
@@ -109,7 +119,7 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  */
 + (BOOL)canMakePayments;
 
-/** Requests localized information about a product identifier from the Apple App Store. `success` will be called if the products request is successful, `failure` if it isn't.
+/** Requests localized information about a product from the Apple App Store. `success` will be called if the products request is successful, `failure` if it isn't.
  
  @param identifier The product identifier for the product you wish to retrieve information of.
  @param success The block to be called if the products request is sucessful. Can be `nil`. It takes two parameters: `products`, an array of SKProducts, one product for each valid product identifier provided in the original request, and `invalidProductIdentifiers`, an array of product identifiers that were not recognized by the App Store.
@@ -140,7 +150,8 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  @param productIdentifier The identifier of the product whose payment will be requested.
  @param userIdentifier An opaque identifier for the user’s account on your system. The recommended implementation is to use a one-way hash of the user’s account name to calculate the value for this property.
  */
-- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier;
+- (void)purchaseProduct:(NSString *)productIdentifier
+         userIdentifier:(NSString *)userIdentifier;
 
 /** Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system and the number of items the user wants to purchase.
  
@@ -148,7 +159,9 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
  @param userIdentifier An opaque identifier for the user’s account on your system. The recommended implementation is to use a one-way hash of the user’s account name to calculate the value for this property.
  @param quantity The number of items the user wants to purchase. The default value is 1.
  */
-- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier quantity:(NSInteger)quantity;
+- (void)purchaseProduct:(NSString *)productIdentifier
+         userIdentifier:(NSString *)userIdentifier
+               quantity:(NSInteger)quantity;
 
 /** Fetches the product by matching a given product identifier.
  
@@ -418,6 +431,8 @@ FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
  @param payment The payment request.
  @param product The in-app purchase product.
  */
-- (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product;
+- (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue
+                                  payment:(SKPayment *)payment
+                               forProduct:(SKProduct *)product;
 
 @end

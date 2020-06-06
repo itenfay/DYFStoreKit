@@ -32,7 +32,7 @@ A lightweight and easy-to-use iOS library for In-App Purchases.
 Using [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.0.1'
+pod 'DYFStoreKit', '~> 1.1.0'
 ```
 
 Or
@@ -74,18 +74,23 @@ Initialization is as simple as the below.
 You can process the purchase which was initiated by user from the App Store and provide your own implementation using the `DYFStoreAppStorePaymentDelegate` protocol:
 
 ```
+// Processes the purchase which was initiated by user from the App Store.
 - (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product {
-
+    
     if (![DYFStore canMakePayments]) {
-        [DYFStoreManager.shared showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
         return;
     }
-
+    
+    // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
-
+    
+    // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+#if DEBUG
     NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-
+#endif
+    
     [DYFStore.defaultStore purchaseProduct:product.productIdentifier userIdentifier:userIdentifier];
 }
 ```
@@ -93,35 +98,132 @@ You can process the purchase which was initiated by user from the App Store and 
 
 ### Request products
 
+There are two strategies for retrieving information about the products from the App Store.
+
+**Strategy 1:** To begin the purchase process, your app must know its product identifiers. Your app can uses a product identifier to fetch information about product available for sale in the App Store and to submit payment request directly.
+
 ```
-NSArray *productIds = @[@"com.hncs.szj.coin48", @"com.hncs.szj.coin210"];
-
-[DYFStore.defaultStore requestProductWithIdentifiers:productIds success:^(NSArray *products, NSArray *invalidIdentifiers) {
-
-    [self hideLoading];
-
-    for (SKProduct *product in products) {
-
-        if (![self hasProduct:product.productIdentifier]) {
-            DYFStoreProduct *p = [[DYFStoreProduct alloc] init];
-            p.identifier = product.productIdentifier;
-            p.name = product.localizedTitle;
-            p.price = [product.price stringValue];
-            p.localePrice = [DYFStore.defaultStore localizedPriceOfProduct:product];
-            p.localizedDescription = product.localizedDescription;
-
-            [self.availableProducts addObject:p];
+- (IBAction)fetchesProductAndSubmitsPayment:(id)sender {
+    [self showLoading:@"Loading..."];
+    
+    NSString *productId = @"com.hncs.szj.coin48";
+    
+    [DYFStore.defaultStore requestProductWithIdentifier:productId success:^(NSArray *products, NSArray *invalidIdentifiers) {
+        
+        [self hideLoading];
+        
+        if (products.count == 1) {
+            
+            NSString *productId = ((SKProduct *)products[0]).productIdentifier;
+            [self addPayment:productId];
+            
+        } else {
+            
+            [self showTipsMessage:@"There is no this product for sale!"];
         }
+        
+    } failure:^(NSError *error) {
+        
+        [self hideLoading];
+        
+        NSString *value = error.userInfo[NSLocalizedDescriptionKey];
+        NSString *msg = value ?: error.localizedDescription;
+        [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
+    }];
+}
+
+- (void)addPayment:(NSString *)productId {
+    
+    // Get account name from your own user system.
+    NSString *accountName = @"Handsome Jon";
+    
+    // This algorithm is negotiated with server developer.
+    NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+#if DEBUG
+    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
+#endif
+    
+    [DYFStore.defaultStore purchaseProduct:productId userIdentifier:userIdentifier];
+}
+```
+
+**Strategy 2:** To begin the purchase process, your app must know its product identifiers so it can retrieve information about the products from the App Store and present its store UI to the user. Every product sold in your app has a unique product identifier. Your app uses these product identifiers to fetch information about products available for sale in the App Store, such as pricing, and to submit payment requests when users purchase those products.
+
+```
+- (NSArray *)fetchProductIdentifiersFromServer {
+    
+    NSArray *productIds = @[@"com.hncs.szj.coin42",   // 42 gold coins for ￥6.
+                            @"com.hncs.szj.coin210",  // 210 gold coins for ￥30.
+                            @"com.hncs.szj.coin686",  // 686 gold coins for ￥98.
+                            @"com.hncs.szj.coin1386", // 1386 gold coins for ￥198.
+                            @"com.hncs.szj.coin2086", // 2086 gold coins for ￥298.
+                            @"com.hncs.szj.coin4886", // 4886 gold coins for ￥698.
+                            @"com.hncs.szj.vip1",     // non-renewable vip subscription for a month.
+                            @"com.hncs.szj.vip2"      // Auto-renewable vip subscription for three months.
+    ];
+    
+    return productIds;
+}
+
+- (IBAction)fetchesProductsFromAppStore:(id)sender {
+    [self showLoading:@"Loading..."];
+    
+    NSArray *productIds = [self fetchProductIdentifiersFromServer];
+    
+    [DYFStore.defaultStore requestProductWithIdentifiers:productIds success:^(NSArray *products, NSArray *invalidIdentifiers) {
+        
+        [self hideLoading];
+        
+        if (products.count > 0) {
+            
+            [self processData:products];
+            
+        } else if (products.count == 0 && invalidIdentifiers.count > 0) {
+            
+            // Please check the product information you set up.
+            [self showTipsMessage:@"There are no products for sale!"];
+        }
+        
+    } failure:^(NSError *error) {
+        
+        [self hideLoading];
+        
+        NSString *value = error.userInfo[NSLocalizedDescriptionKey];
+        NSString *msg = value ?: error.localizedDescription;
+        [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
+    }];
+}
+
+- (void)processData:(NSArray *)products {
+    
+    NSMutableArray *modelArray = [NSMutableArray arrayWithCapacity:0];
+    
+    for (SKProduct *product in products) {
+        
+        DYFStoreProduct *p = [[DYFStoreProduct alloc] init];
+        p.identifier = product.productIdentifier;
+        p.name = product.localizedTitle;
+        p.price = [product.price stringValue];
+        p.localePrice = [DYFStore.defaultStore localizedPriceOfProduct:product];
+        p.localizedDescription = product.localizedDescription;
+        
+        [modelArray addObject:p];
     }
+    
+    [self displayStoreUI:modelArray];
+}
 
-    NSLog(@"invalidIdentifiers: %@", invalidIdentifiers);
-
-} failure:^(NSError *error) {
-
-    [self hideLoading];
-    [self sendNotice:[NSString stringWithFormat:@"%zi, %@", error.code, error.localizedDescription]];
-
-}];
+- (void)displayStoreUI:(NSMutableArray *)dataArray {
+    
+    if (![DYFStore canMakePayments]) {
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        return;
+    }
+    
+    DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
+    storeVC.dataArray = dataArray;
+    [self.navigationController pushViewController:storeVC animated:YES];
+}
 ```
 
 

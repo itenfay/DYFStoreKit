@@ -25,15 +25,6 @@
 
 #import "DYFStore.h"
 
-// Prints the log in the process of purchasing the `SKProduct` products.
-#ifndef DYFStoreLog
-#if DEBUG
-#define DYFStoreLog(format, ...) NSLog((@"[DYFStore] %s [Line: %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
-#else
-#define DYFStoreLog(format, ...) while(0){}
-#endif
-#endif
-
 // Returns a Boolean value that indicates whether the receiver implements
 // or inherits a method that can respond to a specified message.
 #define OBJC_RESPONDS_TO_SEL(target, selector) (target && [target respondsToSelector:selector])
@@ -148,9 +139,9 @@ static DYFStore *_instance = nil;
     
     if (!identifier || identifier.length == 0) {
         
-        DYFStoreLog(@"requestProductWithIdentifier: This product identifier is null or empty");
-        
         self.productsRequestDidFail = failure;
+        
+        DYFStoreLog(@"This product identifier is null or empty");
         
         NSString *errDesc = NSLocalizedStringFromTable(@"This product identifier is null or empty", @"DYFStore", @"Error description");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errDesc};
@@ -163,7 +154,7 @@ static DYFStore *_instance = nil;
         return;
     }
     
-    DYFStoreLog(@"requestProductWithIdentifier: %@", identifier);
+    DYFStoreLog();
     
     [self requestProductWithIdentifiers:@[identifier]
                                 success:success
@@ -176,11 +167,11 @@ static DYFStore *_instance = nil;
     
     if (!identifiers || identifiers.count == 0) {
         
-        DYFStoreLog(@"requestProductWithIdentifiers: A string array of product identifiers is null or empty");
-        
         self.productsRequestDidFail = failure;
         
-        NSString *errDesc = NSLocalizedStringFromTable(@"A string array of product identifiers is null or empty", @"DYFStore", @"Error description");
+        DYFStoreLog(@"An array of product identifiers is null or empty");
+        
+        NSString *errDesc = NSLocalizedStringFromTable(@"An array of product identifiers is null or empty", @"DYFStore", @"Error description");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errDesc};
         NSError *error = [NSError errorWithDomain:DYFStoreErrorDomain
                                              code:DYFStoreErrorCodeInvalidParameter
@@ -191,16 +182,16 @@ static DYFStore *_instance = nil;
         return;
     }
     
-    DYFStoreLog(@"requestProductWithIdentifiers: %@", identifiers);
+    DYFStoreLog(@"product identifiers: %@", identifiers);
     
     if (!self.productsRequest) {
         
         self.productsRequestDidFinish = success;
         self.productsRequestDidFail = failure;
         
-        NSSet *aSet = [NSSet setWithArray:identifiers];
+        NSSet *setOfProductId = [NSSet setWithArray:identifiers];
         // Creates a product request object and initialize it with our product identifiers.
-        self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:aSet];
+        self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:setOfProductId];
         self.productsRequest.delegate = self;
         // Sends the request to the App Store.
         [self.productsRequest start];
@@ -296,20 +287,22 @@ static DYFStore *_instance = nil;
 - (void)requestDidFinish:(SKRequest *)request {
     
     if (self.productsRequest && self.productsRequest == request) {
+        
         DYFStoreLog(@"products request finished");
         
         self.productsRequest = nil;
-    }
-    
-    if (self.refreshReceiptRequest && self.refreshReceiptRequest == request) {
-        DYFStoreLog(@"refresh receipt finished");
         
-        self.refreshReceiptRequest = nil;
+    } else if (self.refreshReceiptRequest &&
+               self.refreshReceiptRequest == request) {
+        
+        DYFStoreLog(@"refresh receipt finished");
         
         dispatch_async(dispatch_get_main_queue(), ^{
             !self.refreshReceiptSuccessBlock ?:
             self.refreshReceiptSuccessBlock();
         });
+        
+        self.refreshReceiptRequest = nil;
     }
 }
 
@@ -317,26 +310,28 @@ static DYFStore *_instance = nil;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
     
     if (self.productsRequest && self.productsRequest == request) {
+        
         // Prints the cause of the product request failure.
         DYFStoreLog(@"products request failed with error: %@", error);
-        
-        self.productsRequest = nil;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             !self.productsRequestDidFail ?:
             self.productsRequestDidFail(error);
         });
-    }
-    
-    if (self.refreshReceiptRequest && self.refreshReceiptRequest == request) {
-        DYFStoreLog(@"refresh receipt failed with error: %@", error);
         
-        self.refreshReceiptRequest = nil;
+        self.productsRequest = nil;
+        
+    } else if (self.refreshReceiptRequest &&
+               self.refreshReceiptRequest == request) {
+        
+        DYFStoreLog(@"refresh receipt failed with error: %@", error);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             !self.refreshReceiptFailureBlock ?:
             self.refreshReceiptFailureBlock(error);
         });
+        
+        self.refreshReceiptRequest = nil;
     }
 }
 
@@ -377,11 +372,13 @@ static DYFStore *_instance = nil;
         return transaction;
     }
     
-    [self.purchasedTranscations enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.purchasedTranscations enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         SKPaymentTransaction *tempTransaction = obj;
+        
         NSString *id = tempTransaction.transactionIdentifier;
-        DYFStoreLog(@"extractPurchasedTransaction: index: %zi, transactionId: %@", idx, id);
+        
+        DYFStoreLog(@"index: %zi, transactionId: %@", idx, id);
         
         if ([id isEqualToString:transactionIdentifier]) {
             transaction = tempTransaction;
@@ -399,12 +396,14 @@ static DYFStore *_instance = nil;
         return transaction;
     }
     
-    [self.restoredTranscations enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.restoredTranscations enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         SKPaymentTransaction *tempTransaction = obj;
+        
         NSString *id = tempTransaction.transactionIdentifier;
         NSString *originalId = tempTransaction.originalTransaction.transactionIdentifier;
-        DYFStoreLog(@"extractRestoredTransaction: index: %zi, transactionId: %@, originalTransactionId: %@", idx, id, originalId);
+        
+        DYFStoreLog(@"index: %zi, transactionId: %@, originalTransactionId: %@", idx, id, originalId);
         
         if ([id isEqualToString:transactionIdentifier]) {
             transaction = tempTransaction;
@@ -426,9 +425,9 @@ static DYFStore *_instance = nil;
     
     if (!productIdentifier || productIdentifier.length == 0) {
         
-        DYFStoreLog(@"purchaseProduct: The inputted product identifier is null or empty");
+        DYFStoreLog(@"The given product identifier is null or empty");
         
-        NSString *errDesc = NSLocalizedStringFromTable(@"The inputted product identifier is null or empty", @"DYFStore", @"Error description");
+        NSString *errDesc = NSLocalizedStringFromTable(@"The given product identifier is null or empty", @"DYFStore", @"Error description");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errDesc};
         NSError *error = [NSError errorWithDomain:DYFStoreErrorDomain
                                              code:DYFStoreErrorCodeInvalidParameter
@@ -445,7 +444,7 @@ static DYFStore *_instance = nil;
     SKProduct *product = [self productForIdentifier:productIdentifier];
     if (product) {
         
-        DYFStoreLog(@"purchaseProduct: %@, quantity: %zi", productIdentifier, quantity);
+        DYFStoreLog(@"productIdentifier: %@, quantity: %zi", productIdentifier, quantity);
         
         self.quantity = quantity;
         
@@ -460,7 +459,7 @@ static DYFStore *_instance = nil;
         return;
     }
     
-    DYFStoreLog(@"purchaseProduct: unknown product identifier: %@", productIdentifier);
+    DYFStoreLog(@"Unknown product identifier: %@", productIdentifier);
     
     NSString *errDesc = NSLocalizedStringFromTable(@"Unknown product identifier", @"DYFStore", @"Error description");
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errDesc};
@@ -470,6 +469,7 @@ static DYFStore *_instance = nil;
     
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.state = DYFStorePurchaseStateFailed;
+    info.productIdentifier = productIdentifier;
     info.error = error;
     [self postNotificationWithName:DYFStorePurchasedNotification info:info];
 }
@@ -933,6 +933,7 @@ static DYFStore *_instance = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    
     NSString *dateString = [dateFormatter stringFromDate:self];
     
     return dateString;
@@ -943,6 +944,7 @@ static DYFStore *_instance = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss Z";
+    
     NSString *dateString = [dateFormatter stringFromDate:self];
     
     return dateString;

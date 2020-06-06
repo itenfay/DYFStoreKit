@@ -9,9 +9,8 @@
 
 @interface ViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIButton *buyAProductButton;
+@property (weak, nonatomic) IBOutlet UIButton *fetchesProductAndSubmitsPaymentButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *fetchProductsButton;
-@property (weak, nonatomic) IBOutlet UIButton *presentStoreUIButton;
+@property (weak, nonatomic) IBOutlet UIButton *fetchesProductsAndDisplaysStoreUIButton;
 
 @end
