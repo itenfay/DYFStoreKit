@@ -39,9 +39,7 @@
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStoreManager.shared restorePurchases:userIdentifier];
 }
@@ -78,26 +76,20 @@
     
     DYFStoreProduct *product = self.dataArray[indexPath.row];
     NSString *productIdentifier = product.identifier;
-#if DEBUG
-    NSLog(@"%s productIdentifier: %@", __FUNCTION__, productIdentifier);
-#endif
+    DYFStoreLog(@"productIdentifier: %@", productIdentifier);
     
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStoreManager.shared addPayment:productIdentifier userIdentifier:userIdentifier];
 }
 
 - (void)dealloc {
-#if DEBUG
-    NSLog(@"%s", __FUNCTION__);
-#endif
+    DYFStoreLog();
 }
 
 @end

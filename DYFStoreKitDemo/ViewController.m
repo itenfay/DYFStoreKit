@@ -64,9 +64,7 @@
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStoreManager.shared addPayment:productId userIdentifier:userIdentifier];
 }
@@ -157,9 +155,7 @@
                       cancel:NULL
           confirmButtonTitle:NSLocalizedStringFromTable(@"I see!", nil, @"")
                      execute:^(UIAlertAction *action) {
-#if DEBUG
-        NSLog(@"Alert action title: %@", action.title);
-#endif
+        DYFStoreLog(@"Alert action title: %@", action.title);
     }];
 }
 

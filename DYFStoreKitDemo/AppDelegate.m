@@ -48,9 +48,7 @@
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStoreManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
 }

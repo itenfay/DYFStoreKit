@@ -1,9 +1,10 @@
+
 [If this project can help you, please give it a star. Thanks!](https://github.com/dgynfi/DYFStoreKit)
 
 
 ## DYFStoreKit
 
-A lightweight and easy-to-use iOS library for In-App Purchases.
+A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)
 
 `DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
 
@@ -32,7 +33,7 @@ A lightweight and easy-to-use iOS library for In-App Purchases.
 Using [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.1.0'
+pod 'DYFStoreKit', '~> 1.1.1'
 ```
 
 Or
@@ -46,9 +47,9 @@ Or add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tr
 Check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) for more options.
 
 
-## Code Sample
+## Usage
 
-The Code Sample shows how to use `DYFStoreKit`.
+Next I'll show you how to use `DYFStoreKit`.
 
 ### Initialization
 
@@ -87,9 +88,7 @@ You can process the purchase which was initiated by user from the App Store and 
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStore.defaultStore purchaseProduct:product.productIdentifier userIdentifier:userIdentifier];
 }
@@ -139,9 +138,7 @@ There are two strategies for retrieving information about the products from the 
     
     // This algorithm is negotiated with server developer.
     NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
-#if DEBUG
-    NSLog(@"%s userIdentifier: %@", __FUNCTION__, userIdentifier);
-#endif
+    DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStore.defaultStore purchaseProduct:productId userIdentifier:userIdentifier];
 }
@@ -356,7 +353,7 @@ Payment transaction notifications are sent after a payment has been requested or
             [self sendNotice:[NSString stringWithFormat:@"An error occurred, %zi", self.purchaseInfo.error.code]];
             break;
         case DYFStorePurchaseStateDeferred:
-            DGLog(@"Deferred");
+            DYFStoreLog(@"Deferred");
             break;
         default:
             break;
@@ -373,19 +370,19 @@ Payment transaction notifications are sent after a payment has been requested or
 
     switch (self.downloadInfo.downloadState) {
         case DYFStoreDownloadStateStarted:
-            DGLog(@"The download started");
+            DYFStoreLog(@"The download started");
             break;
         case DYFStoreDownloadStateInProgress:
-            DGLog(@"The download progress: %.2f%%", self.downloadInfo.downloadProgress);
+            DYFStoreLog(@"The download progress: %.2f%%", self.downloadInfo.downloadProgress);
             break;
         case DYFStoreDownloadStateCancelled:
-            DGLog(@"The download cancelled");
+            DYFStoreLog(@"The download cancelled");
             break;
         case DYFStoreDownloadStateFailed:
-            DGLog(@"The download failed");
+            DYFStoreLog(@"The download failed");
             break;
         case DYFStoreDownloadStateSucceeded:
-            DGLog(@"The download succeeded: 100%%");
+            DYFStoreLog(@"The download succeeded: 100%%");
             break;
         default:
             break;
@@ -427,7 +424,7 @@ You can start verifying the in-app purchase receipt.
 ```
 // Fetches the data of the bundle’s App Store receipt. 
 NSData *data = receiptData ?: [NSData dataWithContentsOfURL:DYFStore.receiptURL];
-DGLog(@"data: %@", data);
+DYFStoreLog(@"data: %@", data);
 
 [_receiptVerifier verifyReceipt:data];
 
