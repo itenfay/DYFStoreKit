@@ -402,6 +402,10 @@ FOUNDATION_EXPORT NSString *const DYFStoreErrorDomain;
  */
 @property (nonatomic, copy) NSString *productIdentifier;
 
+/** An opaque identifier for the user’s account on your system.
+ */
+@property (nonatomic, copy) NSString *userIdentifier;
+
 /** When a transaction is restored, the current transaction holds a new transaction date. Your app will read this property to retrieve the restored transaction date.
  */
 @property (nonatomic, copy) NSDate *originalTransactionDate;

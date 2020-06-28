@@ -758,13 +758,16 @@ static DYFStore *_instance = nil;
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.state = state;
     info.productIdentifier = transaction.payment.productIdentifier;
+    if (@available(iOS 7.0, *)) {
+        info.userIdentifier = transaction.payment.applicationUsername;
+    }
     info.transactionDate = transaction.transactionDate;
     info.transactionIdentifier = transaction.transactionIdentifier;
     
-    if (state == DYFStorePurchaseStateRestored) {
-        SKPaymentTransaction *original = transaction.originalTransaction;
-        info.originalTransactionDate = original.transactionDate;
-        info.originalTransactionIdentifier = original.transactionIdentifier;
+    SKPaymentTransaction *originalTx = transaction.originalTransaction;
+    if (originalTx != nil) {
+        info.originalTransactionDate = originalTx.transactionDate;
+        info.originalTransactionIdentifier = originalTx.transactionIdentifier;
     }
     
     [self postNotification:info];

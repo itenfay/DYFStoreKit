@@ -2,8 +2,8 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "DYFStoreKit"
-  spec.version      = "1.1.2"
-  spec.summary      = "A lightweight and easy-to-use iOS library for In-App Purchases. (ObjC)"
+  spec.version      = "1.1.3"
+  spec.summary      = "A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)"
 
   spec.description  = <<-DESC
 	A lightweight and easy-to-use iOS library for In-App Purchases. DYFStoreKit uses blocks and notifications to wrap StoreKit, provides receipt verification and transaction persistence and doesn't require any external dependencies.

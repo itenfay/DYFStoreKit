@@ -176,8 +176,11 @@ static DYFStoreManager *_instance = nil;
     NSData *receiptData = tx.transactionReceipt.base64DecodedData;
     DYFStoreLog(@"transaction.state: %zi", tx.state);
     DYFStoreLog(@"transaction.productIdentifier: %@", tx.productIdentifier);
+    DYFStoreLog(@"transaction.userIdentifier: %@", tx.userIdentifier);
     DYFStoreLog(@"transaction.transactionIdentifier: %@", tx.transactionIdentifier);
     DYFStoreLog(@"transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+    DYFStoreLog(@"transaction.originalTransactionIdentifier: %@", tx.originalTransactionIdentifier);
+    DYFStoreLog(@"transaction.originalTransactionTimestamp: %@", tx.originalTransactionTimestamp);
     DYFStoreLog(@"transaction.transactionReceipt: %@", receiptData);
     
     [self verifyReceipt:receiptData];
@@ -189,8 +192,11 @@ static DYFStoreManager *_instance = nil;
         NSData *receiptData = tx.transactionReceipt.base64DecodedData;
         DYFStoreLog(@"[BAK] transaction.state: %zi", tx.state);
         DYFStoreLog(@"[BAK] transaction.productIdentifier: %@", tx.productIdentifier);
+        DYFStoreLog(@"[BAK] transaction.userIdentifier: %@", tx.userIdentifier);
         DYFStoreLog(@"[BAK] transaction.transactionIdentifier: %@", tx.transactionIdentifier);
         DYFStoreLog(@"[BAK] transaction.transactionTimestamp: %@", tx.transactionTimestamp);
+        DYFStoreLog(@"[BAK] transaction.originalTransactionIdentifier: %@", tx.originalTransactionIdentifier);
+        DYFStoreLog(@"[BAK] transaction.originalTransactionTimestamp: %@", tx.originalTransactionTimestamp);
         DYFStoreLog(@"[BAK] transaction.transactionReceipt: %@", receiptData);
     }
 }
@@ -210,18 +216,20 @@ static DYFStoreManager *_instance = nil;
     DYFStoreKeychainPersistence *persister = store.keychainPersister;
     
     DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
-    transaction.productIdentifier = info.productIdentifier;
     
     if (info.state == DYFStorePurchaseStateSucceeded) {
         transaction.state = DYFStoreTransactionStatePurchased;
     } else if (info.state == DYFStorePurchaseStateRestored) {
         transaction.state = DYFStoreTransactionStateRestored;
-        transaction.originalTransactionTimestamp = info.originalTransactionDate.timestamp;
-        transaction.originalTransactionIdentifier = info.originalTransactionIdentifier;
     }
     
-    transaction.transactionTimestamp = info.transactionDate.timestamp;
+    transaction.productIdentifier = info.productIdentifier;
+    transaction.userIdentifier = info.userIdentifier;
     transaction.transactionIdentifier = info.transactionIdentifier;
+    transaction.transactionTimestamp = info.transactionDate.timestamp;
+    transaction.originalTransactionTimestamp = info.originalTransactionDate.timestamp;
+    transaction.originalTransactionIdentifier = info.originalTransactionIdentifier;
+    
     transaction.transactionReceipt = data.base64EncodedString;
     [persister storeTransaction:transaction];
     
@@ -259,7 +267,8 @@ static DYFStoreManager *_instance = nil;
     }];
 }
 
-// It is better to use your own server with the parameters that was uploaded from the client to verify the receipt from the apple itunes store server (C -> Uploaded Parameters -> S -> Apple iTunes Store S -> S -> Receive Data -> C).
+// It is better to use your own server to obtain the parameters uploaded from the client to verify the receipt from the app store server (C -> Uploaded Parameters -> S -> App Store S -> S -> Receive And Parse Data -> C).
+// If the receipts are verified by your own server, the client needs to upload these parameters, such as: "transaction identifier, bundle identifier, product identifier, user identifier, shared sceret(Subscription), receipt(Safe URL Base64), original transaction identifier(Optional), original transaction time(Optional) and the device information, etc.".
 - (void)verifyReceipt:(NSData *)receiptData {
     DYFStoreLog();
     [self hideLoading];
@@ -303,17 +312,21 @@ static DYFStoreManager *_instance = nil;
         DYFStoreKeychainPersistence *persister = store.keychainPersister;
         
         if (info.state == DYFStorePurchaseStateRestored) {
+            
             SKPaymentTransaction *transaction = [store extractRestoredTransaction:info.transactionIdentifier];
             [store finishTransaction:transaction];
             
-            [persister removeTransaction:info.originalTransactionIdentifier];
         } else {
+            
             SKPaymentTransaction *transaction = [store extractPurchasedTransaction:info.transactionIdentifier];
-            // The transaction can be finished only after the receipt verification passed under the client and the server can adopt the communication of security and data encryption. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification we want StoreKit to keep reminding us of the transaction.
+            // The transaction can be finished only after the client and server adopt secure communication and data encryption and the receipt verification is passed. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification, we want `StoreKit` to keep reminding us that there are still outstanding transactions.
             [store finishTransaction:transaction];
         }
         
         [persister removeTransaction:info.transactionIdentifier];
+        if (info.originalTransactionIdentifier) {
+            [persister removeTransaction:info.originalTransactionIdentifier];
+        }
     });
 }
 
@@ -349,17 +362,21 @@ static DYFStoreManager *_instance = nil;
         DYFStoreKeychainPersistence *persister = store.keychainPersister;
         
         if (info.state == DYFStorePurchaseStateRestored) {
+            
             SKPaymentTransaction *transaction = [store extractRestoredTransaction:info.transactionIdentifier];
             [store finishTransaction:transaction];
             
-            [persister removeTransaction:info.originalTransactionIdentifier];
         } else {
+            
             SKPaymentTransaction *transaction = [store extractPurchasedTransaction:info.transactionIdentifier];
-            // The transaction can be finished only after the receipt verification passed under the client and the server can adopt the communication of security and data encryption. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification we want StoreKit to keep reminding us of the transaction.
+            // The transaction can be finished only after the client and server adopt secure communication and data encryption and the receipt verification is passed. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification, we want `StoreKit` to keep reminding us that there are still outstanding transactions.
             [store finishTransaction:transaction];
         }
         
         [persister removeTransaction:info.transactionIdentifier];
+        if (info.originalTransactionIdentifier) {
+            [persister removeTransaction:info.originalTransactionIdentifier];
+        }
     });
 }
 
