@@ -1,7 +1,7 @@
-## [Chinese Document](https://github.com/dgynfi/DYFStore)
+## [Chinese Document](https://github.com/dgynfi/DYFStoreKit)
 
 
-If this project can help you, please give it [a star](https://github.com/dgynfi/DYFStoreKit). Thanks!
+If this project can help you, please give it [a star](https://github.com/dgynfi/DYFStoreKit/blob/master/README-en.md). Thanks!
 
 
 ## DYFStoreKit
