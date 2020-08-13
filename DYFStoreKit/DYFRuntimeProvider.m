@@ -171,7 +171,7 @@ static Class _rtpClass = nil;
         
         for (NSString *key in properties) {
             id value = [model valueForKey: key];
-            dict[key] = value;
+            dict[key] = value ?: [NSNull null];
         }
         
         return dict.copy;
