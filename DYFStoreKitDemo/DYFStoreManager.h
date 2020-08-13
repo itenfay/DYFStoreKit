@@ -75,18 +75,6 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
  */
 + (instancetype)shared;
 
-/** Disable this method to make sure the class has only one instance.
- */
-+ (instancetype)new NS_UNAVAILABLE;
-
-/** Disable this method to make sure the class has only one instance.
- */
-- (id)copy NS_UNAVAILABLE;
-
-/** Disable this method to make sure the class has only one instance.
- */
-- (id)mutableCopy NS_UNAVAILABLE;
-
 /** Requests payment of the product with the given product identifier.
  */
 - (void)addPayment:(NSString *)productIdentifier;

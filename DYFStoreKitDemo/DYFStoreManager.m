@@ -40,33 +40,21 @@
 static DYFStoreManager *_instance = nil;
 
 + (instancetype)shared {
-    return [[self alloc] init];
-}
-
-/** Returns a new instance of the receiving class.
- */
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    static dispatch_once_t onceToken;
     
-    if (_instance == nil) {
-        static dispatch_once_t onceToken;
-        
-        dispatch_once(&onceToken, ^{
-            _instance = [super allocWithZone:zone];
-        });
-    }
+    dispatch_once(&onceToken, ^{
+        _instance = [[self alloc] init];
+    });
     
     return _instance;
 }
 
 - (instancetype)init {
-    static dispatch_once_t onceToken;
-    
-    dispatch_once(&onceToken, ^{
-        _instance = [super init];
-        [_instance setup];
-    });
-    
-    return _instance;
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    return self;
 }
 
 - (void)setup {
