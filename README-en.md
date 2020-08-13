@@ -35,7 +35,7 @@ A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)
 Using [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.1.3'
+pod 'DYFStoreKit', '~> 1.1.4'
 ```
 
 Or
@@ -44,7 +44,7 @@ Or
 pod 'DYFStoreKit'
 ```
 
-Or add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) directory if you're doing it manually.
+Or manually add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) directory.
 
 Check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) for more options.
 
