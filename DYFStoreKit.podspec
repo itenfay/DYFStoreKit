@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "DYFStoreKit"
-  spec.version      = "1.1.4"
+  spec.version      = "1.1.5"
   spec.summary      = "A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)"
 
   spec.description  = <<-DESC
