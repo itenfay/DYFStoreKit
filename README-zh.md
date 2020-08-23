@@ -1,41 +1,35 @@
-## [Chinese Document](https://github.com/dgynfi/DYFStoreKit)
-
-
-If this project can help you, please give it [a star](https://github.com/dgynfi/DYFStoreKit/blob/master/README-en.md). Thanks!
-
-
 ## DYFStoreKit
 
-A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)
+一个用于应用内购买的轻量级易用 iOS 库。(Objective-C)
 
-`DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence). `DYFStoreKit` doesn't require any external dependencies. 
+`DYFStoreKit`使用代码块和[通知](#通知)包装`StoreKit`，提供[收据验证](#收据验证)和[交易持久化](#交易持久化)。`DYFStoreKit`不需要任何外部依赖项。
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/DYFStoreKit.svg?style=flat)](http://cocoapods.org/pods/DYFStoreKit)&nbsp;
 ![CocoaPods](http://img.shields.io/cocoapods/p/DYFStoreKit.svg?style=flat)&nbsp;
 
 
-## Features
+## 特点
 
-- Super simple in-app purchases.
-- Built-in support for remembering your purchases.
-- Built-in receipt validation (remote).
-- Built-in hosted content downloads and notifications.
+- 超级简单的应用内购买
+- 内置支持记住您的购买
+- 内置收据验证（远程）
+- 内置托管内容下载和通知
 
 
-## Group (ID:614799921)
+## QQ群 (ID:614799921)
 
 <div align=left>
 &emsp; <img src="https://github.com/dgynfi/DYFStoreKit/raw/master/images/g614799921.jpg" width="30%" />
 </div>
 
 
-## Installation
+## 安装
 
-Using [CocoaPods](https://cocoapods.org):
+使用 [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.1.4'
+pod 'DYFStoreKit', '~> 1.1.5'
 ```
 
 Or
@@ -44,23 +38,23 @@ Or
 pod 'DYFStoreKit'
 ```
 
-Or manually add the files from the [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) directory.
+或者从 [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) 目录手动添加文件。
 
-Check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) for more options.
+查看 [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) 以获取更多选项。
 
 
-## Usage
+## 使用
 
-Next I'll show you how to use `DYFStoreKit`.
+接下来我会教你如何使用 `DYFStoreKit`.
 
-### Initialization
+### 初始化
 
-The initialization is as follows.
+初始化如下所示。
 
-- Whether to allow the logs output to the console, set 'true' in debug mode, view the logs of the whole process of in-app purchase, and set 'false' when publishing app in release mode.
-- Adds the observer of transactions and monitors the change of transactions.
-- Instantiates data persistent object and stores the related information of transactions.
-- Follows the agreement `DYFStoreAppStorePaymentDelegate` and processes payments for products purchased from the App Store.
+- 是否允许将日志输出到控制台，在 Debug 模式下设置 `true`，查看内购整个过程的日志，在 Release 模式下发布 App 时将 enableLog 设置 `false`。
+- 添加交易的观察者，监听交易的变化。
+- 实例化数据持久，存储交易的相关信息。
+- 遵守协议 `DYFStoreAppStorePaymentDelegate`，处理从 App Store 购买产品的付款。
 
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -79,7 +73,7 @@ The initialization is as follows.
 }
 ```
 
-You can process the purchase which was initiated by user from the App Store and provide your own implementation using the `DYFStoreAppStorePaymentDelegate` protocol:
+你可以处理用户从应用商店发起的购买，并使用 `DYFStoreAppStorePaymentDelegate` 协议提供自己的实现：
 
 ```
 // Processes the purchase which was initiated by user from the App Store.
@@ -102,11 +96,11 @@ You can process the purchase which was initiated by user from the App Store and 
 ```
 
 
-### Request products
+### 创建商品查询的请求
 
-There are two strategies for retrieving information about the products from the App Store.
+有两种策略可用于从应用程序商店获取有关产品的信息。
 
-**Strategy 1:** To begin the purchase process, your app must know its product identifiers. Your app can uses a product identifier to fetch information about product available for sale in the App Store and to submit payment request directly.
+**策略1：** 在开始购买过程，首先必须清楚有哪些产品标识符。App 可以使用其中一个产品标识符来获取应用程序商店中可供销售的产品的信息，并直接提交付款请求。
 
 ```
 - (IBAction)fetchesProductAndSubmitsPayment:(id)sender {
@@ -151,7 +145,7 @@ There are two strategies for retrieving information about the products from the 
 }
 ```
 
-**Strategy 2:** To begin the purchase process, your app must know its product identifiers so it can retrieve information about the products from the App Store and present its store UI to the user. Every product sold in your app has a unique product identifier. Your app uses these product identifiers to fetch information about products available for sale in the App Store, such as pricing, and to submit payment requests when users purchase those products.
+**策略2：** 在开始购买过程，首先必须清楚有哪些产品标识符。App 从应用程序商店获取有关产品的信息，并向用户显示其商店用户界面。App 中销售的每个产品都有唯一的产品标识符。App 使用这些产品标识符获取有关应用程序商店中可供销售的产品的信息，例如定价，并在用户购买这些产品时提交付款请求。
 
 ```
 - (NSArray *)fetchProductIdentifiersFromServer {
@@ -231,9 +225,9 @@ There are two strategies for retrieving information about the products from the 
 ```
 
 
-### Add payment
+### 创建购买产品的付款请求
 
-Whether the device is allowed to make payments.
+判断设备是否允许用户付款。
 
 ```
 if (![DYFStore canMakePayments]) {
@@ -242,15 +236,15 @@ if (![DYFStore canMakePayments]) {
 }
 ```
 
-Requests payment of the product with the given product identifier.
+使用给定的产品标识符请求产品付款。
 
 ```
 [DYFStore.defaultStore purchaseProduct:@"com.hncs.szj.coin210"];
 ```
 
-If you need an opaque identifier for the user’s account on your system to add payment, you can use a one-way hash of the user’s account name to calculate the value for this property.
+如果需要系统上用户帐户的不透明标识符来添加付款，可以使用用户帐户名的单向哈希来计算此属性的值。
 
-Calculates the SHA256 hash function:
+计算 SHA256 哈希值函数：
 
 ```
 CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
@@ -285,31 +279,33 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 }
 ```
 
-Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
+使用给定的产品标识符和系统中用户帐户的不透明标识符请求产品付款。
 
 ```
 [DYFStore.defaultStore purchaseProduct:@"com.hncs.szj.coin210" userIdentifier:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
 ```
 
 
-### Restore transactions
+### 恢复已购买的付款交易
 
-- Restores transactions without the user account identifier.
+在某些场景（如切换设备），App 需要提供恢复购买按钮，用来恢复之前购买的非消耗型的产品。
+
+- 无绑定用户帐户 ID 的恢复
 
 ```
 [DYFStore.defaultStore restoreTransactions];
 ```
 
-- Restores transactions with the user account identifier.
+- 绑定用户帐户 ID 的恢复
 
 ```
 [DYFStore.defaultStore restoreTransactions:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
 ```
 
 
-### Refresh receipt
+### 创建刷新收据请求
 
-If `Bundle.main.appStoreReceiptURL` is null, you need to create a refresh receipt request to obtain a receipt for a payment transaction.
+如果 `Bundle.main.appStoreReceiptURL` 为空，就需要创建刷新收据请求，获取付款交易的收据。
 
 ```
 [DYFStore.defaultStore refreshReceiptOnSuccess:^{
@@ -320,11 +316,11 @@ If `Bundle.main.appStoreReceiptURL` is null, you need to create a refresh receip
 ```
 
 
-### Notifications
+### 通知
 
-`DYFStoreKit` sends notifications of `StoreKit` related events and extends `NSNotification` to provide relevant information. To receive them, add the observer to a `DYFStoreKit` manager.
+`DYFStore`发送与`StoreKit`相关事件的通知，并扩展`NSNotification`以提供相关信息。要接收它们，请将观察者添加到`DYFStore`管理员。
 
-#### Add the store observer
+#### 添加商店观察者，监听购买和下载通知
 
 ```
 - (void)addStoreObserver {
@@ -333,9 +329,7 @@ If `Bundle.main.appStoreReceiptURL` is null, you need to create a refresh receip
 }
 ```
 
-#### Remove the store observer
-
-When the application exits, you need to remove the store observer.
+#### 在适当的时候，移除商店观察者
 
 ```
 - (void)removeStoreObserver {
@@ -344,9 +338,9 @@ When the application exits, you need to remove the store observer.
 }
 ```
 
-#### Payment transaction notifications
+#### 付款交易的通知处理
 
-Payment transaction notifications are sent after a payment has been requested or for each restored transaction.
+付款交易的通知是在请求付款后发送的，或是为每个恢复的交易发送的。
 
 ```
 - (void)processPurchaseNotification:(NSNotification *)notification {
@@ -380,7 +374,7 @@ Payment transaction notifications are sent after a payment has been requested or
 }
 ```
 
-#### Download notifications
+#### 下载的通知处理
 
 ```
 - (void)processDownloadNotification:(NSNotification *)notification {
@@ -410,15 +404,15 @@ Payment transaction notifications are sent after a payment has been requested or
 ```
 
 
-### Receipt verification
+### 收据验证
 
-`DYFStoreKit` doesn't perform receipt verification by default, but provides reference implementations. You can implement your own custom verification or use the reference verifier provided by the library.
+`DYFStoreKit`默认情况下不执行收据验证，但提供引用实现。您可以实现自己的自定义验证或使用库提供的引用验证程序。
 
-The reference verifier is outlined below. For more info, check out the [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Receipt-verification).
+引用验证程序概述如下。有关更多信息，请查看 [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Receipt-verification).
 
-#### Reference verifier
+#### 引用验证器
 
-You create and return a receipt verifier(`DYFStoreReceiptVerifier`) by using lazy loading.
+通过使用延迟加载创建并返回收据验证器（`DYFStoreReceiptVerifier`）。
 
 ```
 - (DYFStoreReceiptVerifier *)receiptVerifier {
@@ -430,7 +424,7 @@ You create and return a receipt verifier(`DYFStoreReceiptVerifier`) by using laz
 }
 ```
 
-The receipt verifier delegates receipt verification, enabling you to provide your own implementation using the `DYFStoreReceiptVerifierDelegate` protocol:
+收据验证程序委托收据验证，使您能够使用`DYFStoreReceiptVerifierDelegate`协议提供自己的实现：
 
 ```
 - (void)verifyReceiptDidFinish:(nonnull DYFStoreReceiptVerifier *)verifier didReceiveData:(nullable NSDictionary *)data;
@@ -438,7 +432,7 @@ The receipt verifier delegates receipt verification, enabling you to provide you
 - (void)verifyReceipt:(nonnull DYFStoreReceiptVerifier *)verifier didFailWithError:(nonnull NSError *)error;
 ```
 
-You can start verifying the in-app purchase receipt. 
+你可以开始验证应用内购买收据。
 
 ```
 // Fetches the data of the bundle’s App Store receipt. 
@@ -451,27 +445,27 @@ DYFStoreLog(@"data: %@", data);
 //[_receiptVerifier verifyReceipt:data sharedSecret:@"A43512564ACBEF687924646CAFEFBDCAEDF4155125657"];
 ```
 
-If security is a concern you might want to avoid using an open source verification logic, and provide your own custom verifier instead.
+如果担心安全性，你可能希望避免使用开源验证逻辑，而是提供自己的自定义验证程序。
 
-It is better to use your own server to obtain the parameters uploaded from the client to verify the receipt from the app store server (C -> Uploaded Parameters -> S -> App Store S -> S -> Receive And Parse Data -> C, C: client, S: server).
+最好使用你自己的服务器获取从客户端上传的参数，以验证来自App Store服务器的收据的响应信息（C -> 上传的参数 -> S -> App Store S -> S -> 接收并解析数据 -> C，C:客户端，S:服务器）。
 
 
-### Finish transactions
+### 完成交易
 
-The transaction can be finished only after the client and server adopt secure communication and data encryption and the receipt verification is passed. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification, we want `StoreKit` to keep reminding us that there are still outstanding transactions.
+只有客户机与服务器采用安全通信和数据加密并且收据验证通过后，才能完成交易。这样，我们可以避免刷新订单和破解应用内购买。如果我们无法完成验证，我们希望`StoreKit`不断提醒我们还有未完成的交易。
 
 ```
 [DYFStore.defaultStore finishTransaction:transaction];
 ```
 
 
-## Transaction persistence
+## 交易持久化
 
-`DYFStoreKit` provides two optional reference implementations for storing transactions in the Keychain(`DYFStoreKeychainPersistence`) or in `NSUserDefaults`(`DYFStoreUserDefaultsPersistence`). 
+`DYFStoreKit`提供了两个可选的引用实现，用于将交易信息存储在 Keychain（`DYFStoreKeychainPersistence`) ）或 NSUserDefaults（`DYFStoreUserDefaultsPersistence`）中。
 
-When the client crashes during the payment process, it is particularly important to store transaction information. When storekit notifies the uncompleted payment again, it takes the data directly from keychain and performs the receipt verification until the transaction is completed.
+当客户端在付款过程中发生崩溃，导致 App 闪退，这时存储交易信息尤为重要。当 StoreKit 再次通知未完成的付款时，直接从 Keychain 中取出数据，进行收据验证，直至完成交易。
 
-### Store transaction
+### 存储交易信息
 
 ```
 - (void)storeReceipt {
@@ -516,7 +510,7 @@ When the client crashes during the payment process, it is particularly important
 }
 ```
 
-### Remove transaction
+### 移除交易信息
 
 ```
 dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC));
@@ -545,17 +539,17 @@ dispatch_after(time, dispatch_get_main_queue(), ^{
 ```
 
 
-## Requirements
+## 要求
 
-`DYFStoreKit` requires `iOS 7.0` or above and `ARC`.
-
-
-## Demo
-
-To learn more, please clone this project (`git clone https://github.com/dgynfi/DYFStoreKit.git`) to the local directory.
+`DYFStoreKit`需要`iOS 7.0`或更高版本和ARC。
 
 
-## Feedback is welcome
+## 演示
 
-If you notice any issue, got stuck or just want to chat feel free to create an issue. I will be happy to help you.
+如需了解更多，请克隆此项目（`git clone https://github.com/dgynfi/DYFStoreKit.git`）到本地目录。
+
+
+## 欢迎反馈
+
+如果你注意到任何问题，被卡住或只是想聊天，请随意创建一个问题。我很乐意帮助你。
 
