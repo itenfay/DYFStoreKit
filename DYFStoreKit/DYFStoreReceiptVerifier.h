@@ -1,7 +1,7 @@
 //
 //  DYFStoreReceiptVerifier.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
+//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreReceiptVerifier )
 //  Copyright © 2014 dyf. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
