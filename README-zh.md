@@ -48,8 +48,6 @@ Or
 pod 'DYFStoreKit'
 ```
 
-或者从 [DYFStoreKit](https://github.com/dgynfi/DYFStoreKit/tree/master/DYFStoreKit) 目录手动添加文件。
-
 查看 [wiki](https://github.com/dgynfi/DYFStoreKit/wiki/Installation) 以获取更多选项。
 
 
