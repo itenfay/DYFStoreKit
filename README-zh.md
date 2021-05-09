@@ -9,6 +9,16 @@
 ![CocoaPods](http://img.shields.io/cocoapods/p/DYFStoreKit.svg?style=flat)&nbsp;
 
 
+## 相关连接
+
+- [DYFRuntimeProvider](https://github.com/dgynfi/DYFRuntimeProvider/)
+- [DYFKeychain](https://github.com/dgynfi/DYFKeychain/)
+- [DYFStoreReceiptVerifier](https://github.com/dgynfi/DYFStoreReceiptVerifier/)
+- [Unity-iOS-InAppPurchase](https://github.com/dgynfi/Unity-iOS-InAppPurchase/)
+- [https://dgynfi.github.io/2016/10/16/in-app-purchase-complete-programming-guide-for-iOS/](https://dgynfi.github.io/2016/10/16/in-app-purchase-complete-programming-guide-for-iOS/)
+- [https://dgynfi.github.io/2016/10/12/how-to-easily-complete-in-app-purchase-configuration-for-iOS/](https://dgynfi.github.io/2016/10/12/how-to-easily-complete-in-app-purchase-configuration-for-iOS/)
+
+
 ## 特点
 
 - 超级简单的应用内购买
@@ -29,7 +39,7 @@
 使用 [CocoaPods](https://cocoapods.org):
 
 ``` 
-pod 'DYFStoreKit', '~> 1.1.5'
+pod 'DYFStoreKit', '~> 1.2.0'
 ```
 
 Or
@@ -67,8 +77,6 @@ pod 'DYFStoreKit'
     // Sets the delegate processes the purchase which was initiated by user from the App Store.
     DYFStore.defaultStore.delegate = self;
 
-    DYFStore.defaultStore.keychainPersister = [[DYFStoreKeychainPersistence alloc] init];
-
     return YES;
 }
 ```
@@ -98,16 +106,31 @@ pod 'DYFStoreKit'
 
 ### 创建商品查询的请求
 
-有两种策略可用于从应用程序商店获取有关产品的信息。
+在创建商品查询的请求前，你需要检查设备是否能够或者被允许付款。
 
-**策略1：** 在开始购买过程，首先必须清楚有哪些产品标识符。App 可以使用其中一个产品标识符来获取应用程序商店中可供销售的产品的信息，并直接提交付款请求。
+```
+if (![DYFStore canMakePayments]) {
+    [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+    return;
+}
+```
+
+在开始购买过程，首先必须清楚有哪些产品标识符。有两种策略可用于从应用程序商店获取有关产品的信息。
+
+**策略1：** App 可以使用其中一个产品标识符来获取应用程序商店中可供销售的产品的信息，并直接提交付款请求。
 
 ```
 - (IBAction)fetchesProductAndSubmitsPayment:(id)sender {
+
+    // You need to check whether the device is not able or allowed to make payments before requesting product.
+    if (![DYFStore canMakePayments]) {
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        return;
+    }
+
     [self showLoading:@"Loading..."];
     
     NSString *productId = @"com.hncs.szj.coin48";
-    
     [DYFStore.defaultStore requestProductWithIdentifier:productId success:^(NSArray *products, NSArray *invalidIdentifiers) {
         
         [self hideLoading];
@@ -128,6 +151,7 @@ pod 'DYFStoreKit'
         
         NSString *value = error.userInfo[NSLocalizedDescriptionKey];
         NSString *msg = value ?: error.localizedDescription;
+        // This indicates that the product cannot be fetched, because an error was reported.
         [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
     }];
 }
@@ -145,7 +169,7 @@ pod 'DYFStoreKit'
 }
 ```
 
-**策略2：** 在开始购买过程，首先必须清楚有哪些产品标识符。App 从应用程序商店获取有关产品的信息，并向用户显示其商店用户界面。App 中销售的每个产品都有唯一的产品标识符。App 使用这些产品标识符获取有关应用程序商店中可供销售的产品的信息，例如定价，并在用户购买这些产品时提交付款请求。
+**策略2：** App 从应用程序商店获取有关产品的信息，并向用户显示其商店用户界面。App 中销售的每个产品都有唯一的产品标识符。App 使用这些产品标识符获取有关应用程序商店中可供销售的产品的信息，例如定价，并在用户购买这些产品时提交付款请求。
 
 ```
 - (NSArray *)fetchProductIdentifiersFromServer {
@@ -164,10 +188,16 @@ pod 'DYFStoreKit'
 }
 
 - (IBAction)fetchesProductsFromAppStore:(id)sender {
+    
+    // You need to check whether the device is not able or allowed to make payments before requesting products.
+    if (![DYFStore canMakePayments]) {
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        return;
+    }
+    
     [self showLoading:@"Loading..."];
     
     NSArray *productIds = [self fetchProductIdentifiersFromServer];
-    
     [DYFStore.defaultStore requestProductWithIdentifiers:productIds success:^(NSArray *products, NSArray *invalidIdentifiers) {
         
         [self hideLoading];
@@ -188,6 +218,7 @@ pod 'DYFStoreKit'
         
         NSString *value = error.userInfo[NSLocalizedDescriptionKey];
         NSString *msg = value ?: error.localizedDescription;
+        // This indicates that the products cannot be fetched, because an error was reported.
         [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
     }];
 }
@@ -226,15 +257,6 @@ pod 'DYFStoreKit'
 
 
 ### 创建购买产品的付款请求
-
-判断设备是否允许用户付款。
-
-```
-if (![DYFStore canMakePayments]) {
-    [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
-    return;
-}
-```
 
 使用给定的产品标识符请求产品付款。
 
@@ -412,7 +434,7 @@ CG_INLINE NSString *DYF_SHA256_HashValue(NSString *string) {
 
 #### 引用验证器
 
-通过使用延迟加载创建并返回收据验证器（`DYFStoreReceiptVerifier`）。
+通过使用延迟加载（懒加载）创建并返回收据验证器（`DYFStoreReceiptVerifier`）。
 
 ```
 - (DYFStoreReceiptVerifier *)receiptVerifier {
@@ -452,7 +474,7 @@ DYFStoreLog(@"data: %@", data);
 
 ### 完成交易
 
-只有客户机与服务器采用安全通信和数据加密并且收据验证通过后，才能完成交易。这样，我们可以避免刷新订单和破解应用内购买。如果我们无法完成验证，我们希望`StoreKit`不断提醒我们还有未完成的交易。
+只有客户端与服务器采用安全通信和数据加密并且收据验证通过后，才能完成交易。这样，我们可以避免刷新订单和破解应用内购买。如果我们无法完成验证，我们希望`StoreKit`不断提醒我们还有未完成的交易。
 
 ```
 [DYFStore.defaultStore finishTransaction:transaction];
@@ -461,9 +483,9 @@ DYFStoreLog(@"data: %@", data);
 
 ## 交易持久化
 
-`DYFStoreKit`提供了两个可选的引用实现，用于将交易信息存储在 Keychain（`DYFStoreKeychainPersistence`) ）或 NSUserDefaults（`DYFStoreUserDefaultsPersistence`）中。
+`DYFStoreKit`提供了一个引用实现，用于将交易信息存储在 NSUserDefaults（`DYFStoreUserDefaultsPersistence`）中。
 
-当客户端在付款过程中发生崩溃，导致 App 闪退，这时存储交易信息尤为重要。当 StoreKit 再次通知未完成的付款时，直接从 Keychain 中取出数据，进行收据验证，直至完成交易。
+当客户端在付款过程中发生崩溃，导致 App 闪退，这时存储交易信息尤为重要。当 StoreKit 再次通知未完成的付款时，直接从文件中取出数据，进行收据验证，直至完成交易。
 
 ### 存储交易信息
 
@@ -479,8 +501,7 @@ DYFStoreLog(@"data: %@", data);
     }
     
     DYFStoreNotificationInfo *info = self.purchaseInfo;
-    DYFStore *store = DYFStore.defaultStore;
-    DYFStoreKeychainPersistence *persister = store.keychainPersister;
+    DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
     
     DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
     
@@ -500,12 +521,6 @@ DYFStoreLog(@"data: %@", data);
     transaction.transactionReceipt = data.base64EncodedString;
     [persister storeTransaction:transaction];
     
-    // Makes the backup data.
-    DYFStoreUserDefaultsPersistence *uPersister = [[DYFStoreUserDefaultsPersistence alloc] init];
-    if (![uPersister containsTransaction:info.transactionIdentifier]) {
-        [uPersister storeTransaction:transaction];
-    }
-    
     [self verifyReceipt:data];
 }
 ```
@@ -513,29 +528,26 @@ DYFStoreLog(@"data: %@", data);
 ### 移除交易信息
 
 ```
-dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC));
-dispatch_after(time, dispatch_get_main_queue(), ^{
-    DYFStoreNotificationInfo *info = self.purchaseInfo;
-    DYFStore *store = DYFStore.defaultStore;
-    DYFStoreKeychainPersistence *persister = store.keychainPersister;
+DYFStoreNotificationInfo *info = self.purchaseInfo;
+DYFStore *store = DYFStore.defaultStore;
+DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
+
+if (info.state == DYFStorePurchaseStateRestored) {
     
-    if (info.state == DYFStorePurchaseStateRestored) {
-        
-        SKPaymentTransaction *transaction = [store extractRestoredTransaction:info.transactionIdentifier];
-        [store finishTransaction:transaction];
-        
-    } else {
-        
-        SKPaymentTransaction *transaction = [store extractPurchasedTransaction:info.transactionIdentifier];
-        // The transaction can be finished only after the client and server adopt secure communication and data encryption and the receipt verification is passed. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification, we want `StoreKit` to keep reminding us that there are still outstanding transactions.
-        [store finishTransaction:transaction];
-    }
+    SKPaymentTransaction *transaction = [store extractRestoredTransaction:info.transactionIdentifier];
+    [store finishTransaction:transaction];
     
-    [persister removeTransaction:info.transactionIdentifier];
-    if (info.originalTransactionIdentifier) {
-        [persister removeTransaction:info.originalTransactionIdentifier];
-    }
-});
+} else {
+    
+    SKPaymentTransaction *transaction = [store extractPurchasedTransaction:info.transactionIdentifier];
+    // The transaction can be finished only after the client and server adopt secure communication and data encryption and the receipt verification is passed. In this way, we can avoid refreshing orders and cracking in-app purchase. If we were unable to complete the verification, we want `StoreKit` to keep reminding us that there are still outstanding transactions.
+    [store finishTransaction:transaction];
+}
+
+[persister removeTransaction:info.transactionIdentifier];
+if (info.originalTransactionIdentifier) {
+    [persister removeTransaction:info.originalTransactionIdentifier];
+}
 ```
 
 
