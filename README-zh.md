@@ -242,11 +242,6 @@ if (![DYFStore canMakePayments]) {
 
 - (void)displayStoreUI:(NSMutableArray *)dataArray {
     
-    if (![DYFStore canMakePayments]) {
-        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
-        return;
-    }
-    
     DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
     storeVC.dataArray = dataArray;
     [self.navigationController pushViewController:storeVC animated:YES];
@@ -481,7 +476,7 @@ DYFStoreLog(@"data: %@", data);
 
 ## 交易持久化
 
-`DYFStoreKit`提供了一个引用实现，用于将交易信息存储在 NSUserDefaults（`DYFStoreUserDefaultsPersistence`）中。
+`DYFStoreKit`提供了一个可选的引用实现，用于将交易信息存储在 NSUserDefaults（`DYFStoreUserDefaultsPersistence`）中。
 
 当客户端在付款过程中发生崩溃，导致 App 闪退，这时存储交易信息尤为重要。当 StoreKit 再次通知未完成的付款时，直接从文件中取出数据，进行收据验证，直至完成交易。
 
