@@ -244,11 +244,6 @@ To begin the purchase process, your app must know its product identifiers. There
 
 - (void)displayStoreUI:(NSMutableArray *)dataArray {
     
-    if (![DYFStore canMakePayments]) {
-        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
-        return;
-    }
-    
     DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
     storeVC.dataArray = dataArray;
     [self.navigationController pushViewController:storeVC animated:YES];
@@ -483,7 +478,7 @@ The transaction can be finished only after the client and server adopt secure co
 
 ## Transaction persistence
 
-`DYFStoreKit` provides the reference implementations for storing transactions in `NSUserDefaults`(`DYFStoreUserDefaultsPersistence`). 
+`DYFStoreKit` provides an optional reference implementation for storing transactions in `NSUserDefaults`(`DYFStoreUserDefaultsPersistence`). 
 
 When the client crashes during the payment process, it is particularly important to store transaction information. When storekit notifies the uncompleted payment again, it takes the data directly from file and performs the receipt verification until the transaction is completed.
 
