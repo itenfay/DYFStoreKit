@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#if __has_include(<DYFKeychain/DYFKeychain.h>)
 #import "DYFStoreTransaction.h"
 
 /** The transaction persistence using the keychain.
@@ -67,3 +68,5 @@
 - (void)removeTransactions;
 
 @end
+
+#endif

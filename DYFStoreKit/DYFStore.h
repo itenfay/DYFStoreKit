@@ -89,7 +89,9 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 
 /** The keychain persister that supervises the `DYFStoreTransaction` transactions.
  */
+#if __has_include(<DYFKeychain/DYFKeychain.h>)
 @property (nonatomic, strong) DYFStoreKeychainPersistence *keychainPersister;
+#endif
 
 /** Constructs a store singleton with class method.
  
