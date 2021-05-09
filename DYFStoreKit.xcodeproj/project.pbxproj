@@ -21,21 +21,20 @@
 		142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CC2371DE6200D35669 /* CoreGraphics.framework */; };
 		142556CF2371DE6800D35669 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CE2371DE6800D35669 /* Security.framework */; };
 		143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */; };
-		14717AD724A9144B0000D298 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 143A19B22486ADDA005A22D5 /* StoreKit.framework */; };
 		147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */; };
 		147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */; };
-		14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */; };
 		14ABF8DC237A980D00015826 /* DYFStoreTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */; };
 		14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D1237A980B00015826 /* DYFStoreConverter.m */; };
 		14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */; };
 		14ABF8DF237A980D00015826 /* DYFStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D4237A980B00015826 /* DYFStore.m */; };
-		14ABF8E0237A980D00015826 /* DYFKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D8237A980C00015826 /* DYFKeychain.m */; };
 		14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */; };
 		14ABF8E2237A980D00015826 /* DYFStoreUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */; };
 		14BAC1A922945440006974B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1A722945440006974B5 /* Main.storyboard */; };
 		14BAC1AB2294544C006974B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AA2294544C006974B5 /* Assets.xcassets */; };
 		14BAC1AE2294544C006974B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AC2294544C006974B5 /* LaunchScreen.storyboard */; };
 		14BAC1B12294544C006974B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BAC1B02294544C006974B5 /* main.m */; };
+		14FF76D1263B37290060AEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FF76D0263B37290060AEF7 /* StoreKit.framework */; };
+		C1A6FE90B54639EC46CDEC1D /* libPods-DYFStoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,25 +60,20 @@
 		142556CE2371DE6800D35669 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
 		143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
-		143A19B22486ADDA005A22D5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		147FC0F7239AA54400A879C1 /* NSObject+DYFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DYFAdd.h"; sourceTree = "<group>"; };
 		147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DYFAdd.m"; sourceTree = "<group>"; };
 		147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreManager.m; sourceTree = "<group>"; };
 		147FC0FB239B4F6700A879C1 /* DYFStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreManager.h; sourceTree = "<group>"; };
-		14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFRuntimeProvider.m; sourceTree = "<group>"; };
 		14ABF8CC237A980A00015826 /* DYFStoreReceiptVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreReceiptVerifier.h; sourceTree = "<group>"; };
 		14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreUserDefaultsPersistence.h; sourceTree = "<group>"; };
-		14ABF8CE237A980B00015826 /* DYFRuntimeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFRuntimeProvider.h; sourceTree = "<group>"; };
 		14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTransaction.m; sourceTree = "<group>"; };
 		14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTransaction.h; sourceTree = "<group>"; };
 		14ABF8D1237A980B00015826 /* DYFStoreConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreConverter.m; sourceTree = "<group>"; };
 		14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreKeychainPersistence.m; sourceTree = "<group>"; };
-		14ABF8D3237A980B00015826 /* DYFKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFKeychain.h; sourceTree = "<group>"; };
 		14ABF8D4237A980B00015826 /* DYFStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStore.m; sourceTree = "<group>"; };
 		14ABF8D5237A980C00015826 /* DYFStoreConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreConverter.h; sourceTree = "<group>"; };
 		14ABF8D6237A980C00015826 /* DYFStoreKeychainPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreKeychainPersistence.h; sourceTree = "<group>"; };
 		14ABF8D7237A980C00015826 /* DYFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStore.h; sourceTree = "<group>"; };
-		14ABF8D8237A980C00015826 /* DYFKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFKeychain.m; sourceTree = "<group>"; };
 		14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreReceiptVerifier.m; sourceTree = "<group>"; };
 		14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreUserDefaultsPersistence.m; sourceTree = "<group>"; };
 		14BAC19E2294543F006974B5 /* DYFStoreKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DYFStoreKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +82,10 @@
 		14BAC1AD2294544C006974B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14BAC1AF2294544C006974B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14BAC1B02294544C006974B5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		14FF76D0263B37290060AEF7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		1EAD3C6146C0003D3F63FA4D /* Pods-DYFStoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.debug.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.debug.xcconfig"; sourceTree = "<group>"; };
+		395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DYFStoreKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4552F4D1DA9F4B957DE1F0D4 /* Pods-DYFStoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.release.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,11 +93,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14717AD724A9144B0000D298 /* StoreKit.framework in Frameworks */,
+				14FF76D1263B37290060AEF7 /* StoreKit.framework in Frameworks */,
 				142556CF2371DE6800D35669 /* Security.framework in Frameworks */,
 				142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */,
 				142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */,
 				142556C92371DE5200D35669 /* Foundation.framework in Frameworks */,
+				C1A6FE90B54639EC46CDEC1D /* libPods-DYFStoreKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +112,7 @@
 				14BAC1A02294543F006974B5 /* DYFStoreKitDemo */,
 				14BAC19F2294543F006974B5 /* Products */,
 				14BAC1B722945490006974B5 /* Frameworks */,
+				CCE833F6CFE4EA9D993B6D1F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,11 +161,12 @@
 		14BAC1B722945490006974B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				143A19B22486ADDA005A22D5 /* StoreKit.framework */,
+				14FF76D0263B37290060AEF7 /* StoreKit.framework */,
 				142556CE2371DE6800D35669 /* Security.framework */,
 				142556CC2371DE6200D35669 /* CoreGraphics.framework */,
 				142556CA2371DE5A00D35669 /* UIKit.framework */,
 				142556C82371DE5200D35669 /* Foundation.framework */,
+				395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,10 +174,6 @@
 		14BAC1BA22945848006974B5 /* DYFStoreKit */ = {
 			isa = PBXGroup;
 			children = (
-				14ABF8D3237A980B00015826 /* DYFKeychain.h */,
-				14ABF8D8237A980C00015826 /* DYFKeychain.m */,
-				14ABF8CE237A980B00015826 /* DYFRuntimeProvider.h */,
-				14ABF8CB237A980A00015826 /* DYFRuntimeProvider.m */,
 				14ABF8D7237A980C00015826 /* DYFStore.h */,
 				14ABF8D4237A980B00015826 /* DYFStore.m */,
 				14ABF8D5237A980C00015826 /* DYFStoreConverter.h */,
@@ -193,6 +190,15 @@
 			path = DYFStoreKit;
 			sourceTree = "<group>";
 		};
+		CCE833F6CFE4EA9D993B6D1F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1EAD3C6146C0003D3F63FA4D /* Pods-DYFStoreKit.debug.xcconfig */,
+				4552F4D1DA9F4B957DE1F0D4 /* Pods-DYFStoreKit.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,6 +206,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 14BAC1B42294544C006974B5 /* Build configuration list for PBXNativeTarget "DYFStoreKit" */;
 			buildPhases = (
+				15168AD9769FE33D547CCDC7 /* [CP] Check Pods Manifest.lock */,
 				14BAC19A2294543F006974B5 /* Sources */,
 				14BAC19B2294543F006974B5 /* Frameworks */,
 				14BAC19C2294543F006974B5 /* Resources */,
@@ -260,6 +267,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		15168AD9769FE33D547CCDC7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DYFStoreKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		14BAC19A2294543F006974B5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -271,7 +303,6 @@
 				1424B8EE238535820032D915 /* UIView+DYFAdd.m in Sources */,
 				14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */,
 				147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */,
-				14ABF8DB237A980D00015826 /* DYFRuntimeProvider.m in Sources */,
 				143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */,
 				147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */,
 				14BAC1B12294544C006974B5 /* main.m in Sources */,
@@ -280,7 +311,6 @@
 				1424B8E3238510E80032D915 /* DYFStoreViewController.m in Sources */,
 				1424B8EB238510E80032D915 /* ViewController.m in Sources */,
 				1424B8E9238510E80032D915 /* DYFStoreTableViewCell.m in Sources */,
-				14ABF8E0237A980D00015826 /* DYFKeychain.m in Sources */,
 				14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */,
 				14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */,
 				1424B8E6238510E80032D915 /* DYFLoadingView.m in Sources */,
@@ -423,11 +453,12 @@
 		};
 		14BAC1B52294544C006974B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EAD3C6146C0003D3F63FA4D /* Pods-DYFStoreKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -435,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -445,11 +476,12 @@
 		};
 		14BAC1B62294544C006974B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4552F4D1DA9F4B957DE1F0D4 /* Pods-DYFStoreKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -457,7 +489,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -151,8 +151,7 @@ static DYFStoreManager *_instance = nil;
 
 - (void)completePayment {
     DYFStoreNotificationInfo *info = self.purchaseInfo;
-    DYFStore *store = DYFStore.defaultStore;
-    DYFStoreKeychainPersistence *persister = store.keychainPersister;
+    DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
     
     NSString *identifier = info.transactionIdentifier;
     if (![persister containsTransaction:identifier]) {
@@ -172,21 +171,6 @@ static DYFStoreManager *_instance = nil;
     DYFStoreLog(@"transaction.transactionReceipt: %@", receiptData);
     
     [self verifyReceipt:receiptData];
-    
-    // Reads the backup data.
-    DYFStoreUserDefaultsPersistence *uPersister = [[DYFStoreUserDefaultsPersistence alloc] init];
-    if ([uPersister containsTransaction:identifier]) {
-        DYFStoreTransaction *tx = [uPersister retrieveTransaction:identifier];
-        NSData *receiptData = tx.transactionReceipt.base64DecodedData;
-        DYFStoreLog(@"[BAK] transaction.state: %zi", tx.state);
-        DYFStoreLog(@"[BAK] transaction.productIdentifier: %@", tx.productIdentifier);
-        DYFStoreLog(@"[BAK] transaction.userIdentifier: %@", tx.userIdentifier);
-        DYFStoreLog(@"[BAK] transaction.transactionIdentifier: %@", tx.transactionIdentifier);
-        DYFStoreLog(@"[BAK] transaction.transactionTimestamp: %@", tx.transactionTimestamp);
-        DYFStoreLog(@"[BAK] transaction.originalTransactionIdentifier: %@", tx.originalTransactionIdentifier);
-        DYFStoreLog(@"[BAK] transaction.originalTransactionTimestamp: %@", tx.originalTransactionTimestamp);
-        DYFStoreLog(@"[BAK] transaction.transactionReceipt: %@", receiptData);
-    }
 }
 
 - (void)storeReceipt {
@@ -200,11 +184,9 @@ static DYFStoreManager *_instance = nil;
     }
     
     DYFStoreNotificationInfo *info = self.purchaseInfo;
-    DYFStore *store = DYFStore.defaultStore;
-    DYFStoreKeychainPersistence *persister = store.keychainPersister;
+    DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
     
     DYFStoreTransaction *transaction = [[DYFStoreTransaction alloc] init];
-    
     if (info.state == DYFStorePurchaseStateSucceeded) {
         transaction.state = DYFStoreTransactionStatePurchased;
     } else if (info.state == DYFStorePurchaseStateRestored) {
@@ -220,12 +202,6 @@ static DYFStoreManager *_instance = nil;
     
     transaction.transactionReceipt = data.base64EncodedString;
     [persister storeTransaction:transaction];
-    
-    // Makes the backup data.
-    DYFStoreUserDefaultsPersistence *uPersister = [[DYFStoreUserDefaultsPersistence alloc] init];
-    if (![uPersister containsTransaction:info.transactionIdentifier]) {
-        [uPersister storeTransaction:transaction];
-    }
     
     [self verifyReceipt:data];
 }
@@ -277,8 +253,7 @@ static DYFStoreManager *_instance = nil;
 
 - (void)retryToVerifyReceipt {
     DYFStoreNotificationInfo *info = self.purchaseInfo;
-    DYFStore *store = DYFStore.defaultStore;
-    DYFStoreKeychainPersistence *persister = store.keychainPersister;
+    DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
     
     NSString *identifier = info.transactionIdentifier;
     DYFStoreTransaction *transaction = [persister retrieveTransaction:identifier];
@@ -297,7 +272,7 @@ static DYFStoreManager *_instance = nil;
         
         DYFStoreNotificationInfo *info = self.purchaseInfo;
         DYFStore *store = DYFStore.defaultStore;
-        DYFStoreKeychainPersistence *persister = store.keychainPersister;
+        DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
         
         if (info.state == DYFStorePurchaseStateRestored) {
             
@@ -347,7 +322,7 @@ static DYFStoreManager *_instance = nil;
     dispatch_after(time, dispatch_get_main_queue(), ^{
         DYFStoreNotificationInfo *info = self.purchaseInfo;
         DYFStore *store = DYFStore.defaultStore;
-        DYFStoreKeychainPersistence *persister = store.keychainPersister;
+        DYFStoreUserDefaultsPersistence *persister = [[DYFStoreUserDefaultsPersistence alloc] init];
         
         if (info.state == DYFStorePurchaseStateRestored) {
             

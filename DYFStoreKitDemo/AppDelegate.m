@@ -26,8 +26,6 @@
     // Sets the delegate processes the purchase which was initiated by user from the App Store.
     DYFStore.defaultStore.delegate = self;
     
-    DYFStore.defaultStore.keychainPersister = [[DYFStoreKeychainPersistence alloc] init];
-    
     return YES;
 }
 

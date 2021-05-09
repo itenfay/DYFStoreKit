@@ -29,10 +29,16 @@
 ///  - Step 1: Requests localized information about a product from the Apple App Store.
 ///  - Step 2: Adds payment of the product with the given product identifier.
 - (IBAction)fetchesProductAndSubmitsPayment:(id)sender {
+    
+    // You need to check whether the device is not able or allowed to make payments before requesting product.
+    if (![DYFStore canMakePayments]) {
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        return;
+    }
+    
     [self showLoading:@"Loading..."];
     
     NSString *productId = @"com.hncs.szj.coin48";
-    
     [DYFStore.defaultStore requestProductWithIdentifier:productId success:^(NSArray *products, NSArray *invalidIdentifiers) {
         
         [self hideLoading];
@@ -53,6 +59,7 @@
         
         NSString *value = error.userInfo[NSLocalizedDescriptionKey];
         NSString *msg = value ?: error.localizedDescription;
+        // This indicates that the product cannot be fetched, because an error was reported.
         [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
     }];
 }
@@ -89,10 +96,16 @@
 ///  - Step 2: After retrieving the localized product list, then display store UI.
 ///  - Step 3: Adds payment of the product with the given product identifier.
 - (IBAction)fetchesProductsFromAppStore:(id)sender {
+    
+    // You need to check whether the device is not able or allowed to make payments before requesting products.
+    if (![DYFStore canMakePayments]) {
+        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
+        return;
+    }
+    
     [self showLoading:@"Loading..."];
     
     NSArray *productIds = [self fetchProductIdentifiersFromServer];
-    
     [DYFStore.defaultStore requestProductWithIdentifiers:productIds success:^(NSArray *products, NSArray *invalidIdentifiers) {
         
         [self hideLoading];
@@ -113,6 +126,7 @@
         
         NSString *value = error.userInfo[NSLocalizedDescriptionKey];
         NSString *msg = value ?: error.localizedDescription;
+        // This indicates that the products cannot be fetched, because an error was reported.
         [self sendNotice:[NSString stringWithFormat:@"An error occurs, %zi, %@", error.code, msg]];
     }];
 }
@@ -137,12 +151,6 @@
 }
 
 - (void)displayStoreUI:(NSMutableArray *)dataArray {
-    
-    if (![DYFStore canMakePayments]) {
-        [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
-        return;
-    }
-    
     DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
     storeVC.dataArray = dataArray;
     [self.navigationController pushViewController:storeVC animated:YES];
