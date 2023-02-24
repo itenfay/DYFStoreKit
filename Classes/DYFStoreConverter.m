@@ -1,8 +1,8 @@
 //
 //  DYFStoreConverter.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,39 +27,36 @@
 
 @implementation DYFStoreConverter
 
-+ (NSData *)encodeObject:(id)object {
-    
++ (NSData *)encodeObject:(id)object
+{
     if (!object) { return nil; }
     
     if (@available(iOS 11.0, *)) {
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:NO];
         [archiver encodeObject:object];
-        
         return archiver.encodedData;
     }
     
     return [NSKeyedArchiver archivedDataWithRootObject:object];
 }
 
-+ (id)decodeObject:(NSData *)data {
-    
++ (id)decodeObject:(NSData *)data
+{
     if (!data) { return nil; }
     
     if (@available(iOS 11.0, *)) {
-        
         NSError *error = nil;
         NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
         unarchiver.requiresSecureCoding = NO;
         if (!error) {
             id object = [unarchiver decodeObject];
             [unarchiver finishDecoding];
-            
             return object;
         }
         
-#if DEBUG
+        #if DEBUG
         NSLog(@"%s error: %@", __FUNCTION__, error);
-#endif
+        #endif
         
         return nil;
     }
@@ -67,12 +64,13 @@
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
-+ (NSData *)jsonWithObject:(id)obj {
++ (NSData *)jsonWithObject:(id)obj
+{
     return [self jsonWithObject:obj options:kNilOptions];
 }
 
-+ (NSData *)jsonWithObject:(id)obj options:(NSJSONWritingOptions)options {
-    
++ (NSData *)jsonWithObject:(id)obj options:(NSJSONWritingOptions)options
+{
     if (!obj) { return nil; }
     
     NSError *error = nil;
@@ -81,24 +79,25 @@
         if (!error) {
             return data;
         }
-#if DEBUG
+        #if DEBUG
         NSLog(@"%s error: %@", __FUNCTION__, error);
-#endif
+        #endif
     } @catch (NSException *exception) {
-        
-#if DEBUG
+        #if DEBUG
         NSLog(@"%s exception: %@, %@", __FUNCTION__, exception.name, exception.reason);
-#endif
+        #endif
     } @finally {}
     
     return nil;
 }
 
-+ (NSString *)jsonStringWithObject:(id)obj {
++ (NSString *)jsonStringWithObject:(id)obj
+{
     return [self jsonStringWithObject:obj options:kNilOptions];
 }
 
-+ (NSString *)jsonStringWithObject:(id)obj options:(NSJSONWritingOptions)options {
++ (NSString *)jsonStringWithObject:(id)obj options:(NSJSONWritingOptions)options
+{
     NSData *data = [self jsonWithObject:obj options:options];
     
     if (!data) {
@@ -108,12 +107,13 @@
     return nil;
 }
 
-+ (id)jsonObjectWithData:(NSData *)data {
++ (id)jsonObjectWithData:(NSData *)data
+{
     return [self jsonObjectWithData:data options:kNilOptions];
 }
 
-+ (id)jsonObjectWithData:(NSData *)data options:(NSJSONReadingOptions)options {
-    
++ (id)jsonObjectWithData:(NSData *)data options:(NSJSONReadingOptions)options
+{
     if (!data) { return nil; }
     
     NSError *error = nil;
@@ -122,19 +122,20 @@
         return obj;
     }
     
-#if DEBUG
+    #if DEBUG
     NSLog(@"%s error: %@", __FUNCTION__, error);
-#endif
+    #endif
     
     return nil;
 }
 
-+ (id)jsonObjectWithJSON:(NSString *)json {
++ (id)jsonObjectWithJSON:(NSString *)json
+{
     return [self jsonObjectWithJSON:json options:kNilOptions];
 }
 
-+ (id)jsonObjectWithJSON:(NSString *)json options:(NSJSONReadingOptions)options {
-    
++ (id)jsonObjectWithJSON:(NSString *)json options:(NSJSONReadingOptions)options
+{
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     if (!data) { return nil; }
     

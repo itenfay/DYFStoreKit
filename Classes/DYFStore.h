@@ -1,8 +1,8 @@
 //
 //  DYFStore.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,47 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonCrypto.h>
 #import <StoreKit/StoreKit.h>
 #import "DYFStoreKeychainPersistence.h"
+
+/** Custom method to calculate the SHA-256 hash using Common Crypto.
+ */
+CG_INLINE NSString *DYFStore_supplySHA256(NSString *string)
+{
+    const int digestLength = CC_SHA256_DIGEST_LENGTH; // 32
+    unsigned char md[digestLength];
+    const char *cStr = [string UTF8String];
+    size_t cStrLen = strlen(cStr);
+    
+    // Confirm that the length of C string is small enough
+    // to be recast when calling the hash function.
+    if (cStrLen > UINT32_MAX) {
+        NSLog(@"C string too long to hash: %@", string);
+        return nil;
+    }
+    
+    CC_SHA256(cStr, (CC_LONG)cStrLen, md);
+    // Convert the array of bytes into a string showing its hex represention.
+    NSMutableString *hash = [NSMutableString string];
+    for (int i = 0; i < digestLength; i++) {
+        // Add a dash every four bytes, for readability.
+        if (i != 0 && i%4 == 0) {
+            //[hash appendString:@"-"];
+        }
+        [hash appendFormat:@"%02x", md[i]];
+    }
+    
+    return hash;
+}
 
 /** Outputs log to the console in the process of purchasing the `SKProduct` product.
  */
 #ifndef DYFStoreLog
 #if DEBUG
-#define DYFStoreLog(format, ...) NSLog((@"%s [Line: %d] [DYFStore] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+    #define DYFStoreLog(format, ...) NSLog((@"%s [Line: %d] [DYFStore] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 #else
-#define DYFStoreLog(format, ...) while(0){}
+    #define DYFStoreLog(format, ...) while(0){}
 #endif
 #endif
 
@@ -93,6 +124,10 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 @property (nonatomic, strong) DYFStoreKeychainPersistence *keychainPersister;
 #endif
 
+/** Whether hosted content is supported.
+ */
+@property (nonatomic, assign) BOOL hostedContentSupported;
+
 /** Constructs a store singleton with class method.
  
  @return A store singleton.
@@ -114,6 +149,10 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 /** Adds an observer to the payment queue. This must be invoked after the app has finished launching.
  */
 - (void)addPaymentTransactionObserver;
+
+/** Removes an observer from the payment queue.
+ */
+- (void)removePaymentTransactionObserver;
 
 /** Whether the user is allowed to make payments.
  
@@ -336,7 +375,8 @@ FOUNDATION_EXPORT NSString *const DYFStoreDownloadedNotification;
 
 /** Uses enumeration to inicate the state of purchase.
  */
-typedef NS_ENUM(NSUInteger, DYFStorePurchaseState) {
+typedef NS_ENUM(NSUInteger, DYFStorePurchaseState)
+{
     /** Indicates that the state is purchasing. */
     DYFStorePurchaseStatePurchasing,
     /** Indicates the user cancels the purchase. */
@@ -355,7 +395,8 @@ typedef NS_ENUM(NSUInteger, DYFStorePurchaseState) {
 
 /** Uses enumeration to inicate the state of download.
  */
-typedef NS_ENUM(NSUInteger, DYFStoreDownloadState) {
+typedef NS_ENUM(NSUInteger, DYFStoreDownloadState)
+{
     /** Indicates that downloading a hosted content has started. */
     DYFStoreDownloadStateStarted,
     /** Indicates that a hosted content is currently being downloaded. */
@@ -370,7 +411,8 @@ typedef NS_ENUM(NSUInteger, DYFStoreDownloadState) {
 
 /** Uses enumeration to inicate the error code of store.
  */
-typedef NS_ENUM(NSUInteger, DYFStoreErrorCode) {
+typedef NS_ENUM(NSUInteger, DYFStoreErrorCode)
+{
     /** Unknown product identifier. */
     DYFStoreErrorCodeUnknownProductIdentifier = 100,
     /** Invalid parameter indicates that the received value is nil or empty. */

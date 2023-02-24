@@ -1,8 +1,8 @@
 //
 //  DYFStoreUserDefaultsPersistence.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -36,20 +36,19 @@
  
  @return An array whose elements are the `Data` objects.
  */
-- (NSArray<NSData *> *)loadDataFromUserDefaults {
-    
+- (NSArray<NSData *> *)loadDataFromUserDefaults
+{
     NSArray *array = [UserDefaults objectForKey:DYFStoreTransactionsKey];
     return array;
 }
 
-- (BOOL)containsTransaction:(NSString *)transactionIdentifier {
-    
+- (BOOL)containsTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self loadDataFromUserDefaults];
     if (!array) { return NO; }
     
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     for (int idx = 0; idx < arr.count; idx++) {
-        
         NSData *data = arr[idx];
         
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
@@ -63,8 +62,8 @@
     return NO;
 }
 
-- (void)storeTransaction:(DYFStoreTransaction *)transaction {
-    
+- (void)storeTransaction:(DYFStoreTransaction *)transaction
+{
     NSData *data = [DYFStoreConverter encodeObject:transaction];
     if (!data) { return; }
     
@@ -83,14 +82,13 @@
     [UserDefaults synchronize];
 }
 
-- (NSArray<DYFStoreTransaction *> *)retrieveTransactions {
-    
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions
+{
     NSArray *array = [self loadDataFromUserDefaults];
     if (!array) { return nil; }
     
     NSMutableArray *transactions = [NSMutableArray array];
     for (NSData *data in array) {
-        
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
         if (transaction) {
             [transactions addObject:transaction];
@@ -100,13 +98,12 @@
     return transactions;
 }
 
-- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier {
-    
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self retrieveTransactions];
     if (!array) { return nil; }
     
     for (DYFStoreTransaction *transaction in array) {
-        
         NSString *identifier = transaction.transactionIdentifier;
         if ([identifier isEqualToString:transactionIdentifier]) {
             return transaction;
@@ -116,15 +113,14 @@
     return nil;
 }
 
-- (void)removeTransaction:(NSString *)transactionIdentifier {
-    
+- (void)removeTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self loadDataFromUserDefaults];
     if (!array) { return; }
     
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     int index = -1;
     for (int idx = 0; idx < arr.count; idx++) {
-        
         NSData *data = arr[idx];
         
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
@@ -143,7 +139,8 @@
     }
 }
 
-- (void)removeTransactions {
+- (void)removeTransactions
+{
     [UserDefaults removeObjectForKey:DYFStoreTransactionsKey];
     [UserDefaults synchronize];
 }

@@ -1,8 +1,8 @@
 //
 //  DYFStoreTransaction.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,17 @@
 
 #import <Foundation/Foundation.h>
 
+/** The key UserDefaults and Keychain used.
+ */
+FOUNDATION_EXPORT NSString *const DYFStoreTransactionsKey;
+
 /** Used to represent the state of a transaction.
  
  - DYFStoreTransactionStatePurchased: Indicates that the transaction has been purchased.
  - DYFStoreTransactionStateRestored: Indicates that the transaction has been purchased.
  */
-typedef NS_ENUM(NSUInteger, DYFStoreTransactionState) {
+typedef NS_ENUM(NSUInteger, DYFStoreTransactionState)
+{
     DYFStoreTransactionStatePurchased,
     DYFStoreTransactionStateRestored
 };
@@ -74,6 +79,3 @@ typedef NS_ENUM(NSUInteger, DYFStoreTransactionState) {
 @property (nonatomic, copy) NSString *transactionReceipt;
 
 @end
-
-// The key UserDefaults and Keychain used.
-FOUNDATION_EXPORT NSString *const DYFStoreTransactionsKey;

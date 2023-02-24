@@ -1,8 +1,8 @@
 //
 //  DYFStoreTransaction.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,8 @@ NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
  
  @return Must return YES on all classes that allow secure coding.
  */
-//+ (BOOL)supportsSecureCoding {
+//+ (BOOL)supportsSecureCoding
+//{
 //    return YES;
 //}
 
@@ -43,7 +44,8 @@ NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
  @param aDecoder An unarchiver object.
  @return An object initialized from data in a given unarchiver.
  */
-- (instancetype)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super init];
     if (self) {
         [DYFRuntimeProvider decode:aDecoder forObject:self];
@@ -55,7 +57,8 @@ NSString *const DYFStoreTransactionsKey = @"DYFStoreTransactionsKey";
  
  @param aCoder An archiver object.
  */
-- (void)encodeWithCoder:(NSCoder *)aCoder {
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
     [DYFRuntimeProvider encode:aCoder forObject:self];
 }
 

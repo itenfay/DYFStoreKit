@@ -1,8 +1,8 @@
 //
 //  DYFStoreKeychainPersistence.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+/** Deprecated. */
 #if __has_include(<DYFKeychain/DYFKeychain.h>)
 #import "DYFStoreTransaction.h"
 
@@ -32,7 +33,7 @@
 @interface DYFStoreKeychainPersistence : NSObject
 
 /** Returns a Boolean value that indicates whether a transaction is present in the keychain with a given transaction ientifier.
-
+ 
  @param transactionIdentifier The unique server-provided identifier.
  @return True if a transaction is present in the keychain, otherwise false.
  */

@@ -1,8 +1,8 @@
 //
 //  DYFStore.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -75,14 +75,15 @@ NSString *const DYFStoreErrorDomain = @"SKErrorDomain.dyfstore";
 // Provides a global static variable.
 static DYFStore *_instance = nil;
 
-+ (instancetype)defaultStore {
++ (instancetype)defaultStore
+{
     return [[self.class alloc] init];
 }
 
 /** Returns a new instance of the receiving class.
  */
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    
++ (instancetype)allocWithZone:(struct _NSZone *)zone
+{
     if (_instance == nil) {
         static dispatch_once_t onceToken;
         
@@ -94,7 +95,8 @@ static DYFStore *_instance = nil;
     return _instance;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
@@ -107,40 +109,43 @@ static DYFStore *_instance = nil;
 
 /** Sets initial value for some member variables.
  */
-- (void)setup {
-    self.availableProducts     = [NSMutableArray arrayWithCapacity:0];
-    self.invalidIdentifiers    = [NSMutableArray arrayWithCapacity:0];
-    self.purchasedTranscations = [NSMutableArray arrayWithCapacity:0];
-    self.restoredTranscations  = [NSMutableArray arrayWithCapacity:0];
-    self.quantity              = 1;
+- (void)setup
+{
+    self.availableProducts      = [NSMutableArray arrayWithCapacity:0];
+    self.invalidIdentifiers     = [NSMutableArray arrayWithCapacity:0];
+    self.purchasedTranscations  = [NSMutableArray arrayWithCapacity:0];
+    self.restoredTranscations   = [NSMutableArray arrayWithCapacity:0];
+    self.quantity               = 1;
+    self.hostedContentSupported = NO;
 }
 
 #pragma mark - StoreKit Wrapper
 
 /** Adds an observer to the payment queue.
  */
-- (void)addPaymentTransactionObserver {
+- (void)addPaymentTransactionObserver
+{
     [SKPaymentQueue.defaultQueue addTransactionObserver:self];
 }
 
 /** Removes an observer from the payment queue.
  */
-- (void)removePaymentTransactionObserver {
+- (void)removePaymentTransactionObserver
+{
     [SKPaymentQueue.defaultQueue removeTransactionObserver:self];
 }
 
-+ (BOOL)canMakePayments {
++ (BOOL)canMakePayments
+{
     return SKPaymentQueue.canMakePayments;
 }
 
 - (void)requestProductWithIdentifier:(NSString *)identifier
                              success:(DYFStoreProductsRequestDidFinish)success
-                             failure:(DYFStoreProductsRequestDidFail)failure {
-    
+                             failure:(DYFStoreProductsRequestDidFail)failure
+{
     if (!identifier || identifier.length == 0) {
-        
         self.productsRequestDidFail = failure;
-        
         DYFStoreLog(@"This product identifier is null or empty");
         
         NSString *errDesc = NSLocalizedStringFromTable(@"This product identifier is null or empty", @"DYFStore", @"Error description");
@@ -148,9 +153,7 @@ static DYFStore *_instance = nil;
         NSError *error = [NSError errorWithDomain:DYFStoreErrorDomain
                                              code:DYFStoreErrorCodeInvalidParameter
                                          userInfo:userInfo];
-        
         !self.productsRequestDidFail ?: self.productsRequestDidFail(error);
-        
         return;
     }
     
@@ -163,12 +166,10 @@ static DYFStore *_instance = nil;
 
 - (void)requestProductWithIdentifiers:(NSArray *)identifiers
                               success:(DYFStoreProductsRequestDidFinish)success
-                              failure:(DYFStoreProductsRequestDidFail)failure {
-    
+                              failure:(DYFStoreProductsRequestDidFail)failure
+{
     if (!identifiers || identifiers.count == 0) {
-        
         self.productsRequestDidFail = failure;
-        
         DYFStoreLog(@"An array of product identifiers is null or empty");
         
         NSString *errDesc = NSLocalizedStringFromTable(@"An array of product identifiers is null or empty", @"DYFStore", @"Error description");
@@ -176,16 +177,13 @@ static DYFStore *_instance = nil;
         NSError *error = [NSError errorWithDomain:DYFStoreErrorDomain
                                              code:DYFStoreErrorCodeInvalidParameter
                                          userInfo:userInfo];
-        
         !self.productsRequestDidFail ?: self.productsRequestDidFail(error);
-        
         return;
     }
     
     DYFStoreLog(@"product identifiers: %@", identifiers);
     
     if (!self.productsRequest) {
-        
         self.productsRequestDidFinish = success;
         self.productsRequestDidFail = failure;
         
@@ -205,38 +203,34 @@ static DYFStore *_instance = nil;
  @param product An `SKProduct` object.
  @return True if it is contained, otherwise, false.
  */
-- (BOOL)containsProduct:(SKProduct *)product {
-    BOOL shouldContain = NO;
-    
+- (BOOL)containsProduct:(SKProduct *)product
+{
+    BOOL contained = NO;
     for (SKProduct *aProduct in self.availableProducts) {
         NSString *id = aProduct.productIdentifier;
-        
         if ([id isEqualToString:product.productIdentifier]) {
-            shouldContain = YES;
+            contained = YES;
             break;
         }
     }
-    
-    return shouldContain;
+    return contained;
 }
 
-- (SKProduct *)productForIdentifier:(NSString *)productIdentifier {
+- (SKProduct *)productForIdentifier:(NSString *)productIdentifier
+{
     SKProduct *product = nil;
-    
     for (SKProduct *aProduct in self.availableProducts) {
         NSString *id = aProduct.productIdentifier;
-        
         if ([id isEqualToString:productIdentifier]) {
             product = aProduct;
             break;
         }
     }
-    
     return product;
 }
 
-- (NSString *)localizedPriceOfProduct:(SKProduct *)product {
-    
+- (NSString *)localizedPriceOfProduct:(SKProduct *)product
+{
     if (!product) { return nil; }
     
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
@@ -250,9 +244,9 @@ static DYFStore *_instance = nil;
 #pragma mark - SKProductsRequestDelegate
 
 // Accepts the response from the App Store that contains the requested product information.
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+{
     DYFStoreLog(@"products request received response");
-    
     // The array contains products whose identifiers have been recognized by the App Store.
     NSArray<SKProduct *> *products = response.products;
     // The array contains all product identifiers have not been recognized by the App Store.
@@ -260,7 +254,6 @@ static DYFStore *_instance = nil;
     
     for (SKProduct *product in products) {
         DYFStoreLog(@"received product with id: %@", product.productIdentifier);
-        
         if (![self containsProduct:product]) {
             [self.availableProducts addObject:product];
         }
@@ -269,7 +262,6 @@ static DYFStore *_instance = nil;
     for (int idx = 0; idx < invalidProductIdentifiers.count; idx++) {
         NSString *value = invalidProductIdentifiers[idx];
         DYFStoreLog(@"invalid product with id: %@, index: %d", value, idx);
-        
         if (![self.invalidIdentifiers containsObject:value]) {
             [self.invalidIdentifiers addObject:value];
         }
@@ -284,17 +276,13 @@ static DYFStore *_instance = nil;
 #pragma mark - SKRequestDelegate
 
 // Tells the delegate that the request has completed. When this method is called, your delegate receives no further communication from the request and can release it.
-- (void)requestDidFinish:(SKRequest *)request {
-    
+- (void)requestDidFinish:(SKRequest *)request
+{
     if (self.productsRequest && self.productsRequest == request) {
-        
         DYFStoreLog(@"products request finished");
-        
         self.productsRequest = nil;
-        
     } else if (self.refreshReceiptRequest &&
                self.refreshReceiptRequest == request) {
-        
         DYFStoreLog(@"refresh receipt finished");
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -307,10 +295,9 @@ static DYFStore *_instance = nil;
 }
 
 // Tells the delegate that the request failed to execute. The requestDidFinish(_:) method is not called after this method is called.
-- (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
-    
+- (void)request:(SKRequest *)request didFailWithError:(NSError *)error
+{
     if (self.productsRequest && self.productsRequest == request) {
-        
         // Prints the cause of the product request failure.
         DYFStoreLog(@"products request failed with error: %@", error);
         
@@ -320,10 +307,8 @@ static DYFStore *_instance = nil;
         });
         
         self.productsRequest = nil;
-        
     } else if (self.refreshReceiptRequest &&
                self.refreshReceiptRequest == request) {
-        
         DYFStoreLog(@"refresh receipt failed with error: %@", error);
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -341,7 +326,8 @@ static DYFStore *_instance = nil;
  
  @param info The `DYFStoreNotificationInfo` object posting the notification.
  */
-- (void)postNotification:(DYFStoreNotificationInfo *)info {
+- (void)postNotification:(DYFStoreNotificationInfo *)info
+{
     [self postNotificationWithName:DYFStorePurchasedNotification info:info];
 }
 
@@ -350,34 +336,33 @@ static DYFStore *_instance = nil;
  @param name The name of the notification. The default is DYFStorePurchasedNotification.
  @param info The `DYFStoreNotificationInfo` object posting the notification.
  */
-- (void)postNotificationWithName:(NSString *)name info:(DYFStoreNotificationInfo *)info {
+- (void)postNotificationWithName:(NSString *)name info:(DYFStoreNotificationInfo *)info
+{
     [NSNotificationCenter.defaultCenter postNotificationName:name object:info];
 }
 
 #pragma mark - Purchases Product
 
-- (BOOL)hasPurchasedTransactions {
+- (BOOL)hasPurchasedTransactions
+{
     return self.purchasedTranscations.count > 0;
 }
 
-- (BOOL)hasRestoredTransactions {
+- (BOOL)hasRestoredTransactions
+{
     return self.restoredTranscations.count > 0;
 }
 
-- (SKPaymentTransaction *)extractPurchasedTransaction:(NSString *)transactionIdentifier {
-    
+- (SKPaymentTransaction *)extractPurchasedTransaction:(NSString *)transactionIdentifier
+{
     __block SKPaymentTransaction *transaction = nil;
-    
     if (!transactionIdentifier || transactionIdentifier.length == 0) {
         return transaction;
     }
     
     [self.purchasedTranscations enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
         SKPaymentTransaction *tempTransaction = obj;
-        
         NSString *id = tempTransaction.transactionIdentifier;
-        
         DYFStoreLog(@"index: %zi, transactionId: %@", idx, id);
         
         if ([id isEqualToString:transactionIdentifier]) {
@@ -388,21 +373,17 @@ static DYFStore *_instance = nil;
     return transaction;
 }
 
-- (SKPaymentTransaction *)extractRestoredTransaction:(NSString *)transactionIdentifier {
-    
+- (SKPaymentTransaction *)extractRestoredTransaction:(NSString *)transactionIdentifier
+{
     __block SKPaymentTransaction *transaction = nil;
-    
     if (!transactionIdentifier || transactionIdentifier.length == 0) {
         return transaction;
     }
     
     [self.restoredTranscations enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
         SKPaymentTransaction *tempTransaction = obj;
-        
         NSString *id = tempTransaction.transactionIdentifier;
         NSString *originalId = tempTransaction.originalTransaction.transactionIdentifier;
-        
         DYFStoreLog(@"index: %zi, transactionId: %@, originalTransactionId: %@", idx, id, originalId);
         
         if ([id isEqualToString:transactionIdentifier]) {
@@ -413,18 +394,19 @@ static DYFStore *_instance = nil;
     return transaction;
 }
 
-- (void)purchaseProduct:(NSString *)productIdentifier {
+- (void)purchaseProduct:(NSString *)productIdentifier
+{
     [self purchaseProduct:productIdentifier userIdentifier:nil];
 }
 
-- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier {
+- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier
+{
     [self purchaseProduct:productIdentifier userIdentifier:userIdentifier quantity:1];
 }
 
-- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier quantity:(NSInteger)quantity {
-    
+- (void)purchaseProduct:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier quantity:(NSInteger)quantity
+{
     if (!productIdentifier || productIdentifier.length == 0) {
-        
         DYFStoreLog(@"The given product identifier is null or empty");
         
         NSString *errDesc = NSLocalizedStringFromTable(@"The given product identifier is null or empty", @"DYFStore", @"Error description");
@@ -437,15 +419,12 @@ static DYFStore *_instance = nil;
         info.state = DYFStorePurchaseStateFailed;
         info.error = error;
         [self postNotificationWithName:DYFStorePurchasedNotification info:info];
-        
         return;
     }
     
     SKProduct *product = [self productForIdentifier:productIdentifier];
     if (product) {
-        
         DYFStoreLog(@"productIdentifier: %@, quantity: %zi", productIdentifier, quantity);
-        
         self.quantity = quantity;
         
         // Creates and adds a mutable payment request to the payment queue.
@@ -455,7 +434,6 @@ static DYFStore *_instance = nil;
             paymet.applicationUsername = userIdentifier;
         }
         [SKPaymentQueue.defaultQueue addPayment:paymet];
-        
         return;
     }
     
@@ -474,11 +452,13 @@ static DYFStore *_instance = nil;
     [self postNotificationWithName:DYFStorePurchasedNotification info:info];
 }
 
-- (void)restoreTransactions {
+- (void)restoreTransactions
+{
     [self restoreTransactions:nil];
 }
 
-- (void)restoreTransactions:(NSString *)userIdentifier {
+- (void)restoreTransactions:(NSString *)userIdentifier
+{
     self.restoredTranscations = [NSMutableArray arrayWithCapacity:0];
     
     if (!userIdentifier || userIdentifier.length == 0) {
@@ -495,7 +475,8 @@ static DYFStore *_instance = nil;
     }
 }
 
-- (void)finishTransaction:(SKPaymentTransaction *)transaction {
+- (void)finishTransaction:(SKPaymentTransaction *)transaction
+{
     DYFStoreLog(@"transactionIdentifier: %@", transaction.transactionIdentifier ?: @"");
     if (!transaction) { return; }
     [SKPaymentQueue.defaultQueue finishTransaction:transaction];
@@ -503,17 +484,17 @@ static DYFStore *_instance = nil;
 
 #pragma mark - Receipt
 
-+ (NSURL *)receiptURL {
++ (NSURL *)receiptURL
+{
     // The general best practice of weak linking using the respondsToSelector: method cannot be used here. Prior to iOS 7, the method was implemented as private API, but that implementation called the doesNotRecognizeSelector: method.
     NSAssert(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1, @"appStoreReceiptURL not supported in this iOS version.");
     NSURL *receiptURL = NSBundle.mainBundle.appStoreReceiptURL;
     return receiptURL;
 }
 
-- (void)refreshReceiptOnSuccess:(DYFStoreRefreshReceiptSuccessBlock)successBlock failure:(DYFStoreRefreshReceiptFailureBlock)failureBlock {
-    
+- (void)refreshReceiptOnSuccess:(DYFStoreRefreshReceiptSuccessBlock)successBlock failure:(DYFStoreRefreshReceiptFailureBlock)failureBlock
+{
     if (!self.refreshReceiptRequest) {
-        
         self.refreshReceiptSuccessBlock = successBlock;
         self.refreshReceiptFailureBlock = failureBlock;
         
@@ -526,10 +507,9 @@ static DYFStore *_instance = nil;
 #pragma mark - SKPaymentTransactionObserver
 
 // Tells an observer that one or more transactions have been updated.
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions {
-    
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
+{
     for (SKPaymentTransaction *transaction in transactions) {
-        
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchasing:
                 [self purchasingTransaction:transaction queue:queue];
@@ -543,11 +523,11 @@ static DYFStore *_instance = nil;
             case SKPaymentTransactionStateRestored:
                 [self didRestoreTransaction:transaction queue:queue];
                 break;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+            #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
             case SKPaymentTransactionStateDeferred:
                 [self didDeferTransaction:transaction queue:queue];
                 break;
-#endif
+            #endif
             default:
                 DYFStoreLog(@"Unknown transaction state");
                 break;
@@ -556,12 +536,10 @@ static DYFStore *_instance = nil;
 }
 
 // Tells the observer that the payment queue has updated one or more download objects.
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray<SKDownload *> *)downloads {
-    
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedDownloads:(NSArray<SKDownload *> *)downloads
+{
     for (SKDownload *download in downloads) {
-        
         SKDownloadState state = [self stateForDownload:download];
-        
         switch (state) {
             case SKDownloadStateWaiting:
                 DYFStoreLog(@"The download is inactive, waiting to be downloaded.");
@@ -589,15 +567,15 @@ static DYFStore *_instance = nil;
 }
 
 // Tells the observer that the payment queue has finished sending restored transactions.
-- (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue {
+- (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The payment queue has finished sending restored transactions");
 }
 
 // Tells the observer that an error occurred while restoring transactions.
-- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
-    
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
+{
     DYFStoreLog(@"The restored transactions failed with error(%@)", error);
-    
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     
     // The user cancels the purchase.
@@ -606,15 +584,14 @@ static DYFStore *_instance = nil;
     } else {
         info.state = DYFStorePurchaseStateRestoreFailed;
     }
-    
     info.error = error;
     
     [self postNotification:info];
 }
 
 // Tells an observer that one or more transactions have been removed from the queue.
-- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray<SKPaymentTransaction *> *)transactions {
-    
+- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
+{
     for (SKPaymentTransaction *transaction in transactions) {
         // Logs all transactions that have been removed from the payment queue.
         NSString *productId = transaction.payment.productIdentifier;
@@ -623,23 +600,18 @@ static DYFStore *_instance = nil;
 }
 
 // Tells the observer that a user initiated an in-app purchase from the App Store.
-- (BOOL)paymentQueue:(SKPaymentQueue *)queue shouldAddStorePayment:(SKPayment *)payment forProduct:(SKProduct *)product {
-    
+- (BOOL)paymentQueue:(SKPaymentQueue *)queue shouldAddStorePayment:(SKPayment *)payment forProduct:(SKProduct *)product
+{
     if (@available(iOS 11.0, *)) {
-        
         if (![self containsProduct:product]) {
             [self.availableProducts addObject:product];
         }
-        
         if (OBJC_RESPONDS_TO_SEL(self.delegate,
                                  @selector(didReceiveAppStorePurchaseRequest:payment:forProduct:))
             ) {
-            
             [self.delegate didReceiveAppStorePurchaseRequest:queue payment:payment forProduct:product];
-            
         } else { /* Fallback on earlier versions. Never execute. */ }
     }
-    
     return NO;
 }
 
@@ -650,9 +622,9 @@ static DYFStore *_instance = nil;
  @param transaction An `SKPaymentTransaction` object in the payment queue.
  @param queue The payment queue that updated the transactions.
  */
-- (void)purchasingTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue {
+- (void)purchasingTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The transaction is purchasing");
-    
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.state = DYFStorePurchaseStatePurchasing;
     [self postNotification:info];
@@ -663,22 +635,19 @@ static DYFStore *_instance = nil;
  @param transaction An `SKPaymentTransaction` object in the payment queue.
  @param queue The payment queue that updated the transactions.
  */
-- (void)didPurchaseTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue {
+- (void)didPurchaseTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The transaction purchased. Deliver the content for %@", transaction.payment.productIdentifier);
-    
     [self.purchasedTranscations addObject:transaction];
     // Checks whether the purchased product has content hosted with Apple.
-    if (transaction.downloads.count > 0) {
-        
+    if (_hostedContentSupported && transaction.downloads.count > 0) {
         // Starts the download process and send a DYFStoreDownloadStateStarted notification.
         [queue startDownloads:transaction.downloads];
         
         DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
         info.downloadState = DYFStoreDownloadStateStarted;
         [self postNotificationWithName:DYFStoreDownloadedNotification info:info];
-        
     } else {
-        
         [self didFinishTransaction:transaction queue:queue forState:DYFStorePurchaseStateSucceeded];
     }
 }
@@ -689,10 +658,9 @@ static DYFStore *_instance = nil;
  @param queue The payment queue that updated the transactions.
  @param error An object describing the error that occurred while processing the transaction.
  */
-- (void)didFailWithTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue error:(NSError *)error {
-    
+- (void)didFailWithTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue error:(NSError *)error
+{
     DYFStoreLog(@"The transaction failed with product(%@) and error(%@)", transaction.payment.productIdentifier, error.debugDescription);
-    
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     
     // The user cancels the purchase.
@@ -714,21 +682,18 @@ static DYFStore *_instance = nil;
  @param transaction An `SKPaymentTransaction` object in the payment queue.
  @param queue The payment queue that updated the transactions.
  */
-- (void)didRestoreTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue {
+- (void)didRestoreTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The transaction restored. Restore the content for %@", transaction.payment.productIdentifier);
-    
     [self.restoredTranscations addObject:transaction];
     // Sends a DYFStoreDownloadStateStarted notification if it has.
-    if (transaction.downloads.count > 0) {
-        
+    if (_hostedContentSupported && transaction.downloads.count > 0) {
         [queue startDownloads:transaction.downloads];
         
         DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
         info.downloadState = DYFStoreDownloadStateStarted;
         [self postNotificationWithName:DYFStoreDownloadedNotification info:info];
-        
     } else {
-        
         [self didFinishTransaction:transaction queue:queue forState:DYFStorePurchaseStateRestored];
     }
 }
@@ -738,7 +703,8 @@ static DYFStore *_instance = nil;
  @param transaction An `SKPaymentTransaction` object in the payment queue.
  @param queue The payment queue that updated the transactions.
  */
-- (void)didDeferTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue {
+- (void)didDeferTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue
+{
     // Do not block your UI. Allow the user to continue using your app.
     DYFStoreLog(@"The transaction deferred. Do not block your UI. Allow the user to continue using your app.");
     
@@ -753,8 +719,8 @@ static DYFStore *_instance = nil;
  @param queue The payment queue that updated the transactions.
  @param state The state of purchase.
  */
-- (void)didFinishTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue forState:(DYFStorePurchaseState)state {
-    
+- (void)didFinishTransaction:(SKPaymentTransaction *)transaction queue:(SKPaymentQueue *)queue forState:(DYFStorePurchaseState)state
+{
     DYFStoreNotificationInfo *info = [[DYFStoreNotificationInfo alloc] init];
     info.state = state;
     info.productIdentifier = transaction.payment.productIdentifier;
@@ -775,7 +741,8 @@ static DYFStore *_instance = nil;
 
 #pragma mark - Download Transaction
 
-- (void)didUpdateDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue {
+- (void)didUpdateDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The download(%@) for product(%@) updated", download.contentIdentifier, download.transaction.payment.productIdentifier);
     
     // The content is being downloaded. Let's provide a download progress to the user.
@@ -786,13 +753,14 @@ static DYFStore *_instance = nil;
     [self postNotificationWithName:DYFStoreDownloadedNotification info:info];
 }
 
-- (void)didPauseDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue {
+- (void)didPauseDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue
+{
     DYFStoreLog(@"The download(%@) for product(%@) paused", download.contentIdentifier, download.transaction.payment.productIdentifier);
 }
 
-- (void)didCancelDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue {
+- (void)didCancelDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue
+{
     SKPaymentTransaction *transaction = download.transaction;
-    
     DYFStoreLog(@"The download(%@) for product(%@) cancelled", download.contentIdentifier, transaction.payment.productIdentifier);
     
     // StoreKit saves your downloaded content in the Caches directory. Let's remove it.
@@ -808,7 +776,6 @@ static DYFStore *_instance = nil;
     
     BOOL hasPendingDownloads = [self.class hasPendingDownloadsInTransaction:transaction];
     if (!hasPendingDownloads) {
-        
         NSString *errDesc = NSLocalizedStringFromTable(@"The download cancelled", @"DYFStore", @"Error description");
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey: errDesc};
         NSError *error = [NSError errorWithDomain:DYFStoreErrorDomain
@@ -819,10 +786,10 @@ static DYFStore *_instance = nil;
     }
 }
 
-- (void)didFailWithDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue {
+- (void)didFailWithDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue
+{
     SKPaymentTransaction *transaction = download.transaction;
     NSError *error = download.error;
-    
     DYFStoreLog(@"The download(%@) for product(%@) failed with error(%@)", download.contentIdentifier, transaction.payment.productIdentifier, error.localizedDescription);
     
     // If a download fails, remove it from the Caches, then finish the transaction.
@@ -844,9 +811,9 @@ static DYFStore *_instance = nil;
     }
 }
 
-- (void)didFinishDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue {
+- (void)didFinishDownload:(SKDownload *)download queue:(SKPaymentQueue *)queue
+{
     SKPaymentTransaction *transaction = download.transaction;
-    
     // The download is complete. StoreKit saves the downloaded content in the Caches directory.
     DYFStoreLog("The download(%@) for product(%@) finished. Location of downloaded file(%@)", download.contentIdentifier, transaction.payment.productIdentifier, download.contentURL.absoluteString);
     
@@ -864,13 +831,11 @@ static DYFStore *_instance = nil;
     
     if (allAssetsDownloaded) {
         DYFStorePurchaseState state;
-        
         if (transaction.transactionState == SKPaymentTransactionStateRestored) {
             state = DYFStorePurchaseStateRestored;
         } else {
             state = DYFStorePurchaseStateSucceeded;
         }
-        
         [self didFinishTransaction:transaction queue:queue forState:state];
     }
 }
@@ -880,8 +845,8 @@ static DYFStore *_instance = nil;
  @param download Downloadable content associated with a product.
  @return The state that a download operation can be in.
  */
-- (SKDownloadState)stateForDownload:(SKDownload *)download {
-    
+- (SKDownloadState)stateForDownload:(SKDownload *)download
+{
     SKDownloadState state;
     
     if (@available(iOS 12.0, *)) {
@@ -898,15 +863,13 @@ static DYFStore *_instance = nil;
  @param transaction An `SKPaymentTransaction` object in the payment queue.
  @return YES if there are pending downloads and NO, otherwise.
  */
-+ (BOOL)hasPendingDownloadsInTransaction:(SKPaymentTransaction *)transaction {
-    
++ (BOOL)hasPendingDownloadsInTransaction:(SKPaymentTransaction *)transaction
+{
     // A download is complete if its state is SKDownloadState.cancelled, SKDownloadState.failed, or SKDownloadState.finished
     // and pending, otherwise. We finish a transaction if and only if all its associated downloads are complete.
     // For the SKDownloadState.failed case, it is recommended to try downloading the content again before finishing the transaction.
     for (SKDownload *download in transaction.downloads) {
-        
         SKDownloadState state = [DYFStore.defaultStore stateForDownload:download];
-        
         switch (state) {
             case SKDownloadStateActive:
             case SKDownloadStatePaused:
@@ -919,45 +882,40 @@ static DYFStore *_instance = nil;
                 continue;
         }
     }
-    
     return NO;
 }
 
-- (void)dealloc {
-    [self removePaymentTransactionObserver];
+- (void)dealloc
+{
+    //[self removePaymentTransactionObserver];
 }
 
 @end
 
 @implementation NSDate (DYFStore)
 
-- (NSString *)toString {
-    
+- (NSString *)toString
+{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    
     NSString *dateString = [dateFormatter stringFromDate:self];
-    
     return dateString;
 }
 
-- (NSString *)toGTMString {
-    
+- (NSString *)toGTMString
+{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [NSLocale currentLocale];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss Z";
-    
     NSString *dateString = [dateFormatter stringFromDate:self];
-    
     return dateString;
 }
 
-- (NSString *)timestamp {
-    
+- (NSString *)timestamp
+{
     NSTimeInterval timeInterval = [self timeIntervalSince1970];
     NSNumber *number = [NSDecimalNumber numberWithDouble:timeInterval];
-    
     return [NSString stringWithFormat:@"%@", number];
 }
 
@@ -965,19 +923,23 @@ static DYFStore *_instance = nil;
 
 @implementation NSData (DYFStore)
 
-- (NSData *)base64Encode {
+- (NSData *)base64Encode
+{
     return [self base64EncodedDataWithOptions:kNilOptions];
 }
 
-- (NSString *)base64EncodedString {
+- (NSString *)base64EncodedString
+{
     return [self base64EncodedStringWithOptions:kNilOptions];
 }
 
-- (NSData *)base64Decode {
+- (NSData *)base64Decode
+{
     return [[NSData alloc] initWithBase64EncodedData:self options:kNilOptions];
 }
 
-- (NSString *)base64DecodedString {
+- (NSString *)base64DecodedString
+{
     NSData *data = [self base64Decode];
     if (!data) { return nil; }
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -987,27 +949,32 @@ static DYFStore *_instance = nil;
 
 @implementation NSString (DYFStore)
 
-- (NSDate *)timestampToDate {
+- (NSDate *)timestampToDate
+{
     return [NSDate dateWithTimeIntervalSince1970:self.doubleValue];
 }
 
-- (NSString *)base64Encode {
+- (NSString *)base64Encode
+{
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data base64EncodedStringWithOptions:kNilOptions];
 }
 
-- (NSData *)base64EncodedData {
+- (NSData *)base64EncodedData
+{
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data base64EncodedDataWithOptions:kNilOptions];
 }
 
-- (NSString *)base64Decode {
+- (NSString *)base64Decode
+{
     NSData *data = [self base64DecodedData];
     if (!data) { return nil; }
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
-- (NSData *)base64DecodedData {
+- (NSData *)base64DecodedData
+{
     return [[NSData alloc] initWithBase64EncodedString:self options:kNilOptions];
 }
 

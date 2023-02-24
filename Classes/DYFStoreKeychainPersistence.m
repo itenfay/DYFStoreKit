@@ -1,8 +1,8 @@
 //
 //  DYFStoreKeychainPersistence.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,12 +37,11 @@
 
 /** Creates an instance of DYFKeychain using lazy load.
  */
-- (DYFKeychain *)keychain {
-    
+- (DYFKeychain *)keychain
+{
     if (!_keychain) {
         _keychain = [DYFKeychain createKeychain];
     }
-    
     return _keychain;
 }
 
@@ -50,23 +49,20 @@
  
  @return An array whose elements are the `NSDictionary` objects.
  */
-- (NSArray<NSDictionary *> *)loadDataFromKeychain {
-    
+- (NSArray<NSDictionary *> *)loadDataFromKeychain
+{
     NSData *data = [self.keychain getData:DYFStoreTransactionsKey];
-    
     NSArray *array = [DYFStoreConverter jsonObjectWithData:data];
-    
     return array;
 }
 
-- (BOOL)containsTransaction:(NSString *)transactionIdentifier {
-    
+- (BOOL)containsTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self loadDataFromKeychain];
     if (!array) { return NO; }
     
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     for (int idx = 0; idx < arr.count; idx++) {
-        
         NSDictionary *dict = arr[idx];
         
         DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
@@ -80,8 +76,8 @@
     return NO;
 }
 
-- (void)storeTransaction:(DYFStoreTransaction *)transaction {
-    
+- (void)storeTransaction:(DYFStoreTransaction *)transaction
+{
     if (!transaction) { return; }
     
     NSMutableArray *transactions;
@@ -100,14 +96,13 @@
     [self.keychain addData:tData forKey:DYFStoreTransactionsKey];
 }
 
-- (NSArray<DYFStoreTransaction *> *)retrieveTransactions {
-    
+- (NSArray<DYFStoreTransaction *> *)retrieveTransactions
+{
     NSArray *array = [self loadDataFromKeychain];
     if (!array) { return nil; }
     
     NSMutableArray *transactions = [NSMutableArray array];
     for (NSDictionary *dict in array) {
-        
         DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
         if (transaction) {
             [transactions addObject:transaction];
@@ -117,13 +112,12 @@
     return transactions;
 }
 
-- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier {
-    
+- (DYFStoreTransaction *)retrieveTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self retrieveTransactions];
     if (!array) { return nil; }
     
     for (DYFStoreTransaction *transaction in array) {
-        
         NSString *identifier = transaction.transactionIdentifier;
         if ([identifier isEqualToString:transactionIdentifier]) {
             return transaction;
@@ -133,15 +127,14 @@
     return nil;
 }
 
-- (void)removeTransaction:(NSString *)transactionIdentifier {
-    
+- (void)removeTransaction:(NSString *)transactionIdentifier
+{
     NSArray *array = [self loadDataFromKeychain];
     if (!array) { return; }
     
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     int index = -1;
     for (int idx = 0; idx < arr.count; idx++) {
-        
         NSDictionary *dict = arr[idx];
         
         DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
@@ -160,7 +153,8 @@
     }
 }
 
-- (void)removeTransactions {
+- (void)removeTransactions
+{
     [self.keychain delete:DYFStoreTransactionsKey];
 }
 
