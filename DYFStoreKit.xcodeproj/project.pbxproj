@@ -27,7 +27,6 @@
 		14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D1237A980B00015826 /* DYFStoreConverter.m */; };
 		14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */; };
 		14ABF8DF237A980D00015826 /* DYFStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D4237A980B00015826 /* DYFStore.m */; };
-		14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */; };
 		14ABF8E2237A980D00015826 /* DYFStoreUserDefaultsPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */; };
 		14BAC1A922945440006974B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1A722945440006974B5 /* Main.storyboard */; };
 		14BAC1AB2294544C006974B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AA2294544C006974B5 /* Assets.xcassets */; };
@@ -64,7 +63,6 @@
 		147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DYFAdd.m"; sourceTree = "<group>"; };
 		147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreManager.m; sourceTree = "<group>"; };
 		147FC0FB239B4F6700A879C1 /* DYFStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreManager.h; sourceTree = "<group>"; };
-		14ABF8CC237A980A00015826 /* DYFStoreReceiptVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreReceiptVerifier.h; sourceTree = "<group>"; };
 		14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreUserDefaultsPersistence.h; sourceTree = "<group>"; };
 		14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTransaction.m; sourceTree = "<group>"; };
 		14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTransaction.h; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 		14ABF8D5237A980C00015826 /* DYFStoreConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreConverter.h; sourceTree = "<group>"; };
 		14ABF8D6237A980C00015826 /* DYFStoreKeychainPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreKeychainPersistence.h; sourceTree = "<group>"; };
 		14ABF8D7237A980C00015826 /* DYFStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStore.h; sourceTree = "<group>"; };
-		14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreReceiptVerifier.m; sourceTree = "<group>"; };
 		14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreUserDefaultsPersistence.m; sourceTree = "<group>"; };
 		14BAC19E2294543F006974B5 /* DYFStoreKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DYFStoreKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BAC1A822945440006974B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -108,7 +105,7 @@
 		14BAC1952294543F006974B5 = {
 			isa = PBXGroup;
 			children = (
-				14BAC1BA22945848006974B5 /* DYFStoreKit */,
+				14BAC1BA22945848006974B5 /* Classes */,
 				14BAC1A02294543F006974B5 /* DYFStoreKitDemo */,
 				14BAC19F2294543F006974B5 /* Products */,
 				14BAC1B722945490006974B5 /* Frameworks */,
@@ -171,7 +168,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		14BAC1BA22945848006974B5 /* DYFStoreKit */ = {
+		14BAC1BA22945848006974B5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				14ABF8D7237A980C00015826 /* DYFStore.h */,
@@ -180,14 +177,12 @@
 				14ABF8D1237A980B00015826 /* DYFStoreConverter.m */,
 				14ABF8D6237A980C00015826 /* DYFStoreKeychainPersistence.h */,
 				14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */,
-				14ABF8CC237A980A00015826 /* DYFStoreReceiptVerifier.h */,
-				14ABF8D9237A980C00015826 /* DYFStoreReceiptVerifier.m */,
 				14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */,
 				14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */,
 				14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */,
 				14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */,
 			);
-			path = DYFStoreKit;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		CCE833F6CFE4EA9D993B6D1F /* Pods */ = {
@@ -311,7 +306,6 @@
 				1424B8E3238510E80032D915 /* DYFStoreViewController.m in Sources */,
 				1424B8EB238510E80032D915 /* ViewController.m in Sources */,
 				1424B8E9238510E80032D915 /* DYFStoreTableViewCell.m in Sources */,
-				14ABF8E1237A980D00015826 /* DYFStoreReceiptVerifier.m in Sources */,
 				14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */,
 				1424B8E6238510E80032D915 /* DYFLoadingView.m in Sources */,
 			);
@@ -466,7 +460,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -489,7 +483,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

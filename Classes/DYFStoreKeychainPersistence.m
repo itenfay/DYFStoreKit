@@ -24,7 +24,7 @@
 //
 
 #import "DYFStoreKeychainPersistence.h"
-#if __has_include(<DYFKeychain/DYFKeychain.h>)
+//#if __has_include(<DYFKeychain/DYFKeychain.h>)
 #import "DYFStoreConverter.h"
 #import "DYFRuntimeProvider.h"
 #import "DYFKeychain.h"
@@ -160,4 +160,4 @@
 
 @end
 
-#endif
+//#endif

@@ -1,8 +1,8 @@
 //
 //  NSObject+DYFAdd.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,10 @@
 #import <UIKit/UIKit.h>
 
 @interface NSObject (DYFAdd)
+
+/** The app's key window.
+ */
+- (UIWindow *)mainWindow;
 
 /** The view controller associated with the currently visible view.
  */

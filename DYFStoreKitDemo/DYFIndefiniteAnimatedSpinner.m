@@ -1,8 +1,8 @@
 //
 //  DYFIndefiniteAnimatedSpinner.h
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,17 +42,16 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
 
 @synthesize progressLayer = _progressLayer;
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self setup];
     }
-    
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
     self = [super initWithCoder:coder];
     if (self) {
         // Supports an Interface Builder archive, or nib file.
@@ -60,37 +59,44 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     [self setup];
 }
 
-- (void)setup {
+- (void)setup
+{
     [self.layer addSublayer:self.progressLayer];
     self.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(resetAnimations) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (BOOL)isAnimating {
+- (BOOL)isAnimating
+{
     return _isAnimating;
 }
 
-- (void)setHidesWhenStopped:(BOOL)hidesWhenStopped {
+- (void)setHidesWhenStopped:(BOOL)hidesWhenStopped
+{
     _hidesWhenStopped = hidesWhenStopped;
     self.hidden = !self.isAnimating && hidesWhenStopped;
 }
 
-- (CGFloat)lineWidth {
+- (CGFloat)lineWidth
+{
     return self.progressLayer.lineWidth;
 }
 
-- (void)setLineWidth:(CGFloat)lineWidth {
+- (void)setLineWidth:(CGFloat)lineWidth
+{
     self.progressLayer.lineWidth = lineWidth;
     [self updatePath];
 }
 
-- (UIColor *)lineColor {
+- (UIColor *)lineColor
+{
     CGColorRef color = self.progressLayer.strokeColor;
     
     if (color) {
@@ -100,26 +106,26 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     return nil;
 }
 
-- (void)setLineColor:(UIColor *)lineColor {
+- (void)setLineColor:(UIColor *)lineColor
+{
     self.progressLayer.strokeColor = lineColor.CGColor;
 }
 
 #pragma mark - Lazy Load
 
-- (CAShapeLayer *)progressLayer {
-    
+- (CAShapeLayer *)progressLayer
+{
     if (!_progressLayer) {
         _progressLayer = [CAShapeLayer layer];
-        
         _progressLayer.strokeColor = nil;
         _progressLayer.fillColor   = nil;
         _progressLayer.lineWidth   = 1.f;
     }
-    
     return _progressLayer;
 }
 
-- (void)startAnimating {
+- (void)startAnimating
+{
     if (self.isAnimating) {
         return;
     }
@@ -129,7 +135,8 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     self.hidden = NO;
 }
 
-- (void)stopAnimating {
+- (void)stopAnimating
+{
     if (!self.isAnimating) {
         return;
     }
@@ -144,7 +151,8 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     }
 }
 
-- (void)addLayerAnimations {
+- (void)addLayerAnimations
+{
     CABasicAnimation *animation = [CABasicAnimation animation];
     animation.keyPath = @"transform.rotation";
     animation.duration = 2.f;
@@ -193,14 +201,16 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     [self.progressLayer addAnimation:animGroup forKey:DYFSpinnerStrokeAnimationKey];
 }
 
-- (void)resetAnimations {
+- (void)resetAnimations
+{
     if (self.isAnimating) {
         [self stopAnimating];
         [self startAnimating];
     }
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     
     CGFloat sW = CGRectGetWidth(self.bounds);
@@ -212,7 +222,8 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
 
 #pragma mark - Private
 
-- (void)updatePath {
+- (void)updatePath
+{
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds),
                                  CGRectGetMidY(self.bounds));
     CGFloat radius = MIN(CGRectGetWidth(self.bounds)/2, CGRectGetHeight(self.bounds)/2) - self.lineWidth/2;
@@ -226,13 +237,14 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     self.progressLayer.strokeEnd   = 0.f;
 }
 
-- (void)executeWhenReleasing {
+- (void)executeWhenReleasing
+{
     [self stopAnimating];
-    
     [NSNotificationCenter.defaultCenter removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 #if DEBUG
     NSLog(@"%s", __func__);
 #endif

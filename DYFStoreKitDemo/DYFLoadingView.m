@@ -1,8 +1,8 @@
 //
 //  DYFLoadingView.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,8 @@
 @implementation DYFLoadingView
 
 /// It is used to act as background mask panel.
-- (UIView *)maskPanel {
+- (UIView *)maskPanel
+{
     if (!_maskPanel) {
         _maskPanel = [[UIView alloc] init];
         _maskPanel.backgroundColor = COLOR_RGBA(20, 20, 20, 0.5);
@@ -47,7 +48,8 @@
 }
 
 /// It is used to render the content.
-- (UIView *)contentView {
+- (UIView *)contentView
+{
     if (!_contentView) {
         _contentView = [[UIView alloc] init];
         _contentView.backgroundColor = COLOR_RGB(255, 255, 255);
@@ -56,7 +58,8 @@
 }
 
 /// The spinner is used to provide an indefinite animation.
-- (DYFIndefiniteAnimatedSpinner *)indicator {
+- (DYFIndefiniteAnimatedSpinner *)indicator
+{
     if (!_indicator) {
         _indicator = [[DYFIndefiniteAnimatedSpinner alloc] init];
         _indicator.backgroundColor = UIColor.clearColor;
@@ -66,7 +69,8 @@
 }
 
 /// It is used to show the text.
-- (UILabel *)textLabel {
+- (UILabel *)textLabel
+{
     if (!_textLabel) {
         _textLabel = [[UILabel alloc] init];
         _textLabel.backgroundColor = UIColor.clearColor;
@@ -76,83 +80,86 @@
 }
 
 /// Returns the current window of the app.
-- (UIWindow *)appWindow {
+- (UIWindow *)appWindow
+{
     UIApplication *sharedApp = UIApplication.sharedApplication;
     return sharedApp.keyWindow ?: sharedApp.windows[0];
 }
 
 /// Returns the background color of the content view.
-- (UIColor *)color {
+- (UIColor *)color
+{
     return self.contentView.backgroundColor;
 }
 
 /// The color to set the background color of the content view.
 /// @param color The color you will set.
-- (void)setColor:(UIColor *)color {
+- (void)setColor:(UIColor *)color
+{
     self.contentView.backgroundColor = color;
 }
 
 /// Returns the line color of the indicator.
-- (UIColor *)indicatorColor {
+- (UIColor *)indicatorColor
+{
     return self.indicator.lineColor;
 }
 
 /// The color to set the line color of the indicator.
 /// @param indicatorColor The indicator color you will set.
-- (void)setIndicatorColor:(UIColor *)indicatorColor {
+- (void)setIndicatorColor:(UIColor *)indicatorColor
+{
     self.indicator.lineColor = indicatorColor;
 }
 
 /// Returns the text color of the text label.
-- (UIColor *)textColor {
+- (UIColor *)textColor
+{
     return self.textLabel.textColor;
 }
 
 /// The color to set the text color of the text label.
 /// @param textColor The text color you will set.
-- (void)setTextColor:(UIColor *)textColor {
+- (void)setTextColor:(UIColor *)textColor
+{
     self.textLabel.textColor = textColor;
 }
 
 /// Returns an object initialized from data in a given unarchiver.
 /// @param coder An unarchiver object.
-- (instancetype)initWithCoder:(NSCoder *)coder {
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
     self = [super initWithCoder:coder];
     if (self) {}
     return self;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Prepares the receiver for service after it has been loaded
     // from an Interface Builder archive, or nib file.
 }
 
 /// It will be displayed on the screen with the text.
-- (LoadingViewConfigurationBlock)show {
-    
+- (LoadingViewConfigurationBlock)show
+{
     LoadingViewConfigurationBlock block;
-    
     block = ^(NSString *text) {
-        
         [self configure:text];
         [self loadView];
         [self beginAnimating];
     };
-    
     return block;
 }
 
 /// Hides from its own superview.
-- (void)hide {
+- (void)hide
+{
     UIViewAnimationOptions opts = UIViewAnimationOptionCurveEaseInOut;
-    
     [UIView animateWithDuration:0.3 delay:1.0 options:opts animations:^{
-        
         self.alpha = 0.f;
-        
     } completion:^(BOOL finished) {
-        
         [self.indicator stopAnimating];
         [self removeAllViews];
         [self safetyRelease];
@@ -160,17 +167,17 @@
 }
 
 /// Removes all views at the end of the hidden animation.
-- (void)removeAllViews {
-    
+- (void)removeAllViews
+{
     for (UIView *view in self.subviews) {
         [view removeFromSuperview];
     }
-    
     [self removeFromSuperview];
 }
 
 /// When the view is hidden, the child widget object should be released safely.
-- (void)safetyRelease {
+- (void)safetyRelease
+{
     if (_maskPanel) { _maskPanel = nil; }
     if (_contentView) { _contentView = nil; }
     if (_indicator) { _indicator = nil; }
@@ -178,7 +185,8 @@
 }
 
 /// Configures properties for the widget used.
-- (void)configure:(NSString *)text {
+- (void)configure:(NSString *)text
+{
     self.autoresizingMask           = (UIViewAutoresizingFlexibleLeftMargin |
                                        UIViewAutoresizingFlexibleWidth      |
                                        UIViewAutoresizingFlexibleTopMargin  |
@@ -210,23 +218,19 @@
 }
 
 /// Addds the subviews to its corresponding superview.
-- (void)loadView {
+- (void)loadView
+{
     UIViewController *vc = self.appCurrentViewController;
-    
     if (vc != nil) {
-        
         [vc.view addSubview:self];
         [vc.view bringSubviewToFront:self];
-        
     } else {
-        
         UIWindow *window = self.appWindow;
         [window addSubview:self];
         [window bringSubviewToFront:self];
     }
     
     [self addSubview:self.maskPanel];
-    
     [self addSubview:self.contentView];
     [self bringSubviewToFront:self.contentView];
     
@@ -235,7 +239,8 @@
 }
 
 /// Prepares to begin animating.
-- (void)beginAnimating {
+- (void)beginAnimating
+{
     [self.indicator startAnimating];
     
     self.alpha = 0.f;
@@ -245,9 +250,9 @@
 }
 
 /// Finds out the current view controller.
-- (UIViewController *)appCurrentViewController {
+- (UIViewController *)appCurrentViewController
+{
     UIViewController *vc = self.appWindow.rootViewController;
-    
     while (1) {
         if (vc.presentedViewController) {
             vc = vc.presentedViewController;
@@ -262,32 +267,29 @@
             break;
         }
     }
-    
     return vc;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     CGFloat self_w = 0.f;
     CGFloat self_h = 0.f;
     
     UIView *view = self.superview;
     if (view) {
-        
         self_w = view.bounds.size.width;
         self_h = view.bounds.size.height;
-        
     } else {
-        
         self_w = SCREEN_W;
         self_h = SCREEN_H;
     }
     self.frame = CGRectMake(0, 0, self_w, self_h);
-    
     self.maskPanel.frame = CGRectMake(0, 0, self_w, self_h);
     self.contentView.center = CGPointMake(self_w/2, self_h/2);
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 #if DEBUG
     NSLog(@"%s", __FUNCTION__);
 #endif

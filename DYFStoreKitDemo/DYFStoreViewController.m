@@ -1,8 +1,8 @@
 //
 //  DYFStoreViewController.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 
 #import "DYFStoreViewController.h"
@@ -33,14 +33,11 @@
 }
 
 - (void)restore {
-    
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
-    
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    
     [DYFStoreManager.shared restorePurchases:userIdentifier];
 }
 
@@ -53,7 +50,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     NSString *identifier = @"StoreTableViewCell";
     
     DYFStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -80,11 +76,9 @@
     
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
-    
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    
     [DYFStoreManager.shared addPayment:productIdentifier userIdentifier:userIdentifier];
 }
 

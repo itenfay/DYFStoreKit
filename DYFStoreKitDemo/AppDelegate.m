@@ -1,8 +1,8 @@
 //
 //  AppDelegate.m
 //
-//  Created by dyf on 2014/11/4. ( https://github.com/dgynfi/DYFStoreKit )
-//  Copyright © 2014 dyf. All rights reserved.
+//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 chenxing. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -17,6 +17,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self displayStartupPage];
+    [self initIAPSDK];
+    
+    return YES;
+}
+
+- (void)displayStartupPage
+{
+    [NSThread sleepForTimeInterval:2.0];
+}
+
+- (void)initIAPSDK
+{
+    [DYFStoreManager.shared addStoreObserver];
     
     // Adds an observer that responds to updated transactions to the payment queue.
     // If an application quits when transactions are still being processed, those transactions are not lost. The next time the application launches, the payment queue will resume processing the transactions. Your application should always expect to be notified of completed transactions.
@@ -25,17 +38,11 @@
     
     // Sets the delegate processes the purchase which was initiated by user from the App Store.
     DYFStore.defaultStore.delegate = self;
-    
-    return YES;
-}
-
-- (void)displayStartupPage {
-    [NSThread sleepForTimeInterval:2.0];
 }
 
 // Processes the purchase which was initiated by user from the App Store.
-- (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product {
-    
+- (void)didReceiveAppStorePurchaseRequest:(SKPaymentQueue *)queue payment:(SKPayment *)payment forProduct:(SKProduct *)product
+{
     if (![DYFStore canMakePayments]) {
         [self showTipsMessage:@"Your device is not able or allowed to make payments!"];
         return;
@@ -43,9 +50,8 @@
     
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
-    
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYF_SHA256_HashValue(accountName);
+    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
     [DYFStoreManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
@@ -71,6 +77,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [DYFStoreManager.shared removeStoreObserver];
+    [DYFStore.defaultStore removePaymentTransactionObserver];
 }
 
 @end
