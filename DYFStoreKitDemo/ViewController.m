@@ -24,10 +24,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    UIWindow *mainWindow = [self mainWindow];
-    NSLog(@"mainWindow: %@", mainWindow);
-    UIViewController *currVC = [self currentViewController];
-    NSLog(@"currVC: %@, self: %@", currVC, self);
+    //UIWindow *mainWindow = [self mainWindow];
+    //NSLog(@"mainWindow: %@", mainWindow);
+    //UIViewController *currVC = [self currentViewController];
+    //NSLog(@"currVC: %@, self: %@", currVC, self);
 }
 
 - (void)configure

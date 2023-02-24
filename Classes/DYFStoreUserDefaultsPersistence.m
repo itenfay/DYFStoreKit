@@ -50,10 +50,8 @@
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     for (int idx = 0; idx < arr.count; idx++) {
         NSData *data = arr[idx];
-        
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
         NSString *identifier = transaction.transactionIdentifier;
-        
         if ([identifier isEqualToString:transactionIdentifier]) {
             return YES;
         }
@@ -68,14 +66,12 @@
     if (!data) { return; }
     
     NSMutableArray *transactions;
-    
     NSArray *array = [self loadDataFromUserDefaults];
     if (!array) {
         transactions = [NSMutableArray arrayWithCapacity:0];
     } else {
         transactions = [NSMutableArray arrayWithArray:array];
     }
-    
     [transactions addObject:data];
     
     [UserDefaults setObject:transactions forKey:DYFStoreTransactionsKey];
@@ -122,10 +118,8 @@
     int index = -1;
     for (int idx = 0; idx < arr.count; idx++) {
         NSData *data = arr[idx];
-        
         DYFStoreTransaction *transaction = [DYFStoreConverter decodeObject:data];
         NSString *identifier = transaction.transactionIdentifier;
-        
         if ([identifier isEqualToString:transactionIdentifier]) {
             index = idx;
             break;

@@ -24,10 +24,10 @@
 //
 
 #import "DYFStoreKeychainPersistence.h"
-//#if __has_include(<DYFKeychain/DYFKeychain.h>)
 #import "DYFStoreConverter.h"
-#import "DYFRuntimeProvider.h"
+#if __has_include(<DYFKeychain/DYFKeychain.h>)
 #import "DYFKeychain.h"
+#import "DYFRuntimeProvider.h"
 
 @interface DYFStoreKeychainPersistence ()
 @property (nonatomic, strong) DYFKeychain *keychain;
@@ -64,10 +64,8 @@
     NSMutableArray *arr = [NSMutableArray arrayWithArray:array];
     for (int idx = 0; idx < arr.count; idx++) {
         NSDictionary *dict = arr[idx];
-        
-        DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
+        DYFStoreTransaction *transaction = [DYFRuntimeProvider asObjectWithDictionary:dict forClass:DYFStoreTransaction.class];
         NSString *identifier = transaction.transactionIdentifier;
-        
         if ([identifier isEqualToString:transactionIdentifier]) {
             return YES;
         }
@@ -81,7 +79,6 @@
     if (!transaction) { return; }
     
     NSMutableArray *transactions;
-    
     NSArray *array = [self loadDataFromKeychain];
     if (!array) {
         transactions = [NSMutableArray arrayWithCapacity:0];
@@ -89,7 +86,7 @@
         transactions = [NSMutableArray arrayWithArray:array];
     }
     
-    NSDictionary *dict = [DYFRuntimeProvider dictionaryWithModel:transaction];
+    NSDictionary *dict = [DYFRuntimeProvider asDictionarywithObject:transaction];
     [transactions addObject:dict];
     
     NSData *tData = [DYFStoreConverter jsonWithObject:transactions];
@@ -103,7 +100,7 @@
     
     NSMutableArray *transactions = [NSMutableArray array];
     for (NSDictionary *dict in array) {
-        DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
+        DYFStoreTransaction *transaction = [DYFRuntimeProvider asObjectWithDictionary:dict forClass:DYFStoreTransaction.class];
         if (transaction) {
             [transactions addObject:transaction];
         }
@@ -136,10 +133,8 @@
     int index = -1;
     for (int idx = 0; idx < arr.count; idx++) {
         NSDictionary *dict = arr[idx];
-        
-        DYFStoreTransaction *transaction = [DYFRuntimeProvider modelWithDictionary:dict forClass:DYFStoreTransaction.class];
+        DYFStoreTransaction *transaction = [DYFRuntimeProvider asObjectWithDictionary:dict forClass:DYFStoreTransaction.class];
         NSString *identifier = transaction.transactionIdentifier;
-        
         if ([identifier isEqualToString:transactionIdentifier]) {
             index = idx;
             break;
@@ -160,4 +155,4 @@
 
 @end
 
-//#endif
+#endif
