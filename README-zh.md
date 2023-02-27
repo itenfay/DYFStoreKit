@@ -41,7 +41,7 @@
 ``` 
 pod 'DYFStoreKit'
 or
-pod 'DYFStoreKit', '~> 2.0.1'
+pod 'DYFStoreKit', '~> 2.0.2'
 ```
 
 查看 [wiki](https://github.com/chenxing640/DYFStoreKit/wiki/Installation) 以获取更多选项。

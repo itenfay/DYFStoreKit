@@ -86,7 +86,7 @@
         transactions = [NSMutableArray arrayWithArray:array];
     }
     
-    NSDictionary *dict = [DYFRuntimeProvider asDictionarywithObject:transaction];
+    NSDictionary *dict = [DYFRuntimeProvider asDictionaryWithObject:transaction];
     [transactions addObject:dict];
     
     NSData *tData = [DYFStoreConverter jsonWithObject:transactions];

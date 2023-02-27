@@ -19,7 +19,6 @@
 		142556C92371DE5200D35669 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556C82371DE5200D35669 /* Foundation.framework */; };
 		142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CA2371DE5A00D35669 /* UIKit.framework */; };
 		142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CC2371DE6200D35669 /* CoreGraphics.framework */; };
-		142556CF2371DE6800D35669 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CE2371DE6800D35669 /* Security.framework */; };
 		143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */; };
 		147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */; };
 		147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */; };
@@ -56,7 +55,6 @@
 		142556C82371DE5200D35669 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		142556CA2371DE5A00D35669 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		142556CC2371DE6200D35669 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		142556CE2371DE6800D35669 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
 		143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
 		147FC0F7239AA54400A879C1 /* NSObject+DYFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DYFAdd.h"; sourceTree = "<group>"; };
@@ -91,7 +89,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				14FF76D1263B37290060AEF7 /* StoreKit.framework in Frameworks */,
-				142556CF2371DE6800D35669 /* Security.framework in Frameworks */,
 				142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */,
 				142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */,
 				142556C92371DE5200D35669 /* Foundation.framework in Frameworks */,
@@ -159,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				14FF76D0263B37290060AEF7 /* StoreKit.framework */,
-				142556CE2371DE6800D35669 /* Security.framework */,
 				142556CC2371DE6200D35669 /* CoreGraphics.framework */,
 				142556CA2371DE5A00D35669 /* UIKit.framework */,
 				142556C82371DE5200D35669 /* Foundation.framework */,
@@ -452,7 +448,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -460,7 +456,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -475,7 +471,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -483,7 +479,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

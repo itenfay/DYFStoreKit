@@ -2,7 +2,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "DYFStoreKit"
-  spec.version      = "2.0.1"
+  spec.version      = "2.0.2"
   spec.summary      = "A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)"
 
   spec.description  = <<-DESC
@@ -49,6 +49,6 @@ Pod::Spec.new do |spec|
 
   # spec.dependency 'JSONKit', '~> 1.4'
   spec.dependency 'DYFRuntimeProvider'
-  spec.dependency 'DYFStoreReceiptVerifier'
+  # spec.dependency 'DYFStoreReceiptVerifier'
 
 end

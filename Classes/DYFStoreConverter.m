@@ -53,11 +53,9 @@
             [unarchiver finishDecoding];
             return object;
         }
-        
         #if DEBUG
         NSLog(@"%s error: %@", __FUNCTION__, error);
         #endif
-        
         return nil;
     }
     
