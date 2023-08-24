@@ -1,14 +1,14 @@
+English Vision | [中文版](README-zh.md)
+
 ## DYFStoreKit
 
-A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)
+A lightweight and easy-to-use iOS library for In-App Purchases([Swift Version](https://github.com/chenxing640/DYFStore)).
 
 `DYFStoreKit` uses blocks and [notifications](#Notifications) to wrap `StoreKit`, provides [receipt verification](#Receipt-verification) and [transaction persistence](#Transaction-persistence).
 
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/DYFStoreKit.svg?style=flat)](http://cocoapods.org/pods/DYFStoreKit)&nbsp;
 ![CocoaPods](http://img.shields.io/cocoapods/p/DYFStoreKit.svg?style=flat)&nbsp;
-
-[Chinese Instructions (中文说明)](README-zh.md)
 
 
 ## Related Links

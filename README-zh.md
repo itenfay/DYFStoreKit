@@ -1,6 +1,8 @@
+[English Vision](README.md) | 中文版
+
 ## DYFStoreKit
 
-一个用于应用内购买的轻量级易用 iOS 库。(Objective-C)
+用于应用内购买的轻量级且易用的iOS库([Swift Version](https://github.com/chenxing640/DYFStore))。
 
 `DYFStoreKit`使用代码块和[通知](#通知)包装`StoreKit`，提供[收据验证](#收据验证)和[交易持久化](#交易持久化)。
 
