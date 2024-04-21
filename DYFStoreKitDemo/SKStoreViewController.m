@@ -1,19 +1,19 @@
 //
-//  DYFStoreViewController.m
+//  SKStoreViewController.m
 //
-//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Created by Teng Fei on 2014/11/4.
 //  Copyright © 2014 Teng Fei. All rights reserved.
 //
 
-#import "DYFStoreViewController.h"
-#import "DYFStoreTableViewCell.h"
+#import "SKStoreViewController.h"
+#import "SKStoreTableViewCell.h"
 #import "SKIAPManager.h"
 
-@interface DYFStoreViewController ()
+@interface SKStoreViewController ()
 
 @end
 
-@implementation DYFStoreViewController
+@implementation SKStoreViewController
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -52,13 +52,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier = @"StoreTableViewCell";
     
-    DYFStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    SKStoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        UINib *nib = [UINib nibWithNibName:NSStringFromClass(DYFStoreTableViewCell.class) bundle:nil];
+        UINib *nib = [UINib nibWithNibName:NSStringFromClass(SKStoreTableViewCell.class) bundle:nil];
         cell = [nib instantiateWithOwner:nil options:nil][0];
     }
     
-    DYFStoreProduct *product = self.dataArray[indexPath.row];
+    SKStoreProduct *product = self.dataArray[indexPath.row];
     cell.nameLabel.text = product.name;
     cell.localePriceLabel.text = product.localePrice;
     
@@ -70,7 +70,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    DYFStoreProduct *product = self.dataArray[indexPath.row];
+    SKStoreProduct *product = self.dataArray[indexPath.row];
     NSString *productIdentifier = product.identifier;
     DYFStoreLog(@"productIdentifier: %@", productIdentifier);
     

@@ -7,21 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1424B8E3238510E80032D915 /* DYFStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8D4238510E50032D915 /* DYFStoreViewController.m */; };
+		1424B8E3238510E80032D915 /* SKStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8D4238510E50032D915 /* SKStoreViewController.m */; };
 		1424B8E4238510E80032D915 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8D5238510E50032D915 /* AppDelegate.m */; };
-		1424B8E5238510E80032D915 /* DYFStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1424B8D7238510E60032D915 /* DYFStoreViewController.xib */; };
-		1424B8E6238510E80032D915 /* DYFLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8D9238510E60032D915 /* DYFLoadingView.m */; };
-		1424B8E7238510E80032D915 /* DYFStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8DA238510E60032D915 /* DYFStoreProduct.m */; };
-		1424B8E8238510E80032D915 /* DYFStoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1424B8DD238510E70032D915 /* DYFStoreTableViewCell.xib */; };
-		1424B8E9238510E80032D915 /* DYFStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8DE238510E70032D915 /* DYFStoreTableViewCell.m */; };
+		1424B8E5238510E80032D915 /* SKStoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1424B8D7238510E60032D915 /* SKStoreViewController.xib */; };
+		1424B8E7238510E80032D915 /* SKStoreProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8DA238510E60032D915 /* SKStoreProduct.m */; };
+		1424B8E8238510E80032D915 /* SKStoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1424B8DD238510E70032D915 /* SKStoreTableViewCell.xib */; };
+		1424B8E9238510E80032D915 /* SKStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8DE238510E70032D915 /* SKStoreTableViewCell.m */; };
 		1424B8EB238510E80032D915 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8E1238510E80032D915 /* ViewController.m */; };
-		1424B8EE238535820032D915 /* UIView+DYFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1424B8ED238535820032D915 /* UIView+DYFAdd.m */; };
 		142556C92371DE5200D35669 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556C82371DE5200D35669 /* Foundation.framework */; };
 		142556CB2371DE5A00D35669 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CA2371DE5A00D35669 /* UIKit.framework */; };
 		142556CD2371DE6200D35669 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142556CC2371DE6200D35669 /* CoreGraphics.framework */; };
-		143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */; };
-		147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */; };
-		147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */; };
 		14ABF8DC237A980D00015826 /* DYFStoreTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */; };
 		14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D1237A980B00015826 /* DYFStoreConverter.m */; };
 		14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */ = {isa = PBXBuildFile; fileRef = 14ABF8D2237A980B00015826 /* DYFStoreKeychainPersistence.m */; };
@@ -32,35 +27,30 @@
 		14BAC1AE2294544C006974B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BAC1AC2294544C006974B5 /* LaunchScreen.storyboard */; };
 		14BAC1B12294544C006974B5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BAC1B02294544C006974B5 /* main.m */; };
 		14FF76D1263B37290060AEF7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FF76D0263B37290060AEF7 /* StoreKit.framework */; };
+		497B362C2BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B36222BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m */; };
+		497B362D2BD2DD3E00733FE8 /* SKLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B36242BD2DD3E00733FE8 /* SKLoadingView.m */; };
+		497B362E2BD2DD3E00733FE8 /* SKIAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B36262BD2DD3E00733FE8 /* SKIAPManager.m */; };
+		497B362F2BD2DD3E00733FE8 /* NSObject+SKAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B36282BD2DD3E00733FE8 /* NSObject+SKAdd.m */; };
+		497B36302BD2DD3E00733FE8 /* UIView+SKAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 497B362A2BD2DD3E00733FE8 /* UIView+SKAdd.m */; };
 		C1A6FE90B54639EC46CDEC1D /* libPods-DYFStoreKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1424B8D3238510E50032D915 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1424B8D4238510E50032D915 /* DYFStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreViewController.m; sourceTree = "<group>"; };
+		1424B8D4238510E50032D915 /* SKStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKStoreViewController.m; sourceTree = "<group>"; };
 		1424B8D5238510E50032D915 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1424B8D6238510E60032D915 /* DYFStoreProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreProduct.h; sourceTree = "<group>"; };
-		1424B8D7238510E60032D915 /* DYFStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYFStoreViewController.xib; sourceTree = "<group>"; };
-		1424B8D8238510E60032D915 /* DYFLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFLoadingView.h; sourceTree = "<group>"; };
-		1424B8D9238510E60032D915 /* DYFLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFLoadingView.m; sourceTree = "<group>"; };
-		1424B8DA238510E60032D915 /* DYFStoreProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreProduct.m; sourceTree = "<group>"; };
-		1424B8DB238510E60032D915 /* DYFStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreViewController.h; sourceTree = "<group>"; };
-		1424B8DC238510E70032D915 /* DYFStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTableViewCell.h; sourceTree = "<group>"; };
-		1424B8DD238510E70032D915 /* DYFStoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYFStoreTableViewCell.xib; sourceTree = "<group>"; };
-		1424B8DE238510E70032D915 /* DYFStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTableViewCell.m; sourceTree = "<group>"; };
+		1424B8D6238510E60032D915 /* SKStoreProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKStoreProduct.h; sourceTree = "<group>"; };
+		1424B8D7238510E60032D915 /* SKStoreViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SKStoreViewController.xib; sourceTree = "<group>"; };
+		1424B8DA238510E60032D915 /* SKStoreProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKStoreProduct.m; sourceTree = "<group>"; };
+		1424B8DB238510E60032D915 /* SKStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKStoreViewController.h; sourceTree = "<group>"; };
+		1424B8DC238510E70032D915 /* SKStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKStoreTableViewCell.h; sourceTree = "<group>"; };
+		1424B8DD238510E70032D915 /* SKStoreTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SKStoreTableViewCell.xib; sourceTree = "<group>"; };
+		1424B8DE238510E70032D915 /* SKStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKStoreTableViewCell.m; sourceTree = "<group>"; };
 		1424B8E1238510E80032D915 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1424B8E2238510E80032D915 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1424B8EC238535820032D915 /* UIView+DYFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+DYFAdd.h"; sourceTree = "<group>"; };
-		1424B8ED238535820032D915 /* UIView+DYFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+DYFAdd.m"; sourceTree = "<group>"; };
 		142556C82371DE5200D35669 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		142556CA2371DE5A00D35669 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		142556CC2371DE6200D35669 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
-		143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
-		147FC0F7239AA54400A879C1 /* NSObject+DYFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DYFAdd.h"; sourceTree = "<group>"; };
-		147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DYFAdd.m"; sourceTree = "<group>"; };
-		147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreManager.m; sourceTree = "<group>"; };
-		147FC0FB239B4F6700A879C1 /* DYFStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreManager.h; sourceTree = "<group>"; };
 		14ABF8CD237A980B00015826 /* DYFStoreUserDefaultsPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreUserDefaultsPersistence.h; sourceTree = "<group>"; };
 		14ABF8CF237A980B00015826 /* DYFStoreTransaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYFStoreTransaction.m; sourceTree = "<group>"; };
 		14ABF8D0237A980B00015826 /* DYFStoreTransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYFStoreTransaction.h; sourceTree = "<group>"; };
@@ -81,6 +71,20 @@
 		1EAD3C6146C0003D3F63FA4D /* Pods-DYFStoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.debug.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.debug.xcconfig"; sourceTree = "<group>"; };
 		395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DYFStoreKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4552F4D1DA9F4B957DE1F0D4 /* Pods-DYFStoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.release.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.release.xcconfig"; sourceTree = "<group>"; };
+		497B36212BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
+		497B36222BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
+		497B36232BD2DD3E00733FE8 /* SKLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLoadingView.h; sourceTree = "<group>"; };
+		497B36242BD2DD3E00733FE8 /* SKLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKLoadingView.m; sourceTree = "<group>"; };
+		497B36252BD2DD3E00733FE8 /* SKIAPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIAPManager.h; sourceTree = "<group>"; };
+		497B36262BD2DD3E00733FE8 /* SKIAPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKIAPManager.m; sourceTree = "<group>"; };
+		497B36272BD2DD3E00733FE8 /* NSObject+SKAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SKAdd.h"; sourceTree = "<group>"; };
+		497B36282BD2DD3E00733FE8 /* NSObject+SKAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SKAdd.m"; sourceTree = "<group>"; };
+		497B36292BD2DD3E00733FE8 /* UIView+SKAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SKAdd.h"; sourceTree = "<group>"; };
+		497B362A2BD2DD3E00733FE8 /* UIView+SKAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SKAdd.m"; sourceTree = "<group>"; };
+		497B364C2BD42D3800733FE8 /* DYFStoreKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DYFStoreKit.podspec; sourceTree = "<group>"; };
+		497B36502BD42F8500733FE8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		497B36512BD42F8500733FE8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		497B36522BD42F8500733FE8 /* README-zh.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "README-zh.md"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +106,7 @@
 		14BAC1952294543F006974B5 = {
 			isa = PBXGroup;
 			children = (
+				497B364D2BD42D3800733FE8 /* Podspec Metadata */,
 				14BAC1BA22945848006974B5 /* Classes */,
 				14BAC1A02294543F006974B5 /* DYFStoreKitDemo */,
 				14BAC19F2294543F006974B5 /* Products */,
@@ -121,26 +126,17 @@
 		14BAC1A02294543F006974B5 /* DYFStoreKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				497B362B2BD2DD3E00733FE8 /* Sample */,
 				1424B8D3238510E50032D915 /* AppDelegate.h */,
 				1424B8D5238510E50032D915 /* AppDelegate.m */,
-				143A19AD2484F4DC005A22D5 /* DYFIndefiniteAnimatedSpinner.h */,
-				143A19AE2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m */,
-				1424B8D8238510E60032D915 /* DYFLoadingView.h */,
-				1424B8D9238510E60032D915 /* DYFLoadingView.m */,
-				147FC0FB239B4F6700A879C1 /* DYFStoreManager.h */,
-				147FC0FA239B4F6600A879C1 /* DYFStoreManager.m */,
-				1424B8D6238510E60032D915 /* DYFStoreProduct.h */,
-				1424B8DA238510E60032D915 /* DYFStoreProduct.m */,
-				1424B8DC238510E70032D915 /* DYFStoreTableViewCell.h */,
-				1424B8DE238510E70032D915 /* DYFStoreTableViewCell.m */,
-				1424B8DD238510E70032D915 /* DYFStoreTableViewCell.xib */,
-				1424B8DB238510E60032D915 /* DYFStoreViewController.h */,
-				1424B8D4238510E50032D915 /* DYFStoreViewController.m */,
-				1424B8D7238510E60032D915 /* DYFStoreViewController.xib */,
-				147FC0F7239AA54400A879C1 /* NSObject+DYFAdd.h */,
-				147FC0F8239AA54400A879C1 /* NSObject+DYFAdd.m */,
-				1424B8EC238535820032D915 /* UIView+DYFAdd.h */,
-				1424B8ED238535820032D915 /* UIView+DYFAdd.m */,
+				1424B8D6238510E60032D915 /* SKStoreProduct.h */,
+				1424B8DA238510E60032D915 /* SKStoreProduct.m */,
+				1424B8DC238510E70032D915 /* SKStoreTableViewCell.h */,
+				1424B8DE238510E70032D915 /* SKStoreTableViewCell.m */,
+				1424B8DD238510E70032D915 /* SKStoreTableViewCell.xib */,
+				1424B8DB238510E60032D915 /* SKStoreViewController.h */,
+				1424B8D4238510E50032D915 /* SKStoreViewController.m */,
+				1424B8D7238510E60032D915 /* SKStoreViewController.xib */,
 				1424B8E2238510E80032D915 /* ViewController.h */,
 				1424B8E1238510E80032D915 /* ViewController.m */,
 				14BAC1A722945440006974B5 /* Main.storyboard */,
@@ -179,6 +175,34 @@
 				14ABF8DA237A980C00015826 /* DYFStoreUserDefaultsPersistence.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		497B362B2BD2DD3E00733FE8 /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				497B36272BD2DD3E00733FE8 /* NSObject+SKAdd.h */,
+				497B36282BD2DD3E00733FE8 /* NSObject+SKAdd.m */,
+				497B36252BD2DD3E00733FE8 /* SKIAPManager.h */,
+				497B36262BD2DD3E00733FE8 /* SKIAPManager.m */,
+				497B36212BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.h */,
+				497B36222BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m */,
+				497B36232BD2DD3E00733FE8 /* SKLoadingView.h */,
+				497B36242BD2DD3E00733FE8 /* SKLoadingView.m */,
+				497B36292BD2DD3E00733FE8 /* UIView+SKAdd.h */,
+				497B362A2BD2DD3E00733FE8 /* UIView+SKAdd.m */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+		497B364D2BD42D3800733FE8 /* Podspec Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				497B364C2BD42D3800733FE8 /* DYFStoreKit.podspec */,
+				497B36502BD42F8500733FE8 /* LICENSE */,
+				497B36522BD42F8500733FE8 /* README-zh.md */,
+				497B36512BD42F8500733FE8 /* README.md */,
+			);
+			path = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
 		CCE833F6CFE4EA9D993B6D1F /* Pods */ = {
@@ -250,9 +274,9 @@
 			files = (
 				14BAC1AE2294544C006974B5 /* LaunchScreen.storyboard in Resources */,
 				14BAC1AB2294544C006974B5 /* Assets.xcassets in Resources */,
-				1424B8E5238510E80032D915 /* DYFStoreViewController.xib in Resources */,
+				1424B8E5238510E80032D915 /* SKStoreViewController.xib in Resources */,
 				14BAC1A922945440006974B5 /* Main.storyboard in Resources */,
-				1424B8E8238510E80032D915 /* DYFStoreTableViewCell.xib in Resources */,
+				1424B8E8238510E80032D915 /* SKStoreTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,22 +312,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1424B8E7238510E80032D915 /* DYFStoreProduct.m in Sources */,
+				1424B8E7238510E80032D915 /* SKStoreProduct.m in Sources */,
 				1424B8E4238510E80032D915 /* AppDelegate.m in Sources */,
 				14ABF8DC237A980D00015826 /* DYFStoreTransaction.m in Sources */,
-				1424B8EE238535820032D915 /* UIView+DYFAdd.m in Sources */,
 				14ABF8DD237A980D00015826 /* DYFStoreConverter.m in Sources */,
-				147FC0FC239B4F6700A879C1 /* DYFStoreManager.m in Sources */,
-				143A19AF2484F4DD005A22D5 /* DYFIndefiniteAnimatedSpinner.m in Sources */,
-				147FC0F9239AA54400A879C1 /* NSObject+DYFAdd.m in Sources */,
 				14BAC1B12294544C006974B5 /* main.m in Sources */,
+				497B362C2BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m in Sources */,
+				497B362F2BD2DD3E00733FE8 /* NSObject+SKAdd.m in Sources */,
 				14ABF8DF237A980D00015826 /* DYFStore.m in Sources */,
+				497B362E2BD2DD3E00733FE8 /* SKIAPManager.m in Sources */,
 				14ABF8E2237A980D00015826 /* DYFStoreUserDefaultsPersistence.m in Sources */,
-				1424B8E3238510E80032D915 /* DYFStoreViewController.m in Sources */,
+				497B36302BD2DD3E00733FE8 /* UIView+SKAdd.m in Sources */,
+				1424B8E3238510E80032D915 /* SKStoreViewController.m in Sources */,
 				1424B8EB238510E80032D915 /* ViewController.m in Sources */,
-				1424B8E9238510E80032D915 /* DYFStoreTableViewCell.m in Sources */,
+				1424B8E9238510E80032D915 /* SKStoreTableViewCell.m in Sources */,
+				497B362D2BD2DD3E00733FE8 /* SKLoadingView.m in Sources */,
 				14ABF8DE237A980D00015826 /* DYFStoreKeychainPersistence.m in Sources */,
-				1424B8E6238510E80032D915 /* DYFLoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,15 +472,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = DYFStoreKit;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -471,15 +496,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = DYFStoreKit;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.2;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -1,8 +1,8 @@
 //
-//  UIView+DYFAdd.m
+//  UIView+SKAdd.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
 // THE SOFTWARE.
 //
 
-#import "UIView+DYFAdd.h"
+#import "UIView+SKAdd.h"
 
-@implementation UIView (DYFAdd)
+@implementation UIView (SKAdd)
 
-- (DYFSetCornerBlock)setCorner
+- (SKSetCornerBlock)setCorner
 {
-    DYFSetCornerBlock block = ^(UIRectCorner rectCorner, CGFloat radius) {
+    return ^(UIRectCorner rectCorner, CGFloat radius) {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
         CGFloat w = self.bounds.size.width;
         CGFloat h = self.bounds.size.height;
@@ -40,12 +40,11 @@
         
         [self.layer setMask:maskLayer];
     };
-    return block;
 }
 
-- (DYFSetBorderBlock)setBorder
+- (SKSetBorderBlock)setBorder
 {
-    DYFSetBorderBlock block = ^(UIRectCorner rectCorner, CGFloat radius, CGFloat lineWidth, UIColor *color) {
+    return ^(UIRectCorner rectCorner, CGFloat radius, CGFloat lineWidth, UIColor *color) {
         CAShapeLayer *maskLayer = [CAShapeLayer layer];
         CGFloat w = self.bounds.size.width;
         CGFloat h = self.bounds.size.height;
@@ -64,7 +63,6 @@
         [self.layer insertSublayer:borderLayer atIndex:0];
         [self.layer setMask:maskLayer];
     };
-    return block;
 }
 
 @end

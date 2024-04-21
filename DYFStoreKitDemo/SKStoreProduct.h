@@ -1,13 +1,13 @@
 //
-//  DYFStoreProduct.h
+//  SKStoreProduct.h
 //
-//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Created by Teng Fei on 2014/11/4.
 //  Copyright © 2014 Teng Fei. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface DYFStoreProduct : NSObject
+@interface SKStoreProduct : NSObject
 
 /** The string that identifies the product.
  */

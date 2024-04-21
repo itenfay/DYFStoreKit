@@ -1,12 +1,12 @@
 //
-//  DYFStoreProduct.m
+//  SKStoreProduct.m
 //
-//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Created by Teng Fei on 2014/11/4.
 //  Copyright © 2014 Teng Fei. All rights reserved.
 //
 
-#import "DYFStoreProduct.h"
+#import "SKStoreProduct.h"
 
-@implementation DYFStoreProduct
+@implementation SKStoreProduct
 
 @end

@@ -1,13 +1,13 @@
 //
-//  DYFStoreViewController.h
+//  SKStoreViewController.h
 //
-//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Created by Teng Fei on 2014/11/4.
 //  Copyright © 2014 Teng Fei. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface DYFStoreViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface SKStoreViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *storeTableView;
 

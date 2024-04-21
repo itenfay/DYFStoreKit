@@ -1,8 +1,8 @@
 //
-//  NSObject+DYFAdd.h
+//  SKIndefiniteAnimatedSpinner.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,35 +25,41 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NSObject (DYFAdd)
+@interface SKIndefiniteAnimatedSpinner : UIView
 
-/** The app's key window.
+/**
+ Property indicating whether the view is currently animating.
  */
-- (UIWindow *)mainWindow;
+@property (nonatomic, readonly) BOOL isAnimating;
 
-/** The view controller associated with the currently visible view.
+/**
+ Sets whether the view is hidden when not animating.
  */
-- (UIViewController *)currentViewController;
+@property (nonatomic) BOOL hidesWhenStopped;
 
-/** Shows the tips for user.
+/**
+ Specifies the timing function to use for the control's animation. Defaults to kCAMediaTimingFunctionEaseInEaseOut.
  */
-- (void)showTipsMessage:(NSString *)message;
+@property (nonatomic, strong) CAMediaTimingFunction *timingFunction;
 
-/** Shows an alert view controller.
+/**
+ Sets the line width of the spinner's circle.
  */
-- (void)showAlertWithTitle:(NSString *)title
-                   message:(NSString *)message
-         cancelButtonTitle:(NSString *)cancelButtonTitle
-                    cancel:(void (^)(UIAlertAction *action))cancelHandler
-        confirmButtonTitle:(NSString *)confirmButtonTitle
-                   execute:(void (^)(UIAlertAction *action))executableHandler;
+@property (nonatomic) CGFloat lineWidth;
 
-/** Shows a loading panel.
+/**
+ Sets the line color of the spinner's circle.
  */
-- (void)showLoading:(NSString *)text;
+@property (nonatomic, strong) UIColor *lineColor;
 
-/** Hides a loading panel.
+/**
+ Starts animation of the spinner.
  */
-- (void)hideLoading;
+- (void)startAnimating;
+
+/**
+ Stops animation of the spinnner.
+ */
+- (void)stopAnimating;
 
 @end

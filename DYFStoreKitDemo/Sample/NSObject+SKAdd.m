@@ -1,8 +1,8 @@
 //
-//  NSObject+DYFAdd.m
+//  NSObject+SKAdd.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,15 @@
 // THE SOFTWARE.
 //
 
-#import "NSObject+DYFAdd.h"
-#import "DYFLoadingView.h"
+#import "NSObject+SKAdd.h"
+#import "SKLoadingView.h"
 #import <objc/message.h>
 
 NSString *const LoadingViewKey = @"LoadingViewKey";
 
-@implementation NSObject (DYFAdd)
+@implementation NSObject (SKAdd)
 
-- (UIWindow *)mainWindow
+- (UIWindow *)sk_mainWindow
 {
     UIWindow *window;
     NSMutableArray<UIWindow *> *windowArray = [NSMutableArray arrayWithCapacity:0];
@@ -57,13 +57,13 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
     return window;
 }
 
-- (UIViewController *)currentViewController
+- (UIViewController *)sk_currentViewController
 {
-    UIWindow *window = [self mainWindow];
-    return [self findCurrentViewControllerFrom:window.rootViewController];
+    UIWindow *window = [self sk_mainWindow];
+    return [self sk_findCurrentViewControllerFrom:window.rootViewController];
 }
 
-- (UIViewController *)findCurrentViewControllerFrom:(UIViewController *)viewController
+- (UIViewController *)sk_findCurrentViewControllerFrom:(UIViewController *)viewController
 {
     UIViewController *vc = viewController;
     while (1) {
@@ -83,28 +83,26 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
     return vc;
 }
 
-- (void)showTipsMessage:(NSString *)message
+- (void)sk_showTipsMessage:(NSString *)message
 {
-    if ([self.currentViewController isKindOfClass:UIAlertController.class]) {
+    if ([self.sk_currentViewController isKindOfClass:UIAlertController.class]) {
         return;
     }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:message message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    
-    [self.currentViewController presentViewController:alertController animated:YES completion:NULL];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)),
+    [self.sk_currentViewController presentViewController:alertController animated:YES completion:NULL];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
         [alertController dismissViewControllerAnimated:YES completion:NULL];
     });
 }
 
-- (void)showAlertWithTitle:(NSString *)title
-                   message:(NSString *)message
-         cancelButtonTitle:(NSString *)cancelButtonTitle
-                    cancel:(void (^)(UIAlertAction *))cancelHandler
-        confirmButtonTitle:(NSString *)confirmButtonTitle
-                   execute:(void (^)(UIAlertAction *))executableHandler
+- (void)sk_showAlertWithTitle:(NSString *)title
+                      message:(NSString *)message
+            cancelButtonTitle:(NSString *)cancelButtonTitle
+                       cancel:(void (^)(UIAlertAction *))cancelHandler
+           confirmButtonTitle:(NSString *)confirmButtonTitle
+                      execute:(void (^)(UIAlertAction *))executableHandler
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
@@ -118,16 +116,16 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
         [alertController addAction:confirmAction];
     }
     
-    [self.currentViewController presentViewController:alertController animated:YES completion:NULL];
+    [self.sk_currentViewController presentViewController:alertController animated:YES completion:NULL];
 }
 
-- (void)showLoading:(NSString *)text
+- (void)sk_showLoading:(NSString *)text
 {
     id value = objc_getAssociatedObject(self, &LoadingViewKey);
     if (value) {
         return;
     }
-    DYFLoadingView *loadingView = [[DYFLoadingView alloc] init];
+    SKLoadingView *loadingView = [[SKLoadingView alloc] init];
     loadingView.show(text);
     loadingView.color = COLOR_RGBA(10, 10, 10, 0.75);
     loadingView.indicatorColor = COLOR_RGB(54, 205, 64);
@@ -135,13 +133,13 @@ NSString *const LoadingViewKey = @"LoadingViewKey";
     objc_setAssociatedObject(self, &LoadingViewKey, loadingView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)hideLoading
+- (void)sk_hideLoading
 {
     id value = objc_getAssociatedObject(self, &LoadingViewKey);
     if (!value) {
         return;
     }
-    DYFLoadingView *loadingView = (DYFLoadingView *)value;
+    SKLoadingView *loadingView = (SKLoadingView *)value;
     [loadingView hide];
     objc_setAssociatedObject(self, &LoadingViewKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

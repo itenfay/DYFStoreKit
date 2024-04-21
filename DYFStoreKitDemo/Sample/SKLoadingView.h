@@ -1,8 +1,8 @@
 //
-//  DYFLoadingView.h
+//  SKLoadingView.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIView+DYFAdd.h"
+#import "UIView+SKAdd.h"
 
 /** Creates and returns a color object using the specified opacity and RGB component values.
  
@@ -63,7 +63,7 @@
  */
 typedef void (^LoadingViewConfigurationBlock)(NSString *text);
 
-@interface DYFLoadingView : UIView
+@interface SKLoadingView : UIView
 
 /** The color to set the background color of the content view.
  */

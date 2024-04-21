@@ -1,8 +1,8 @@
 //
-//  DYFLoadingView.m
+//  SKLoadingView.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,24 @@
 // THE SOFTWARE.
 //
 
-#import "DYFLoadingView.h"
-#import "DYFIndefiniteAnimatedSpinner.h"
+#import "SKLoadingView.h"
+#import "SKIndefiniteAnimatedSpinner.h"
 
-@interface DYFLoadingView ()
-
+@interface SKLoadingView ()
 @property (nonatomic, strong) UIView *maskPanel;
 @property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) DYFIndefiniteAnimatedSpinner *indicator;
+@property (nonatomic, strong) SKIndefiniteAnimatedSpinner *indicator;
 @property (nonatomic, strong) UILabel *textLabel;
-
 @end
 
-@implementation DYFLoadingView
+@implementation SKLoadingView
 
 /// It is used to act as background mask panel.
 - (UIView *)maskPanel
 {
     if (!_maskPanel) {
         _maskPanel = [[UIView alloc] init];
-        _maskPanel.backgroundColor = COLOR_RGBA(20, 20, 20, 0.5);
+        _maskPanel.backgroundColor = COLOR_RGBA(20, 20, 20, 0.7);
     }
     return _maskPanel;
 }
@@ -58,10 +56,10 @@
 }
 
 /// The spinner is used to provide an indefinite animation.
-- (DYFIndefiniteAnimatedSpinner *)indicator
+- (SKIndefiniteAnimatedSpinner *)indicator
 {
     if (!_indicator) {
-        _indicator = [[DYFIndefiniteAnimatedSpinner alloc] init];
+        _indicator = [[SKIndefiniteAnimatedSpinner alloc] init];
         _indicator.backgroundColor = UIColor.clearColor;
         _indicator.lineColor = COLOR_RGB(100, 100, 100);
     }
@@ -130,7 +128,9 @@
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
-    if (self) {}
+    if (self) {
+        
+    }
     return self;
 }
 
@@ -196,25 +196,33 @@
                                        UIViewAutoresizingFlexibleWidth      |
                                        UIViewAutoresizingFlexibleTopMargin  |
                                        UIViewAutoresizingFlexibleHeight);
+    CGFloat cW = 0.f, cH = 0.f;
+    CGFloat iW = 36.f;
+    CGFloat offset = 15.f;
     
-    CGFloat cw = 200.f;
-    self.contentView.frame = CGRectMake(0, 0, cw, 0.6*cw);
-    self.contentView.setCorner(UIRectCornerAllCorners, 10.f);
-    
-    CGFloat offset = 10.f;
-    CGFloat iw = 60.f;
-    CGFloat ix = cw/2 - iw/2;
-    CGFloat iy = 1.5*offset;
-    self.indicator.frame = CGRectMake(ix, iy, iw, iw);
-    self.indicator.lineWidth = 2.0;
-    
-    CGFloat lh = 20.f;
-    self.textLabel.center = CGPointMake(cw/2, 0.6*cw - lh/2 - 1.5*offset);
-    self.textLabel.bounds = CGRectMake(0, 0, cw - 2*offset, lh);
     self.textLabel.text = text;
-    self.textLabel.font = [UIFont boldSystemFontOfSize:16.f];
+    self.textLabel.font = [UIFont boldSystemFontOfSize:14.f];
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     self.textLabel.numberOfLines = 1;
+    [self.textLabel sizeToFit];
+    CGSize textSize = self.textLabel.bounds.size;
+    
+    cW = textSize.width + 2*offset;
+    cW = cW > (SCREEN_W - 40) ? SCREEN_W - 40 : cW;
+    cW = cW < (iW + 4*offset) ? iW + 4*offset : cW;
+    cH = textSize.height + iW + 3*offset;
+    self.contentView.frame = CGRectMake(0, 0, cW, cH);
+    self.contentView.setCorner(UIRectCornerAllCorners, 10.f);
+    
+    CGFloat ix = cW/2 - iW/2;
+    CGFloat iy = cH/2 - iW + 5.f;
+    if ([self.textLabel.text isEqualToString:@""]) {
+        iy = cH/2 - iW/2;
+    }
+    self.indicator.frame = CGRectMake(ix, iy, iW, iW);
+    self.indicator.lineWidth = 2.0;
+    
+    self.textLabel.frame = CGRectMake(offset, CGRectGetMaxY(self.indicator.frame) + offset, cW - 2*offset, textSize.height);
 }
 
 /// Addds the subviews to its corresponding superview.
@@ -272,20 +280,20 @@
 
 - (void)layoutSubviews
 {
-    CGFloat self_w = 0.f;
-    CGFloat self_h = 0.f;
+    CGFloat s_w = 0.f;
+    CGFloat s_h = 0.f;
     
     UIView *view = self.superview;
     if (view) {
-        self_w = view.bounds.size.width;
-        self_h = view.bounds.size.height;
+        s_w = view.bounds.size.width;
+        s_h = view.bounds.size.height;
     } else {
-        self_w = SCREEN_W;
-        self_h = SCREEN_H;
+        s_w = SCREEN_W;
+        s_h = SCREEN_H;
     }
-    self.frame = CGRectMake(0, 0, self_w, self_h);
-    self.maskPanel.frame = CGRectMake(0, 0, self_w, self_h);
-    self.contentView.center = CGPointMake(self_w/2, self_h/2);
+    self.frame = CGRectMake(0, 0, s_w, s_h);
+    self.maskPanel.frame = CGRectMake(0, 0, s_w, s_h);
+    self.contentView.center = CGPointMake(s_w/2, s_h/2);
 }
 
 - (void)dealloc

@@ -1,8 +1,8 @@
 //
-//  UIView+DYFAdd.h
+//  SKIAPManager.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,35 +24,39 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NSObject+SKAdd.h"
+#import "UIView+SKAdd.h"
+#import "SKStoreProduct.h"
+#import "SKStoreViewController.h"
 
-/** The block is called when the corners are set.
- 
- @param rectCorner The corners of a rectangle.
- @param radius The radius of each corner.
+#import "DYFStore.h"
+#import "DYFStoreReceiptVerifier.h"
+#import "DYFStoreUserDefaultsPersistence.h"
+
+@interface SKIAPManager : NSObject
+
+/** Constructs a store manager singleton with class method.
  */
-typedef void (^DYFSetCornerBlock)(UIRectCorner rectCorner, CGFloat radius);
++ (instancetype)shared;
 
-/** The block is called when the border is set.
- 
- @param rectCorner The corners of a rectangle.
- @param radius The radius of each corner.
- @param lineWidth Specifies the line width of the shape’s path.
- @param color The color used to stroke the shape’s path.
+- (void)addStoreObserver;
+
+- (void)removeStoreObserver;
+
+/** Requests payment of the product with the given product identifier.
  */
-typedef void (^DYFSetBorderBlock)(UIRectCorner rectCorner, CGFloat radius, CGFloat lineWidth, UIColor *color);
+- (void)addPayment:(NSString *)productIdentifier;
 
-@interface UIView (DYFAdd)
-
-/** This method is used to set the corner.
- 
- @return A block with a `UIRectCorner` value and radius.
+/** Requests payment of the product with the given product identifier, an opaque identifier for the user’s account on your system.
  */
-- (DYFSetCornerBlock)setCorner;
+- (void)addPayment:(NSString *)productIdentifier userIdentifier:(NSString *)userIdentifier;
 
-/** This method is used to set the border.
- 
- @return A block with a `UIRectCorner` value, radius, line width and a color.
+/** Requests to restore previously completed purchases.
  */
-- (DYFSetBorderBlock)setBorder;
+- (void)restorePurchases;
+
+/** Requests to restore previously completed purchases with an opaque identifier for the user’s account on your system.
+ */
+- (void)restorePurchases:(NSString *)userIdentifier;
 
 @end

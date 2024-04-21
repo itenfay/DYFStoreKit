@@ -1,8 +1,8 @@
 //
-//  DYFIndefiniteAnimatedSpinner.h
+//  UIView+SKAdd.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,41 +25,34 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DYFIndefiniteAnimatedSpinner : UIView
-
-/**
- Property indicating whether the view is currently animating.
+/** The block is called when the corners are set.
+ 
+ @param rectCorner The corners of a rectangle.
+ @param radius The radius of each corner.
  */
-@property (nonatomic, readonly) BOOL isAnimating;
+typedef void (^SKSetCornerBlock)(UIRectCorner rectCorner, CGFloat radius);
 
-/**
- Sets whether the view is hidden when not animating.
+/** The block is called when the border is set.
+ 
+ @param rectCorner The corners of a rectangle.
+ @param radius The radius of each corner.
+ @param lineWidth Specifies the line width of the shape’s path.
+ @param color The color used to stroke the shape’s path.
  */
-@property (nonatomic) BOOL hidesWhenStopped;
+typedef void (^SKSetBorderBlock)(UIRectCorner rectCorner, CGFloat radius, CGFloat lineWidth, UIColor *color);
 
-/**
- Specifies the timing function to use for the control's animation. Defaults to kCAMediaTimingFunctionEaseInEaseOut.
- */
-@property (nonatomic, strong) CAMediaTimingFunction *timingFunction;
+@interface UIView (SKAdd)
 
-/**
- Sets the line width of the spinner's circle.
+/** This method is used to set the corner.
+ 
+ @return A block with a `UIRectCorner` value and radius.
  */
-@property (nonatomic) CGFloat lineWidth;
+- (SKSetCornerBlock)setCorner;
 
-/**
- Sets the line color of the spinner's circle.
+/** This method is used to set the border.
+ 
+ @return A block with a `UIRectCorner` value, radius, line width and a color.
  */
-@property (nonatomic, strong) UIColor *lineColor;
-
-/**
- Starts animation of the spinner.
- */
-- (void)startAnimating;
-
-/**
- Stops animation of the spinnner.
- */
-- (void)stopAnimating;
+- (SKSetBorderBlock)setBorder;
 
 @end

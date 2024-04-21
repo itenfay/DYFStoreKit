@@ -1,8 +1,8 @@
 //
-//  DYFIndefiniteAnimatedSpinner.h
+//  SKIndefiniteAnimatedSpinner.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4.
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
 // THE SOFTWARE.
 //
 
-#import "DYFIndefiniteAnimatedSpinner.h"
+#import "SKIndefiniteAnimatedSpinner.h"
 
 /** Animation Key */
-NSString *const DYFSpinnerStrokeAnimationKey   = @"spinner.animkey.stroke";
-NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
+NSString *const SKSpinnerStrokeAnimationKey   = @"spinner.animkey.stroke";
+NSString *const SKSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
 
-@interface DYFIndefiniteAnimatedSpinner ()
+@interface SKIndefiniteAnimatedSpinner ()
 
 /** A layer that draws a arc progress in its coordinate space. */
 @property (nonatomic, readonly) CAShapeLayer *progressLayer;
@@ -38,7 +38,7 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
 
 @end
 
-@implementation DYFIndefiniteAnimatedSpinner
+@implementation SKIndefiniteAnimatedSpinner
 
 @synthesize progressLayer = _progressLayer;
 
@@ -143,8 +143,8 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     
     self.isAnimating = NO;
     
-    [self.progressLayer removeAnimationForKey:DYFSpinnerRotationAnimationKey];
-    [self.progressLayer removeAnimationForKey:DYFSpinnerStrokeAnimationKey];
+    [self.progressLayer removeAnimationForKey:SKSpinnerRotationAnimationKey];
+    [self.progressLayer removeAnimationForKey:SKSpinnerStrokeAnimationKey];
     
     if (self.hidesWhenStopped) {
         self.hidden = YES;
@@ -159,7 +159,7 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
     animation.fromValue = @(0.f);
     animation.toValue = @(2 * M_PI);
     animation.repeatCount = INFINITY;
-    [self.progressLayer addAnimation:animation forKey:DYFSpinnerRotationAnimationKey];
+    [self.progressLayer addAnimation:animation forKey:SKSpinnerRotationAnimationKey];
     
     CABasicAnimation *headAnimation = [CABasicAnimation animation];
     headAnimation.keyPath = @"strokeStart";
@@ -198,7 +198,7 @@ NSString *const DYFSpinnerRotationAnimationKey = @"spinner.animkey.rotation";
                                endHeadAnimation,
                                endTailAnimation]];
     animGroup.repeatCount = INFINITY;
-    [self.progressLayer addAnimation:animGroup forKey:DYFSpinnerStrokeAnimationKey];
+    [self.progressLayer addAnimation:animGroup forKey:SKSpinnerStrokeAnimationKey];
 }
 
 - (void)resetAnimations
