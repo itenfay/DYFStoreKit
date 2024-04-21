@@ -212,7 +212,7 @@ To begin the purchase process, your app must know its product identifiers. There
 {
     NSMutableArray *modelArray = [NSMutableArray arrayWithCapacity:0];
     for (SKProduct *product in products) {
-        DYFStoreProduct *p = [[DYFStoreProduct alloc] init];
+        SKStoreProduct *p = [[SKStoreProduct alloc] init];
         p.identifier = product.productIdentifier;
         p.name = product.localizedTitle;
         p.price = [product.price stringValue];
