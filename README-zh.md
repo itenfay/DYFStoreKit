@@ -43,7 +43,7 @@
 ``` 
 pod 'DYFStoreKit'
 or
-pod 'DYFStoreKit', '~> 2.0.2'
+pod 'DYFStoreKit', '~> 2.1.0'
 ```
 
 查看 [wiki](https://github.com/chenxing640/DYFStoreKit/wiki/Installation) 以获取更多选项。
@@ -70,7 +70,7 @@ pod 'DYFStoreKit', '~> 2.0.2'
 
 - (void)initIAPSDK
 {
-    [DYFStoreManager.shared addStoreObserver];
+    [SKIAPManager.shared addStoreObserver];
     
     // Adds an observer that responds to updated transactions to the payment queue.
     // If an application quits when transactions are still being processed, those transactions are not lost. The next time the application launches, the payment queue will resume processing the transactions. Your application should always expect to be notified of completed transactions.
@@ -96,10 +96,10 @@ pod 'DYFStoreKit', '~> 2.0.2'
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
-    [DYFStoreManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
+    [SKIAPManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
 }
 ```
 
@@ -152,9 +152,9 @@ if (![DYFStore canMakePayments]) {
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    [DYFStoreManager.shared addPayment:productId userIdentifier:userIdentifier];
+    [SKIAPManager.shared addPayment:productId userIdentifier:userIdentifier];
 }
 ```
 
@@ -219,7 +219,7 @@ if (![DYFStore canMakePayments]) {
 
 - (void)displayStoreUI:(NSMutableArray *)dataArray
 {
-    DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
+    SKStoreViewController *storeVC = [[SKStoreViewController alloc] init];
     storeVC.dataArray = dataArray;
     [self.navigationController pushViewController:storeVC animated:YES];
 }
@@ -239,7 +239,7 @@ if (![DYFStore canMakePayments]) {
 计算 SHA256 哈希值函数：
 
 ```
-CG_INLINE NSString *DYFStore_supplySHA256(NSString *string)
+CG_INLINE NSString *DYFCryptoSHA256(NSString *string)
 {
     const int digestLength = CC_SHA256_DIGEST_LENGTH; // 32
     unsigned char md[digestLength];
@@ -528,4 +528,4 @@ if (info.originalTransactionIdentifier) {
 
 ## 欢迎反馈
 
-如果你注意到任何问题被卡，请创建一个问题。我很乐意帮助你。
+如果你注意到任何问题被卡住，请创建一个问题。我很乐意帮助你。
