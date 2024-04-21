@@ -1,17 +1,18 @@
 Pod::Spec.new do |s|
     s.name         = "DYFStoreKit"
-    s.version      = "2.1.0"
+    s.version      = "2.1.1"
     s.summary      = "A lightweight and easy-to-use iOS library for In-App Purchases. (Objective-C)"
     
     s.description  = <<-DESC
     TODU: A lightweight and easy-to-use iOS library for In-App Purchases. DYFStoreKit uses blocks and notifications to wrap StoreKit, provides receipt verification and transaction persistence.
     DESC
     
-    s.homepage      = "https://github.com/chenxing640/DYFStoreKit"
+    s.homepage = "https://github.com/chenxing640/DYFStoreKit"
+    s.source = { :git => "https://github.com/chenxing640/DYFStoreKit.git", :tag => s.version.to_s }
     # s.screenshots = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
-
-    # s.license    = "MIT (example)"
-    s.license      = { :type => "MIT", :file => "LICENSE" }
+    
+    # s.license = "MIT (example)"
+    s.license = { :type => "MIT", :file => "LICENSE" }
     
     s.author             = { "Teng Fei" => "hansen981@126.com" }
     # Or just: s.author  = "Teng Fei"
@@ -24,8 +25,6 @@ Pod::Spec.new do |s|
     # s.osx.deployment_target     = "10.10"
     # s.watchos.deployment_target = "3.0"
     # s.tvos.deployment_target    = "9.0"
-    
-    s.source = { :git => "https://github.com/chenxing640/DYFStoreKit.git", :tag => s.version.to_s }
     
     s.requires_arc = true
     
@@ -43,7 +42,7 @@ Pod::Spec.new do |s|
     # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
     
     # s.dependency 'JSONKit', '~> 1.4'
-    s.dependency 'DYFRuntimeProvider'
     # s.dependency 'DYFStoreReceiptVerifier'
+    s.dependency 'DYFRuntimeProvider'
     
 end

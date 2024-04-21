@@ -71,6 +71,7 @@
 		1EAD3C6146C0003D3F63FA4D /* Pods-DYFStoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.debug.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.debug.xcconfig"; sourceTree = "<group>"; };
 		395A4AEE71AB9178ACFAE7D9 /* libPods-DYFStoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DYFStoreKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4552F4D1DA9F4B957DE1F0D4 /* Pods-DYFStoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DYFStoreKit.release.xcconfig"; path = "Target Support Files/Pods-DYFStoreKit/Pods-DYFStoreKit.release.xcconfig"; sourceTree = "<group>"; };
+		49785A222BD531D400E367F0 /* DYFStoreKit.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = DYFStoreKit.podspec; sourceTree = SOURCE_ROOT; };
 		497B36212BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKIndefiniteAnimatedSpinner.h; sourceTree = "<group>"; };
 		497B36222BD2DD3E00733FE8 /* SKIndefiniteAnimatedSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKIndefiniteAnimatedSpinner.m; sourceTree = "<group>"; };
 		497B36232BD2DD3E00733FE8 /* SKLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKLoadingView.h; sourceTree = "<group>"; };
@@ -81,7 +82,6 @@
 		497B36282BD2DD3E00733FE8 /* NSObject+SKAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SKAdd.m"; sourceTree = "<group>"; };
 		497B36292BD2DD3E00733FE8 /* UIView+SKAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SKAdd.h"; sourceTree = "<group>"; };
 		497B362A2BD2DD3E00733FE8 /* UIView+SKAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SKAdd.m"; sourceTree = "<group>"; };
-		497B364C2BD42D3800733FE8 /* DYFStoreKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DYFStoreKit.podspec; sourceTree = "<group>"; };
 		497B36502BD42F8500733FE8 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		497B36512BD42F8500733FE8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		497B36522BD42F8500733FE8 /* README-zh.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "README-zh.md"; sourceTree = SOURCE_ROOT; };
@@ -197,7 +197,7 @@
 		497B364D2BD42D3800733FE8 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				497B364C2BD42D3800733FE8 /* DYFStoreKit.podspec */,
+				49785A222BD531D400E367F0 /* DYFStoreKit.podspec */,
 				497B36502BD42F8500733FE8 /* LICENSE */,
 				497B36522BD42F8500733FE8 /* README-zh.md */,
 				497B36512BD42F8500733FE8 /* README.md */,
@@ -242,7 +242,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1020;
-				ORGANIZATIONNAME = dyf;
+				ORGANIZATIONNAME = "Teng Fei";
 				TargetAttributes = {
 					14BAC19D2294543F006974B5 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -472,7 +472,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = DYFStoreKit;
@@ -481,7 +481,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -496,7 +496,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = KCBQ48PTUV;
 				INFOPLIST_FILE = "$(SRCROOT)/DYFStoreKitDemo/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = DYFStoreKit;
@@ -505,7 +505,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hncs.szj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
