@@ -22,9 +22,8 @@ xcuserdata/
 *.xccheckout
 *.xcscmblueprint
 
+# macOS
 .DS_Store
-*/.DS_Store
-*/*/.DS_Store
 
 ## Obj-C/Swift specific
 *.hmap
