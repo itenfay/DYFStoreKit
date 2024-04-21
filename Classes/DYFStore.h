@@ -1,8 +1,8 @@
 //
 //  DYFStore.h
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@
 
 /** Custom method to calculate the SHA-256 hash using Common Crypto.
  */
-CG_INLINE NSString *DYFStore_supplySHA256(NSString *string)
+CG_INLINE NSString *DYFCryptoSHA256(NSString *string)
 {
     const int digestLength = CC_SHA256_DIGEST_LENGTH; // 32
     unsigned char md[digestLength];

@@ -1,8 +1,8 @@
 //
 //  DYFStore.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -523,11 +523,11 @@ static DYFStore *_instance = nil;
             case SKPaymentTransactionStateRestored:
                 [self didRestoreTransaction:transaction queue:queue];
                 break;
-            #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
             case SKPaymentTransactionStateDeferred:
                 [self didDeferTransaction:transaction queue:queue];
                 break;
-            #endif
+#endif
             default:
                 DYFStoreLog(@"Unknown transaction state");
                 break;
