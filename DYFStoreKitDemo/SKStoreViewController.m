@@ -1,13 +1,13 @@
 //
 //  DYFStoreViewController.m
 //
-//  Created by chenxing on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 chenxing. All rights reserved.
+//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
+//  Copyright © 2014 Teng Fei. All rights reserved.
 //
 
 #import "DYFStoreViewController.h"
 #import "DYFStoreTableViewCell.h"
-#import "DYFStoreManager.h"
+#import "SKIAPManager.h"
 
 @interface DYFStoreViewController ()
 
@@ -36,9 +36,9 @@
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    [DYFStoreManager.shared restorePurchases:userIdentifier];
+    [SKIAPManager.shared restorePurchases:userIdentifier];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,9 +77,9 @@
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    [DYFStoreManager.shared addPayment:productIdentifier userIdentifier:userIdentifier];
+    [SKIAPManager.shared addPayment:productIdentifier userIdentifier:userIdentifier];
 }
 
 - (void)dealloc {

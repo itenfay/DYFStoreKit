@@ -42,8 +42,12 @@ Using [CocoaPods](https://cocoapods.org):
 
 ``` 
 pod 'DYFStoreKit'
-or
-pod 'DYFStoreKit', '~> 2.0.2'
+```
+
+`OR`
+
+```
+pod 'DYFStoreKit', '~> 2.1.0'
 ```
 
 Check out the [wiki](https://github.com/chenxing640/DYFStoreKit/wiki/Installation) for more options.
@@ -70,7 +74,7 @@ The initialization is as follows.
 
 - (void)initIAPSDK
 {
-    [DYFStoreManager.shared addStoreObserver];
+    [SKIAPManager.shared addStoreObserver];
     
     // Adds an observer that responds to updated transactions to the payment queue.
     // If an application quits when transactions are still being processed, those transactions are not lost. The next time the application launches, the payment queue will resume processing the transactions. Your application should always expect to be notified of completed transactions.
@@ -96,10 +100,10 @@ You can process the purchase which was initiated by user from the App Store and 
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
     
-    [DYFStoreManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
+    [SKIAPManager.shared addPayment:product.productIdentifier userIdentifier:userIdentifier];
 }
 ```
 
@@ -129,7 +133,9 @@ To begin the purchase process, your app must know its product identifiers. There
     }
     [self showLoading:@"Loading..."];
     
-    NSString *productId = @"com.hncs.szj.coin48";
+    NSArray *productIds = [self fetchProductIdentifiersFromServer];
+    NSUInteger index = arc4random_uniform((uint32_t)productIds.count);
+    NSString *productId = productIds[index];
     [DYFStore.defaultStore requestProductWithIdentifier:productId success:^(NSArray *products, NSArray *invalidIdentifiers) {
         [self hideLoading];
         if (products.count == 1) {
@@ -152,9 +158,9 @@ To begin the purchase process, your app must know its product identifiers. There
     // Get account name from your own user system.
     NSString *accountName = @"Handsome Jon";
     // This algorithm is negotiated with server developer.
-    NSString *userIdentifier = DYFStore_supplySHA256(accountName);
+    NSString *userIdentifier = DYFCryptoSHA256(accountName);
     DYFStoreLog(@"userIdentifier: %@", userIdentifier);
-    [DYFStoreManager.shared addPayment:productId userIdentifier:userIdentifier];
+    [SKIAPManager.shared addPayment:productId userIdentifier:userIdentifier];
 }
 ```
 
@@ -219,7 +225,7 @@ To begin the purchase process, your app must know its product identifiers. There
 
 - (void)displayStoreUI:(NSMutableArray *)dataArray
 {
-    DYFStoreViewController *storeVC = [[DYFStoreViewController alloc] init];
+    SKStoreViewController *storeVC = [[SKStoreViewController alloc] init];
     storeVC.dataArray = dataArray;
     [self.navigationController pushViewController:storeVC animated:YES];
 }
@@ -239,7 +245,7 @@ If you need an opaque identifier for the user’s account on your system to add 
 Calculates the SHA256 hash function:
 
 ```
-CG_INLINE NSString *DYFStore_supplySHA256(NSString *string)
+CG_INLINE NSString *DYFCryptoSHA256(NSString *string)
 {
     const int digestLength = CC_SHA256_DIGEST_LENGTH; // 32
     unsigned char md[digestLength];
