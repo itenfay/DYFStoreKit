@@ -1,8 +1,8 @@
 //
 //  AppDelegate.m
 //
-//  Created by Teng Fei on 2014/11/4. ( https://github.com/chenxing640/DYFStoreKit )
-//  Copyright © 2014 Teng Fei. All rights reserved.
+//  Created by Tenfay on 2014/11/4. ( https://github.com/itenfay/DYFStoreKit )
+//  Copyright © 2014 Tenfay. All rights reserved.
 //
 
 #import "AppDelegate.h"
